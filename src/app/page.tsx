@@ -8,7 +8,7 @@ export default function Home() {
       <section className=" pb-40 relative w-full h-full flex flex-col">
         <span className="absolute inset-0">
           <span className="bg-gradient-to-b from-neutral-900/60 via-neutral-900/90 to-neutral-900 absolute inset-0" />
-          <img src="/bg.png" className="w-full h-full object-cover" alt="" />
+          <img src="/bg.webp" className="w-full h-full object-cover" alt="" />
         </span>
         <Header />
         <div className="h-full flex w-full max-w-7xl mx-auto items-center justify-center">
