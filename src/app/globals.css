@@ -3,25 +3,30 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  /* --foreground: #171717;
+  --background: #e4e4e4; */
+  --foreground: #e4e4e4;
+  --background: #171717;
+  --sidebar-width: 80px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground: #e4e4e4;
+    --background: #171717;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--foreground);
+  background: var(--background);
+}
+
+h1 {
+  font-family: 'Canela Deck Web';
+  font-size: 42px;
+  line-height: 1.15;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.1px;
 }
