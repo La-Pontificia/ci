@@ -2,7 +2,7 @@
 import { type NextAuthOptions } from 'next-auth'
 import AzureADProvider from 'next-auth/providers/azure-ad'
 import { type InputData, transformUserData } from 'utils/auth'
-import { creteNewUser, getUserById } from './server'
+import { creteNewUser, getUserByIdentifier } from './server'
 import { cookies } from 'next/headers'
 
 export const authOptions: NextAuthOptions = {
@@ -25,28 +25,28 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       const cookieStore = cookies()
-      const uDB = await getUserById(user.id)
+      const uDB = await getUserByIdentifier(user.id)
       if (!uDB) {
         const userData = transformUserData(user as InputData)
         const newUser = await creteNewUser(userData)
         user.email = newUser.email
         user.name = newUser.names
         user.image = newUser.image
-        user.id = newUser._id
-        cookieStore.set('user_id', newUser._id)
+        user.id = newUser.identifiers[0]
+        cookieStore.set('uft-ln', newUser.identifiers[0])
         return true
       }
       user.email = uDB.email
       user.name = uDB.names
       user.image = uDB.image
-      user.id = uDB._id
-      cookieStore.set('user_id', uDB._id)
+      user.id = uDB.identifiers[0]
+      cookieStore.set('uft-ln', uDB.identifiers[0])
       return true
     },
     async session({ session, token }) {
       if (!token.sub) return session
       const _id = token.sub
-      const uDB = await getUserById(_id)
+      const uDB = await getUserByIdentifier(_id)
       if (!uDB) return session
       session.user = uDB
       return session

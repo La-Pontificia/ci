@@ -1,9 +1,13 @@
 import { type User } from 'types'
 import { create, type StateCreator } from 'zustand'
 
+export interface NewTypeUser extends Omit<User, '_id'> {
+  _id: string
+}
+
 interface AuthState {
-  session: User | null
-  setSession: (session: User | null) => void
+  session: NewTypeUser | null
+  setSession: (session: NewTypeUser | null) => void
 }
 
 const StoreApi: StateCreator<AuthState> = (set) => ({

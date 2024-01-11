@@ -15,7 +15,7 @@ import { validImage } from 'utils'
 function PhotoProfile() {
   const user = useAuth((store) => store.session)
   if (!user) return null
-  const { image, _id } = user
+  const { image } = user
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const { end, isPending, start } = usePending()
@@ -31,7 +31,7 @@ function PhotoProfile() {
     try {
       const res = await uploadImage(img)
       if (!res) throw new Error('Error al actualizar tu foto de perfil')
-      await updateProfile(_id, res)
+      await updateProfile(res)
       toast(ToastContainer('Foto de perfil actualizado'))
       router.refresh()
     } catch (err) {
@@ -71,7 +71,7 @@ function PhotoProfile() {
           />
         </span>
         <span className="rounded-full bg-gradient-to-br from-violet-500 via-rose-500 to-yellow-500 p-0.5 block">
-          <div className="w-[200px] md:w-[100px] border-[7px] border-[--background] md:h-[100px]  h-[200px] overflow-hidden rounded-full">
+          <div className="w-[200px] max-700:w-[100px] border-[7px] border-[--background] max-700:h-[100px]  h-[200px] overflow-hidden rounded-full">
             <Image
               className="w-full h-full object-cover"
               width={200}

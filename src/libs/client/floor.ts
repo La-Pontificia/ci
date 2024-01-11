@@ -1,5 +1,4 @@
-import { doc, setDoc } from 'firebase/firestore'
-import { db } from 'libs/firebase-client'
+import axios from 'axios'
 import { type Floor } from 'types'
 
 export async function createFlour(
@@ -8,26 +7,22 @@ export async function createFlour(
   status: boolean
 ) {
   try {
-    const newFloor: Floor = {
-      _id: crypto.randomUUID(),
-      created_at: new Date(),
+    const { data } = await axios.post('/api/floors', {
+      name,
       headquarder,
-      status,
-      name
-    }
-    const ref = doc(db, 'floors', newFloor._id)
-    await setDoc(ref, newFloor)
+      status
+    })
+    console.log(data)
   } catch (error) {
-    throw new Error('error firebase create floor')
+    throw error
   }
 }
 
 export async function updateFloor(partials: any, _id: string): Promise<void> {
   try {
-    const ref = doc(db, 'floors', _id)
-    await setDoc(ref, partials, { merge: true })
+    await axios.patch(`/api/floors/${_id}`, partials)
   } catch (error) {
-    throw new Error('error firebase update floor')
+    throw new Error('error update floor')
   }
 }
 

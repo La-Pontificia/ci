@@ -63,7 +63,7 @@ function CreateFloor() {
         <Button
           onClick={onOpenModal}
           variant="none"
-          className="w-[250px] grid place-content-center h-[180px] border border-neutral-700 hover:border-neutral-300 font-semibold text-neutral-300 p-5 bg-neutral-950 rounded-2xl shadow-md shadow-black/20"
+          className="w-full grid place-content-center h-[140px] border border-neutral-700 hover:border-neutral-300 font-semibold text-neutral-300 p-5 bg-neutral-950 rounded-2xl shadow-md shadow-black/20"
         >
           <XmarkIcon className="rotate-45 w-10" />
         </Button>

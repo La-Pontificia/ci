@@ -1,3 +1,4 @@
+import { type ObjectId } from 'mongodb'
 import { type ERRORS_NEXT_AUTH } from '../constants'
 
 export * from './booking'
@@ -7,7 +8,7 @@ export * from './user'
 export type AuthErrorNextAuth = keyof typeof ERRORS_NEXT_AUTH
 
 export interface Floor {
-  _id: string
+  _id: ObjectId
   name: string
   headquarder: 'alameda' | 'jazmines'
   status: boolean

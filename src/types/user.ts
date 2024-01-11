@@ -1,5 +1,8 @@
+import { type ObjectId } from 'mongodb'
+
 export type User = {
-  _id: string
+  _id: ObjectId
+  identifiers: string[]
   email: string
   image: string
   tenant: 'ilp' | 'elp'

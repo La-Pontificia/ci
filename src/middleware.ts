@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
 
   if (originUrl.pathname === '/me') {
     if (session) {
-      response.cookies.set('user_id', session?.sub ?? '')
+      response.cookies.set('uft-ln', session?.sub ?? '')
       return response
     } else {
       url.pathname = '/'
@@ -26,7 +26,7 @@ export async function middleware(req: NextRequest) {
   if (url.pathname === '/') {
     if (session) {
       url.pathname = '/me'
-      response.cookies.set('user_id', session?.sub ?? '')
+      response.cookies.set('uft-ln', session?.sub ?? '')
       return NextResponse.redirect(url)
     } else {
       return response
@@ -38,9 +38,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  response.cookies.set('user_id', session?.sub ?? '')
+  response.cookies.set('uft-ln', session?.sub ?? '')
   return response
 }
 export const config = {
-  matcher: ['/', '/me', '/workspace/:path*']
+  matcher: ['/', '/me', '/api/:path', '/workspace/:path*']
 }

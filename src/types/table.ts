@@ -1,15 +1,16 @@
+import { type ObjectId } from 'mongodb'
 import { type User } from './user'
 
 export interface Table {
-  _id: string
+  _id: ObjectId
   name: string
-  flour_id: string
+  flour_id: ObjectId
   chairs: 1 | 4 | 8 | 12
   type: 'table' | 'pc'
   connected_to_printer: boolean
   current_users: TableCurrentUser[]
-  id_occupied: boolean
-  is_active: boolean
+  occupied: boolean
+  status: boolean
   ui: {
     x: number
     y: number
@@ -18,10 +19,15 @@ export interface Table {
   created_at: Date
 }
 
-export interface TableCurrentUser extends User {
+export interface TableCurrentUser {
+  user: Omit<
+    User,
+    'identifiers' | 'isEditor' | 'is_active' | 'is_admin' | 'created_at'
+  >
   from: string
   chair: number
   to: string
   time: string
   display_time: string
+  date: Date
 }

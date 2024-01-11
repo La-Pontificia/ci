@@ -5,7 +5,6 @@ import React from 'react'
 import { type Floor as FloorType } from 'types'
 import { Toggle } from 'commons/toggle'
 import { updateFloor } from 'libs/client/floor'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 type Props = {
@@ -13,16 +12,14 @@ type Props = {
 }
 
 function Floor({ flour }: Props) {
-  const router = useRouter()
   async function toggleStatus() {
-    await updateFloor({ status: !flour.status }, flour._id)
-    router.refresh()
+    await updateFloor({ status: !flour.status }, flour._id.toString())
   }
   return (
-    <div className="relative" key={flour._id}>
+    <div className="relative max-800:w-full" key={flour._id.toString()}>
       <Link
-        className="w-[250px] h-[180px] border border-neutral-700 hover:border-neutral-300 md:w-full flex flex-col font-semibold text-neutral-300 p-5 bg-neutral-950 rounded-2xl shadow-md shadow-black/20"
-        href={`/workspace/floors/${flour._id}`}
+        className="w-[250px] max-800:w-full h-[180px] border border-neutral-700 hover:border-neutral-300 md:w-full flex flex-col font-semibold text-neutral-300 p-5 bg-neutral-950 rounded-2xl shadow-md shadow-black/20"
+        href={`/workspace/floors/${flour._id.toString()}`}
       >
         <span>{flour.name}</span>
         <span className="text-sm font-normal text-neutral-500">

@@ -40,7 +40,6 @@ export const Dialog = (props: DialogProps) => {
     classNamePortal,
     classNameOutline,
     open,
-    z,
     trigger,
     staticBackdrop,
     backdropBlur
@@ -64,7 +63,7 @@ export const Dialog = (props: DialogProps) => {
               aria-disabled={staticBackdrop}
               data-blur={backdropBlur}
               className={cn(
-                'inset-0 fixed aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-neutral-950/90',
+                'inset-0 fixed z-20 aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-neutral-950/90',
                 classNameOutline
               )}
             />
@@ -72,11 +71,8 @@ export const Dialog = (props: DialogProps) => {
             <div
               role="dialog"
               autoFocus
-              style={{
-                zIndex: z ? z + 202 : 202
-              }}
               className={cn(
-                'pointer-events-auto max-h-[100svh] max-w-[100vw] fixed left-[50%] translate-x-[-50%] translate-y-[-50%] top-[50%]',
+                'pointer-events-auto z-20 max-h-[100svh] max-w-[100vw] fixed left-[50%] translate-x-[-50%] translate-y-[-50%] top-[50%]',
                 classNamePortal
               )}
             >

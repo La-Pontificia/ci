@@ -67,15 +67,11 @@ function ModalMenu() {
             </li>
             <li>
               <Link
-                href="/dashboard/flour1"
-                className="hover:underline hover:text-white"
-              >
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/login-to-client"
+                href="#"
+                onClick={() => {
+                  setOpen(false)
+                  enableScrollbar()
+                }}
                 className="hover:underline hover:text-white"
               >
                 Entrar

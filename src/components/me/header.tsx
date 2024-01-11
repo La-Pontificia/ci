@@ -22,7 +22,7 @@ function Header() {
           <div className="flex w-full flex-col gap-1">
             <h2
               title={user.names}
-              className="text-3xl leading-7 text-neutral-200 tracking-tight font-bold capitalize"
+              className="text-3xl max-700:text-xl leading-8 text-neutral-200 tracking-tight font-bold capitalize"
             >
               {user?.names.toLocaleLowerCase()}
             </h2>

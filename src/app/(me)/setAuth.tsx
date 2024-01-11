@@ -1,10 +1,9 @@
 'use client'
 
-import { useAuth } from 'stores'
-import { type User } from 'types'
+import { type NewTypeUser, useAuth } from 'stores'
 
 type Props = {
-  user: User
+  user: NewTypeUser
 }
 
 function SetAuth({ user }: Props) {

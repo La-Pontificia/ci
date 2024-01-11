@@ -3,7 +3,7 @@
 'use client'
 
 /* eslint-disable react/display-name */
-import React, { useState } from 'react'
+import React from 'react'
 import {
   type RegisterOptions,
   type FieldValues,
@@ -23,7 +23,6 @@ export interface SelectProps<T extends FieldValues>
   className?: string
   icon?: React.ReactNode
   isLoading?: boolean
-  currency?: 'USD' | 'PEN' | 'EUR'
   label?: string | React.ReactNode
   autoFocus?: boolean
   start?: React.ReactNode
@@ -41,7 +40,6 @@ export const Select = <T extends FieldValues>({
   isLoading,
   onBlur: onBlurOrigin,
   onChange: onChangeOrigin,
-  currency,
   label,
   start,
   children,
@@ -53,29 +51,12 @@ export const Select = <T extends FieldValues>({
     formState: { isLoading: isLoadingFormState }
   } = useController({ control, name, rules })
 
-  const [focus, setFocus] = useState(false)
-
   const isDisabled = disabled ?? isLoading ?? isLoadingFormState
-
-  const simbolCurrency =
-    currency === 'USD' ? '$' : currency === 'EUR' ? '€' : 'S/.'
-
-  const converterDecimalNumber = (v: any) => {
-    const parsedValue = parseFloat(v)
-    return !isNaN(parsedValue) ? parsedValue.toFixed(2) : '0.00'
-  }
 
   const handleBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
     onBlur()
     onBlurOrigin?.(e)
-    setFocus(false)
-
-    if (!isDisabled && currency) {
-      onChange(converterDecimalNumber(e.target.value))
-    }
   }
-
-  const handleFocus = () => setFocus(true)
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (isDisabled) return
@@ -87,12 +68,10 @@ export const Select = <T extends FieldValues>({
     return value ?? ''
   }
 
-  const isMoveTop = (focus && placeholder) ?? (value === 0 && placeholder)
-
   const classname = cn(
-    'p-4 h-12 border-neutral-700 rounded-xl text-neutral-200 appearance-none transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-neutral-800',
-    (isMoveTop || (value && placeholder)) && 'pt-7',
-    (icon ?? currency ?? start) && 'pl-8',
+    'px-3 h-12 border-neutral-700 rounded-xl text-neutral-200 transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-neutral-800',
+    value && placeholder && 'pt-4',
+    (icon ?? start) && 'pl-6',
     className,
     isLoading && 'pointer-events-none animate-pulse select-none',
     disabled && 'cursor-not-allowed text-white'
@@ -112,11 +91,6 @@ export const Select = <T extends FieldValues>({
             <span className="w-6 block text-neutral-300">{icon}</span>
           </div>
         )}
-        {currency && (
-          <div className="absolute pointer-events-none opacity-70 z-[1] top-[50%] translate-y-[-50%] left-2">
-            {simbolCurrency}
-          </div>
-        )}
         {start && (
           <div className="absolute pointer-events-none opacity-70 z-[1] top-[50%] translate-y-[-50%] left-3">
             {start}
@@ -127,7 +101,6 @@ export const Select = <T extends FieldValues>({
           disabled={isDisabled}
           value={getInputValue()}
           onBlur={handleBlur}
-          onFocus={handleFocus}
           onChange={handleChange}
           className={classname}
           {...rest}
@@ -138,8 +111,8 @@ export const Select = <T extends FieldValues>({
           <div
             className={cn(
               'absolute font-light pointer-events-none transition-all select-none top-[50%] translate-y-[-50%] left-4',
-              (isMoveTop || value) && 'top-[33%] text-xs',
-              (icon ?? currency ?? start) && 'pl-4'
+              value && 'top-[33%] text-xs',
+              (icon ?? start) && 'pl-4'
             )}
           >
             <div className="opacity-60 line-clamp-1">

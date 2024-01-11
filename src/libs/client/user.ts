@@ -1,13 +1,11 @@
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from 'libs/firebase-client'
+import axios from 'axios'
 
-export async function updateProfile(userId: string, image: string) {
+export async function updateProfile(image: string) {
   try {
-    const ref = doc(db, 'users', userId)
-    await updateDoc(ref, {
+    await axios.patch('/api/users', {
       image
     })
   } catch (error) {
-    throw new Error('error firebase change profile')
+    throw new Error('error change profile')
   }
 }

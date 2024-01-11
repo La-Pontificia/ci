@@ -1,12 +1,41 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { ERRORS_NEXT_AUTH } from '../constants'
-import { type User, type AuthErrorNextAuth } from 'types'
+import { type User, type AuthErrorNextAuth, type Floor } from 'types'
 import axios from 'axios'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function getRandomUserProfile(): string {
+  const words = [
+    '/default-profiles/0001.png',
+    '/default-profiles/0002.png',
+    '/default-profiles/0003.png',
+    '/default-profiles/0004.png',
+    '/default-profiles/0005.png',
+    '/default-profiles/0006.png'
+  ]
+  const randomIndex = Math.floor(Math.random() * words.length)
+  return words[randomIndex]
+}
+
+export const divideAndGroupByHeadquarter = (floors: Floor[]) => {
+  const alamedaFloors = floors.filter(
+    (floor) => floor.headquarder === 'alameda'
+  )
+  const jazminesFloors = floors.filter(
+    (floor) => floor.headquarder === 'jazmines'
+  )
+
+  const groupedFloors = {
+    alameda: alamedaFloors,
+    jazmines: jazminesFloors
+  }
+
+  return groupedFloors
 }
 
 export function createMinuteArrayIntervalFive(): string[] {

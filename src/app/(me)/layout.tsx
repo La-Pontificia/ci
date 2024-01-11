@@ -1,4 +1,4 @@
-import { getUserById } from 'libs/server'
+import { getUserByIdentifier } from 'libs/server'
 import { cookies } from 'next/headers'
 import React from 'react'
 import SetAuth from './setAuth'
@@ -9,8 +9,8 @@ type Props = {
 
 async function LayoutMeInclude({ children }: Props) {
   const storeCookie = cookies()
-  const id = storeCookie.get('user_id')?.value ?? ''
-  const user = await getUserById(id)
+  const id = storeCookie.get('uft-ln')?.value ?? ''
+  const user = await getUserByIdentifier(id)
   if (!user) return null
 
   return (
@@ -18,7 +18,7 @@ async function LayoutMeInclude({ children }: Props) {
       <SetAuth
         user={{
           ...user,
-          created_at: new Date()
+          _id: user._id.toString()
         }}
       />
       {children}
