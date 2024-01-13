@@ -6,6 +6,7 @@ import DropDownNav from './dropdown'
 import { LinkIcon, MailIcon } from 'icons'
 import Nav from './nav'
 import { useAuth } from 'stores'
+import Facebook from './facebook'
 
 function Header() {
   const user = useAuth((store) => store.session)
@@ -19,31 +20,35 @@ function Header() {
       <header className="max-w-2xl px-4 mx-auto justify-center w-full h-full">
         <div className="flex items-center w-full py-8 gap-5">
           <PhotoProfile />
-          <div className="flex w-full flex-col gap-1">
-            <h2
-              title={user.names}
-              className="text-3xl max-700:text-xl leading-8 text-neutral-200 tracking-tight font-bold capitalize"
-            >
-              {user?.names.toLocaleLowerCase()}
-            </h2>
-            <div className="flex flex-col gap-2">
+          <div className="flex w-full flex-col gap-3 max-700:gap-0">
+            <div>
+              <h2
+                title={user.nick_name}
+                className="text-3xl max-700:text-xl leading-8 text-neutral-200 tracking-tight font-bold capitalize"
+              >
+                {user?.nick_name.toLocaleLowerCase()}
+              </h2>
+              <p className="text-sm opacity-70">{user.names}</p>
+            </div>
+            <div className="flex max-700:hidden flex-wrap pb-2 border-b border-neutral-700 gap-2">
               <a
                 href={urlTenant}
                 target="_blank"
                 rel="noreferrer"
-                className="flex max-w-max items-center text-sm text-white rounded-full gap-2 p-1 px-3 bg-blue-700"
+                className="flex max-w-max items-center text-sm text-white rounded-full gap-2 p-1"
               >
                 <LinkIcon className="w-4" />
                 <p>{isElp ? 'Escuela' : 'Instituto'}</p>
               </a>
               <a
                 href={`mailto:${user.email}`}
-                className="px-2 flex max-w-min text-sm items-center gap-2 text-neutral-300 font-medium hover:underline"
+                className="flex max-w-max items-center text-sm text-white rounded-full gap-2 p-1"
               >
                 <MailIcon className="w-5" />
                 {user.email}
               </a>
             </div>
+            <Facebook />
           </div>
           <DropDownNav />
         </div>

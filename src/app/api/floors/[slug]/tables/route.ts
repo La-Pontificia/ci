@@ -1,3 +1,4 @@
+import { getFloor } from 'libs/server'
 import { createTable, getTables } from 'libs/server/table'
 import { ObjectId } from 'mongodb'
 import { type NextRequest, NextResponse } from 'next/server'
@@ -13,13 +14,20 @@ export async function POST(
     const zVa = TableCrearSchema.safeParse(formData)
     if (!zVa.success) return NextResponse.json(zVa, { status: 400 })
     const { data } = zVa
+    const floor = await getFloor(params.slug)
+    if (!floor) return NextResponse.json({ status: 404 })
+
     const newTable: Table = {
       _id: new ObjectId(),
       chairs: data.chairs as Table['chairs'],
       connected_to_printer: data.connected_to_printer,
       created_at: new Date(),
       current_users: [],
-      flour_id: new ObjectId(params.slug),
+      floor: {
+        _id: floor._id,
+        headquarder: floor.headquarder,
+        name: floor.name
+      },
       name: data.name,
       occupied: false,
       status: data.status,

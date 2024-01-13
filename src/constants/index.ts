@@ -13,7 +13,9 @@ export const ERRORS_NEXT_AUTH = {
     'Error de inicio de sesión. Comprueba que los datos que has facilitado sean correctos.',
   Default: 'Ops!, ocurrio algo inesperado, intente nuevamente.',
   tenantNotAllowed:
-    'EL correo ingresado no es un correo institucional de la pontificia'
+    'EL correo ingresado no es un correo institucional de la pontificia',
+  facebookNotProvider:
+    'Tu cuenta de facebook aun no esta vinculado a una cuenta institucional'
 }
 
 export const COLOR_THEMES = [

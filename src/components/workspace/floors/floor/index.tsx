@@ -61,7 +61,7 @@ export function Floor() {
               <div className="px-2">
                 <Toggle
                   className="text-sm"
-                  disabled={!user?.isEditor}
+                  disabled={!user?.is_editor}
                   onChangeValue={() => setIsEditing(!isEditing)}
                   checked={isEditing}
                 >

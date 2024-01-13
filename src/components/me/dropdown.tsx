@@ -37,7 +37,7 @@ function DropDownNav() {
         </button>
       )}
     >
-      {(user.is_admin || user.isEditor) && (
+      {(user.is_admin || user.is_editor) && (
         <DropDownItem href="/workspace" isLink>
           Centro de información
         </DropDownItem>

@@ -72,49 +72,47 @@ export default function Content(props: PropsType) {
           isPending && 'border-0'
         )}
       >
-        {!hiddenFooter && (
-          <header className="p-3 px-5 border-b border-b-neutral-700 max-900:flex items-center w-full space-x-3 hidden relative gap-4">
-            {isPending && (
-              <div className="absolute justify-center bg-[#101010]/90 inset-0 grid place-content-center z-10">
-                <span className="mx-auto">
-                  <LineLoading className="text-neutral-400" size={35} />
-                </span>
-              </div>
-            )}
-            <Button
-              onClick={handleCancel}
-              isFilled
-              className="h-10 gap-2 rounded-xl text-base"
-              variant="none"
-              {...onCancelProps}
-            >
-              Cancelar
-            </Button>
-            <div className="w-full block text-center text-lg font-semibold">
-              {title}
+        <header className="p-3 px-5 border-b border-b-neutral-700 max-900:flex items-center w-full space-x-3 hidden relative gap-4">
+          {isPending && (
+            <div className="absolute justify-center bg-[#101010]/90 inset-0 grid place-content-center z-10">
+              <span className="mx-auto">
+                <LineLoading className="text-neutral-400" size={35} />
+              </span>
             </div>
-            <Button
-              variant="none"
-              className="h-10 text-blue-500 text-center text-base"
-              isFilled
-              {...onDoneProps}
-              onClick={handleDone}
-            >
-              {onlyIcon ? (
-                <CheckIcon className="w-5" />
-              ) : (
-                onDoneText ?? 'Confimar'
-              )}
-            </Button>
-          </header>
-        )}
-        <div className="overflow-y-auto">
+          )}
+          <Button
+            onClick={handleCancel}
+            isFilled
+            className="h-10 gap-2 rounded-xl text-base"
+            variant="none"
+            {...onCancelProps}
+          >
+            Cancelar
+          </Button>
+          <div className="w-full block text-center text-lg font-semibold">
+            {title}
+          </div>
+          <Button
+            variant="none"
+            className="h-10 text-blue-500 text-center text-base"
+            isFilled
+            {...onDoneProps}
+            onClick={handleDone}
+          >
+            {onlyIcon ? (
+              <CheckIcon className="w-5" />
+            ) : (
+              onDoneText ?? 'Confimar'
+            )}
+          </Button>
+        </header>
+        <div className="overflow-y-auto h-full">
           <div
             style={{
               width: width === 'screen' ? '100%' : width,
               height: heigth === 'screen' ? '100%' : heigth
             }}
-            className="modal-content-media max-h-[calc(100vh-100px)] max-900:bg-neutral-950 max-900:h-full"
+            className="modal-content-media max-900:bg-neutral-950 h-full"
           >
             {children}
           </div>

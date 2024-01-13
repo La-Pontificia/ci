@@ -72,6 +72,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      disabled={isDisabled}
       className={cn(
         'relative outline-0 focus-visible:outline-offset-2',
         buttonClassName,

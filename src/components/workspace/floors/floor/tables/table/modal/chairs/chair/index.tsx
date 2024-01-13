@@ -82,7 +82,7 @@ function Chair({ index, table, currentUser }: Props) {
     start()
     try {
       await axios.patch(
-        `/api/floors/${table.flour_id.toString()}/tables/${table._id}`,
+        `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
         {
           current_users
         }

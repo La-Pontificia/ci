@@ -3,9 +3,9 @@ import ItemNav from './item'
 
 function Nav() {
   return (
-    <div className="grid-cols-2 text-base w-full grid text-[15px] font-bold text-center text-neutral-400">
-      <ItemNav href="/x" text="Mis reservaciones" />
-      <ItemNav href="/report" text="Reporte" />
+    <div className="grid-cols-2 text-base font-medium w-full grid text-[15px] text-center text-neutral-400">
+      <ItemNav href="/me" text="Mis reservaciones" />
+      <ItemNav href="/me/report" text="Reporte" />
     </div>
   )
 }

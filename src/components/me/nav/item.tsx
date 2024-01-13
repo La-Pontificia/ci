@@ -16,7 +16,7 @@ function ItemNav({ href, text }: Props) {
     <Link
       href={href}
       aria-checked={isActive}
-      className="p-2 aria-checked:text-black aria-checked:border-black aria-checked:border-b-2"
+      className="p-2 aria-checked:text-blue-600 aria-checked:border-blue-600 aria-checked:border-b-2"
     >
       {text}
     </Link>

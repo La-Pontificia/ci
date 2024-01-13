@@ -25,12 +25,12 @@ export const Add = () => {
 
   const isEditing = useUI((state) => state.isEditing)
 
-  const { control, setValue, watch, handleSubmit } = useForm<Table>({
+  const { control, setValue, reset, watch, handleSubmit } = useForm<Table>({
     defaultValues: {
       connected_to_printer: false,
       status: true,
       ui: {
-        rotation: 'vertical',
+        rotation: 'horizontal',
         x: 100,
         y: 100
       }
@@ -65,10 +65,15 @@ export const Add = () => {
     start()
     try {
       const { data } = await axios.post(`/api/floors/${floor._id}/tables`, {
-        ...d
+        ...d,
+        ui: {
+          ...ui,
+          rotation: d.chairs === 4 ? 'horizontal' : d.ui?.rotation
+        }
       })
       setTable(data as NewTypeTable)
       onCloseModal()
+      reset()
     } catch (error) {
       console.log(error)
     } finally {
@@ -94,11 +99,6 @@ export const Add = () => {
                   setValue('type', 'table')
                   setValue('chairs', 4)
                   onOpenModal()
-                  // setValue('ui', {
-                  //   x: e.clientX,
-                  //   y: e.clientY,
-                  //   rotation: 'vertical'
-                  // })
                 }}
                 className="opacity-20 transition-all p-3 hover:opacity-100"
               >
@@ -110,11 +110,6 @@ export const Add = () => {
                   setValue('type', 'pc')
                   setValue('chairs', 1)
                   onOpenModal()
-                  // setValue('ui', {
-                  //   x: e.clientX,
-                  //   y: e.clientY,
-                  //   rotation: 'vertical'
-                  // })
                 }}
                 className="opacity-20 transition-all p-3 hover:opacity-100"
               >
@@ -149,20 +144,22 @@ export const Add = () => {
                 <ButtonChair n={8} />
                 <ButtonChair n={12} />
               </div>
-              <div className="bg-neutral-950 relative grid place-content-center p-10 rounded-2xl">
-                <FramerTable
-                  c={chairs ?? 4}
-                  rotate={ui?.rotation ?? 'vertical'}
-                />
-                <div className="absolute bottom-2 left-2 flex items-center">
-                  <button
-                    onClick={onChangeRotate}
-                    className="bg-neutral-700 p-1 text-sm font-semibold rounded-full px-3"
-                  >
-                    {ui?.rotation === 'vertical' ? 'Horizontal' : 'Vertical'}
-                  </button>
+              {watch().chairs !== 4 && watch().chairs !== 1 && (
+                <div className="bg-neutral-950 relative grid place-content-center p-10 rounded-2xl">
+                  <FramerTable
+                    c={chairs ?? 4}
+                    rotate={ui?.rotation ?? 'vertical'}
+                  />
+                  <div className="absolute bottom-2 left-2 flex items-center">
+                    <button
+                      onClick={onChangeRotate}
+                      className="bg-neutral-700 p-1 text-sm font-semibold rounded-full px-3"
+                    >
+                      {ui?.rotation === 'vertical' ? 'Horizontal' : 'Vertical'}
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </>
           )}
         </div>

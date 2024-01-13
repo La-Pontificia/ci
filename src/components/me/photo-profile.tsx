@@ -70,17 +70,15 @@ function PhotoProfile() {
             type="file"
           />
         </span>
-        <span className="rounded-full bg-gradient-to-br from-violet-500 via-rose-500 to-yellow-500 p-0.5 block">
-          <div className="w-[200px] max-700:w-[100px] border-[7px] border-[--background] max-700:h-[100px]  h-[200px] overflow-hidden rounded-full">
-            <Image
-              className="w-full h-full object-cover"
-              width={200}
-              height={200}
-              src={image}
-              alt=""
-            />
-          </div>
-        </span>
+        <div className="w-[200px] max-700:w-[100px] border-[7px] border-[--background] max-700:h-[100px]  h-[200px] overflow-hidden rounded-full">
+          <Image
+            className="w-full h-full object-cover"
+            width={200}
+            height={200}
+            src={image}
+            alt=""
+          />
+        </div>
       </div>
     </>
   )

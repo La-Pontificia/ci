@@ -2,13 +2,13 @@ import { connectToMongoDB, getCollection } from 'libs/mongodb'
 import { ObjectId, type WithId } from 'mongodb'
 import { type Table } from 'types/table'
 
-export async function getTables(flour_id: ObjectId): Promise<Table[]> {
+export async function getTables(floor: ObjectId): Promise<Table[]> {
   try {
     await connectToMongoDB()
     const collection = getCollection('tables')
     const cursor = collection
       .find({
-        flour_id
+        'floor._id': floor
       })
       .sort({ created_at: -1 })
 
@@ -64,6 +64,49 @@ export async function updateTable(partials: any, _id?: ObjectId) {
     if (docSnapshot) {
       await collection.updateOne(query, { $set: partials })
     }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export async function deleteTable(_id: ObjectId) {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('tables')
+    await collection.deleteOne({ _id })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export async function getRandomTable(
+  headquarder: string,
+  type: string
+): Promise<Table | null> {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('tables')
+
+    const totalDocts = await collection.countDocuments({
+      type,
+      'floor.headquarder': headquarder
+    })
+
+    if (totalDocts === 0) return null
+    const randomIndex = Math.floor(Math.random() * totalDocts)
+
+    const randomDoc = await collection
+      .find({
+        type,
+        'floor.headquarder': headquarder
+      })
+      .skip(randomIndex)
+      .limit(1)
+      .toArray()
+
+    return (randomDoc[0] as Table) || null
   } catch (error) {
     console.log(error)
     throw error

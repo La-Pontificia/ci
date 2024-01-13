@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-delimiter-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { ERRORS_NEXT_AUTH } from '../constants'
 import { type User, type AuthErrorNextAuth, type Floor } from 'types'
@@ -166,24 +167,56 @@ export const getUserByDni = async (dni: string) => {
 }
 
 // MOMENTS UTILS
-
 export function generateHours(
-  i: number = new Date().getHours(),
-  f: number
-): string[] {
-  const hours: string[] = []
-  const initialHour = i // 7 // Initial hour in 24-hour format
-  const finalHour = f // 22 // Final hour in 24-hour format
+  startTime: string | null,
+  endTime: string | null
+): Array<{ time: string; displayName: string }> {
+  if (!startTime) {
+    startTime = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+  if (!endTime) endTime = '24:00'
+  const hours: Array<{ time: string; displayName: string }> = []
+  const [startHour, startMinute] = startTime.split(':').map(Number)
+  const [endHour] = endTime.split(':').map(Number)
 
-  for (let hour = initialHour; hour <= finalHour; hour++) {
-    for (let minute = 0; minute < 60; minute += 15) {
+  for (let hour = startHour; hour <= endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      if (hour === startHour && minute < startMinute) {
+        continue
+      }
       const formattedHour = hour.toString().padStart(2, '0')
       const formattedMinute = minute.toString().padStart(2, '0')
-      hours.push(`${formattedHour}:${formattedMinute}`)
+      const time = `${formattedHour}:${formattedMinute}`
+      const displayName = convertirFormato12Horas(time)
+      hours.push({ time, displayName })
     }
   }
 
   return hours
+}
+
+function convertirFormato12Horas(hora24: string): string {
+  const [hours, minutes] = hora24.split(':')
+  let hours12 = parseInt(hours, 10)
+  const ampm = hours12 >= 12 ? 'PM' : 'AM'
+  hours12 = hours12 % 12 || 12
+  const formattedHour12 = hours12.toString().padStart(2, '0')
+  const hour12 = `${formattedHour12}:${minutes} ${ampm}`
+  return hour12
+}
+
+export function calculateDuration(startTime: string, endTime: string): string {
+  const [startHour, startMinute] = startTime.split(':').map(Number)
+  const [endHour, endMinute] = endTime.split(':').map(Number)
+  const totalMinutes = (endHour - startHour) * 60 + (endMinute - startMinute)
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  const formattedHours = hours.toString().padStart(2, '0')
+  const formattedMinutes = minutes.toString().padStart(2, '0')
+  return `${formattedHours}:${formattedMinutes}`
 }
 
 export const calculateTimeMargin = (startTime: string, endTime: string) => {

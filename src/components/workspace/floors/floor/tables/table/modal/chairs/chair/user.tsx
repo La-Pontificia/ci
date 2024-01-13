@@ -15,7 +15,9 @@ type Props = {
 }
 
 function User({ control, user, onSubmit, isPending }: Props) {
-  const [toHour] = useState<string[]>(generateHours(new Date().getHours(), 21))
+  const [toHour] = useState<Array<{ time: string; displayName: string }>>(
+    generateHours(null, '21:00')
+  )
 
   return (
     <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-neutral-900 p-3">
@@ -55,8 +57,8 @@ function User({ control, user, onSubmit, isPending }: Props) {
         >
           {toHour.map((item) => {
             return (
-              <option key={item} value={item}>
-                {item}
+              <option key={item.time} value={item.time}>
+                {item.displayName}
               </option>
             )
           })}

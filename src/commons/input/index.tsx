@@ -8,13 +8,10 @@ import {
   type RegisterOptions,
   type FieldValues,
   type Path,
-  type PathValue,
   useController,
   type Control
 } from 'react-hook-form'
-import { cn, validateNumber } from 'utils'
-import { ArrowIcon } from 'icons'
-import { Button } from 'commons/button'
+import { cn } from 'utils'
 
 export interface InputProps<T extends FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -37,7 +34,6 @@ export const Input = <T extends FieldValues>({
   control,
   name,
   info,
-  type,
   rules,
   placeholder,
   className,
@@ -61,19 +57,9 @@ export const Input = <T extends FieldValues>({
 
   const isDisabled = disabled ?? isLoading ?? isLoadingFormState
 
-  const simbolCurrency =
-    currency === 'USD' ? '$' : currency === 'EUR' ? '€' : 'S/.'
-
   const converterDecimalNumber = (v: any) => {
     const parsedValue = parseFloat(v)
     return !isNaN(parsedValue) ? parsedValue.toFixed(2) : '0.00'
-  }
-
-  const handleNumberChange = (increment: number) => {
-    if (isDisabled) return
-    const newNumber = validateNumber(value) + increment
-    const nf = currency ? converterDecimalNumber(newNumber) : newNumber
-    onChange(nf as PathValue<T, Path<T>>)
   }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -95,7 +81,6 @@ export const Input = <T extends FieldValues>({
   }
 
   const getInputValue = () => {
-    if (type === 'number') return !Number.isNaN(value) ? value : '0'
     return value ?? ''
   }
 
@@ -104,7 +89,7 @@ export const Input = <T extends FieldValues>({
   const classname = cn(
     'p-4 h-12 border-neutral-700 rounded-xl text-neutral-200 appearance-none transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-transparent',
     (isMoveTop || (value && placeholder)) && 'pt-7',
-    type === 'number' && 'pr-8',
+    inputProps.type === 'date' && 'pt-7',
     (icon ?? currency ?? start) && 'pl-8',
     className,
     isLoading && 'pointer-events-none animate-pulse select-none',
@@ -125,11 +110,6 @@ export const Input = <T extends FieldValues>({
             <span className="w-6 block text-neutral-300">{icon}</span>
           </div>
         )}
-        {currency && (
-          <div className="absolute pointer-events-none opacity-70 z-[1] top-[50%] translate-y-[-50%] left-2">
-            {simbolCurrency}
-          </div>
-        )}
         {start && (
           <div className="absolute pointer-events-none opacity-70 z-[1] top-[50%] translate-y-[-50%] left-3">
             {start}
@@ -142,33 +122,16 @@ export const Input = <T extends FieldValues>({
           onBlur={handleBlur}
           onFocus={handleFocus}
           onChange={handleChange}
-          type={type}
           className={classname}
           {...inputProps}
         />
-        {type === 'number' && (
-          <div className="absolute top-0 divide-y-2 divide-neutral-700 grid right-0 border-l-2 border-neutral-700 h-full">
-            <Button
-              onClick={() => handleNumberChange(1)}
-              variant="secondary"
-              className="border-0 p-0 hover:bg-transparent px-1 rounded-none text-neutral-400"
-            >
-              <ArrowIcon className="w-5 rotate-90 p-[2px]" />
-            </Button>
-            <Button
-              onClick={() => handleNumberChange(-1)}
-              variant="secondary"
-              className="border-0 p-0 hover:bg-transparent px-1 rounded-none text-neutral-400"
-            >
-              <ArrowIcon className="w-5 -rotate-90 p-[2px]" />
-            </Button>
-          </div>
-        )}
+
         {placeholder && (
           <div
             className={cn(
               'absolute font-light pointer-events-none transition-all select-none top-[50%] translate-y-[-50%] left-4',
               (isMoveTop || value) && 'top-[33%] text-xs',
+              inputProps.type === 'date' && 'top-[33%] text-xs',
               (icon ?? currency ?? start) && 'pl-4'
             )}
           >
