@@ -20,11 +20,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Print Node.js version
+        run: node --version
+
+      - name: Print npm version
+        run: npm --version
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: pnpm i
-      - run: pnpm run build --if-present
-      - run: pm2 reload 0
+      # - run: pnpm i
+      # - run: pnpm run build --if-present
+      # - run: pm2 reload 0
+      - name: Print pnpm path
+        run: which pnpm
+
+      - name: Install dependencies
+        run: /home/daustinn/.nvm/versions/node/v20.10.0/bin/pnpm i
+
+      - name: Build
+        run: /home/daustinn/.nvm/versions/node/v20.10.0/bin/pnpm run build --if-present
+
+      - name: Restart PM2
+        run: pm2 reload 0
