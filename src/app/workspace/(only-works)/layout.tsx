@@ -1,5 +1,8 @@
 import SetAuth from 'app/(me)/setAuth'
-import Sidebar from 'components/workspace/sidebar'
+import Unathorizate from 'components/401'
+import Page404 from 'components/404'
+import Footer from 'components/me/footer'
+import Tabs from 'components/workspace/tabs'
 import { getUserByIdentifier } from 'libs/server'
 import { type Metadata } from 'next'
 import { cookies } from 'next/headers'
@@ -20,7 +23,8 @@ async function LayoutWorkspace({ children }: Props) {
   const storeCookie = cookies()
   const id = storeCookie.get('uft-ln')?.value ?? ''
   const user = await getUserByIdentifier(id)
-  if (!user) return null
+  if (!user) return <Page404 />
+  if (!user.is_active) return <Unathorizate user={user} />
 
   return (
     <>
@@ -30,8 +34,11 @@ async function LayoutWorkspace({ children }: Props) {
           _id: user._id.toString()
         }}
       />
-      <Sidebar />
-      {children}
+      <div className="flex min-h-screen flex-col">
+        <Tabs />
+        {children}
+        <Footer />
+      </div>
     </>
   )
 }

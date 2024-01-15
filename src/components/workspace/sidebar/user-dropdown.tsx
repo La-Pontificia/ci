@@ -24,7 +24,7 @@ function DropDownUser() {
   return (
     <DropDown
       triggerButton={({ open }) => (
-        <button className="w-[40px] hover:opacity-80 h-[40px] overflow-hidden rounded-full">
+        <button className="w-[40px] min-w-[40px] hover:opacity-80 h-[40px] overflow-hidden rounded-full">
           <Image
             className="w-full h-full object-cover"
             src={user.image}

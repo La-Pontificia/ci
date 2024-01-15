@@ -31,19 +31,38 @@ export async function updateUser(
 
 export async function getUsers(
   query?: string,
-  limit?: number
+  limit?: number,
+  tenant?: string,
+  type_user?: string,
+  is_active?: boolean
 ): Promise<User[]> {
   try {
     await connectToMongoDB()
     const collection = getCollection('users')
-    const regexQuery = new RegExp(query || '', 'i')
+
+    const baseQuery: Record<string, any> = {
+      $or: [
+        { email: new RegExp(query || '', 'i') },
+        { names: new RegExp(query || '', 'i') }
+      ]
+    }
+
+    if (tenant !== undefined && tenant !== null) {
+      baseQuery.tenant = tenant
+    }
+
+    if (type_user !== undefined && type_user !== null) {
+      baseQuery.type_user = type_user
+    }
+
+    if (is_active !== undefined && is_active !== null) {
+      baseQuery.is_active = is_active
+    }
+
     const cursor = collection
-      .find({
-        $or: [{ email: regexQuery }, { names: regexQuery }],
-        is_active: true
-      })
+      .find(baseQuery)
       .sort({ created_at: -1 })
-      .limit(limit ? (limit < 30 ? limit : 10) : 10)
+      .limit(limit ?? 10)
 
     return (await cursor.toArray()).map((idWithId) => {
       const { _id, ...rest } = idWithId as WithId<User>
@@ -62,7 +81,7 @@ export async function creteNewUser(user: UserResponse) {
   try {
     const newUser: User = {
       _id: new ObjectId(),
-      nick_name: user.names.slice(0, 2),
+      nick_name: user.names,
       identifiers: [user._id],
       is_editor: false,
       facebook_id: null,

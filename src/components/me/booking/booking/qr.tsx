@@ -4,7 +4,6 @@ import React from 'react'
 import { QRNormal } from 'react-qrbtf'
 import { type Booking } from 'types'
 
-// import { QR } from 'react-qr-rounded'
 type Props = {
   booking: Booking
 }

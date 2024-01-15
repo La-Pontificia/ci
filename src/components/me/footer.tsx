@@ -11,16 +11,16 @@ function Footer() {
             </a>
           </p>
           <p className="ml-auto flex gap-2">
-            Deployed on{' '}
+            Developed in{' '}
             <a
-              href="https://vercel.com"
+              href="https://Nextjs.org"
               target="_blank"
               className="hover:underline font-semibold text-neutral-200"
               rel="noreferrer"
             >
-              Vercel
+              Nextjs
             </a>{' '}
-            & Maintained by{' '}
+            by{' '}
             <a
               href="https://daustinn.com"
               target="_blank"

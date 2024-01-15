@@ -1,7 +1,7 @@
 import { getBooking } from 'libs/server/booking'
 import { ObjectId } from 'mongodb'
 import React from 'react'
-import Qr from './qr'
+// import Qr from './qr'
 import { CalendarIcon, ClockIcon } from 'icons'
 import { convertFormatHour } from 'herpers'
 import { cn } from 'utils'
@@ -26,7 +26,7 @@ async function Booking({ params: { slug } }: { params: { slug: string } }) {
           className="w-full h-full object-cover"
         />
       </div>
-      <Qr booking={recover} />
+      {/* <Qr booking={recover} /> */}
       <div className="flex space-y-1 text-lg items-center flex-col text-center text-neutral-300">
         <span className="flex items-center gap-2">
           <CalendarIcon className="w-6" /> {recover.date.toDateString()}
