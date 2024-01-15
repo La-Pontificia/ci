@@ -5,14 +5,14 @@ export type CloudinaryImageResponseApi = {
   secure_url: string
 }
 
-cloudinary.config({
-  cloud_name: 'dc0t90ahb',
-  api_key: '497195265139986',
-  api_secret: 'EdCtmNniVN-RG9R_z8tEKyyU2yQ',
-  secure: true
-})
-
 export async function uploadImage(image: File) {
+  cloudinary.config({
+    cloud_name: 'dc0t90ahb',
+    api_key: '497195265139986',
+    api_secret: 'EdCtmNniVN-RG9R_z8tEKyyU2yQ',
+    secure: true
+  })
+
   try {
     const bytes = await image.arrayBuffer()
     const buffer = Buffer.from(bytes)
