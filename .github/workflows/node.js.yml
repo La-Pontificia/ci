@@ -35,8 +35,6 @@ jobs:
       # - run: pnpm i
       # - run: pnpm run build --if-present
       # - run: pm2 reload 0
-      - name: Print pnpm path
-        run: which pnpm
 
       - name: Install dependencies
         run: /home/daustinn/.nvm/versions/node/v20.10.0/bin/pnpm i
