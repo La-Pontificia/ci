@@ -28,6 +28,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: pnpm i
-      - run: pnpm run build --if-present
-      - run: pm2 reload 0
+      # - run: pnpm i
+      # - run: pnpm run build --if-present
+      # - run: pm2 reload 0
