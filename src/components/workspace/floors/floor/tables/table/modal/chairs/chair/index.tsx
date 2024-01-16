@@ -11,7 +11,6 @@ import User from './user'
 import { type User as UserType } from 'types'
 import { calculateTimeMargin } from 'utils'
 import axios from 'axios'
-import Image from 'next/image'
 import { usePending } from 'hooks/usePending'
 
 type Props = {
@@ -122,7 +121,7 @@ function Chair({ index, table, currentUser }: Props) {
         onClick={onOpenModal}
         data-occupied={!!currentUser}
         className={
-          'h-[100px] z-[1] data-[occupied=true]:bg-green-400/10 w-[100px] grid place-content-center relative bg-neutral-800/80 hover:border-neutral-300 border border-transparent rounded-2xl'
+          'h-[200px] z-[1] w-full data-[occupied=true]:bg-green-400/10 grid place-content-center relative bg-neutral-800/80 hover:border-neutral-300 border border-transparent rounded-2xl'
         }
         variant="none"
       >
@@ -136,12 +135,12 @@ function Chair({ index, table, currentUser }: Props) {
             <div>
               <div
                 className={
-                  'w-[50px] h-[50px] border border-neutral-800 mx-auto relative z-10 overflow-hidden rounded-full'
+                  'w-[100px] h-[100px] border border-neutral-800 mx-auto relative z-10 overflow-hidden rounded-full'
                 }
               >
-                <Image
-                  width={50}
-                  height={50}
+                <img
+                  width={100}
+                  height={100}
                   className="w-full h-full object-cover"
                   src={currentUser?.user.image}
                   alt={currentUser?.user.names}

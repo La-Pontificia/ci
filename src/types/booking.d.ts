@@ -7,8 +7,8 @@ export interface Booking {
   _id: ObjectId
   user: Pick<User, '_id' | 'names' | 'image' | 'email' | 'tenant'>
   table: Pick<Table, '_id' | 'name' | 'type' | 'floor'>
-  from: Time
-  to: Time
+  from: Date
+  to: Date
   time: Time
   date: Date
   status: 'active' | 'cancelled' | 'completed'

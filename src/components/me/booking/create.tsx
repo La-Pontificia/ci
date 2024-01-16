@@ -16,7 +16,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { type Floor } from 'types'
 import { type Table } from 'types/table'
-import { calculateDuration, generateHours } from 'utils'
+import { calculateDuration, generateHours, parseTimeStringToDate } from 'utils'
 
 type FormData = {
   headquarder: Floor['headquarder']
@@ -50,10 +50,14 @@ function Create() {
 
   const onSearch = async (d: FormData) => {
     const date = parse(d.date ?? '', 'yyyy-MM-dd', new Date())
+    const newDateFrom = parseTimeStringToDate(d.from!, date)
+    const newDateTo = parseTimeStringToDate(d.to!, date)
     try {
       start()
       await axios.post('/api/booking', {
         ...d,
+        from: newDateFrom,
+        to: newDateTo,
         date
       })
       onCloseModal()

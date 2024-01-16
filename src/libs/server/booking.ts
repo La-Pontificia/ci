@@ -36,7 +36,7 @@ export async function createBooking(
     _id: new ObjectId(),
     created_at: new Date(),
     date: new Date(data.date),
-    from: data.from as Booking['from'],
+    from: new Date(data.from),
     status: 'active',
     table: {
       _id: tableRandom._id,
@@ -49,7 +49,7 @@ export async function createBooking(
       type: tableRandom.type
     },
     time: data.time as Booking['time'],
-    to: data.to as Booking['to'],
+    to: new Date(data.to),
     user: {
       _id: data.user._id,
       email: data.user.email,
@@ -81,10 +81,10 @@ export async function verifyBookingToTable(
       .toArray()) as Booking[]
 
     const overlappingBooking = existingBookings.find((book) => {
-      const bookingStart = parseTimeStringToDate(book.from, book.date)
-      const bookingEnd = parseTimeStringToDate(book.to, book.date)
-      const formStart = parseTimeStringToDate(form.from, new Date(form.date))
-      const formEnd = parseTimeStringToDate(form.to, new Date(form.date))
+      const bookingStart = book.from
+      const bookingEnd = book.to
+      const formStart = new Date(form.from)
+      const formEnd = new Date(form.to)
 
       const overlap =
         (bookingStart <= formStart && formStart < bookingEnd) ||
@@ -99,14 +99,6 @@ export async function verifyBookingToTable(
     console.log(error)
     throw error
   }
-}
-
-function parseTimeStringToDate(timeString: string, da: Date): Date {
-  const [hours, minutes] = timeString.split(':').map(Number)
-  const date = new Date(da)
-  date.setHours(hours)
-  date.setMinutes(minutes)
-  return date
 }
 
 export async function updateBooking(partials: any, _id?: ObjectId) {
@@ -147,6 +139,71 @@ export async function getBookings(
       .limit(limit ?? 10)
 
     return (await cursor.toArray()).map((idWithId) => {
+      const { _id, ...rest } = idWithId as WithId<Booking>
+      return {
+        ...rest,
+        _id
+      }
+    })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export async function getAllBookingsByFloor(
+  floorId: ObjectId,
+  query?: string,
+  limit?: number
+): Promise<Booking[]> {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('bookings')
+    const regexQuery = new RegExp(query || '', 'i')
+    const cursor = collection
+      .find({
+        $or: [
+          { 'user.names': regexQuery },
+          { 'user.email': regexQuery },
+          { 'user.tenant': regexQuery },
+          { 'table.name': regexQuery }
+        ],
+        'table.floor._id': floorId
+      })
+      .sort({ from: 1 })
+      .sort({ created_at: -1 })
+      .limit(limit ?? 10)
+
+    return (await cursor.toArray()).map((idWithId) => {
+      const { _id, ...rest } = idWithId as WithId<Booking>
+      return {
+        ...rest,
+        _id
+      }
+    })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
+export async function getAllBookingsByTable(
+  tableId: ObjectId
+): Promise<Booking[]> {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('bookings')
+    const cursor = collection
+      .find({
+        'table._id': tableId,
+        status: 'active'
+      })
+      .sort({ from: 1 })
+      .sort({ created_at: -1 })
+      .limit(40)
+      .toArray()
+
+    return (await cursor).map((idWithId) => {
       const { _id, ...rest } = idWithId as WithId<Booking>
       return {
         ...rest,

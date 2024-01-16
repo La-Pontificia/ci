@@ -12,7 +12,7 @@ function FloorNav({ slug }: Props) {
         <ItemNav href={`/workspace/floors/${slug}`} title="Mesas" />
         <ItemNav
           href={`/workspace/floors/${slug}/reservations`}
-          title="Reservas"
+          title="Reservaciones"
         />
       </div>
     </nav>

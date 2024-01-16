@@ -4,10 +4,10 @@ import React from 'react'
 import { type Booking as BookingType } from 'types'
 
 import { convertFormatHour, formatSpanishDate } from 'herpers'
-import Qr from './qr'
 import { CalendarIcon, ClockIcon, DisplayIcon, TableIcon } from 'icons'
 import DropDownBooking from './dropdown'
 import { cn } from 'utils'
+import Add from './add'
 
 type Props = {
   booking: BookingType
@@ -25,10 +25,18 @@ function Booking({ booking }: Props) {
   return (
     <div
       key={booking._id.toString()}
-      className="flex relative gap-3 py-3 items-center"
+      className="flex relative gap-3 py-3 items-start"
     >
-      <Qr booking={booking} />
-      <div className="pl-1 flex flex-col gap-1">
+      <div className="w-[40px] bg-neutral-700 min-w-[40px] h-[40px] rounded-full overflow-hidden">
+        <img
+          width={40}
+          height={40}
+          src={booking.user.image}
+          className="w-full h-full object-cover"
+          alt={booking.user.names}
+        />
+      </div>
+      <div className="pl-1 flex flex-col w-full gap-1">
         <div className="flex gap-2 divide-x text-lg font-semibold divide-neutral-700">
           <span className="capitalize">{booking.table.floor.headquarder}</span>
           <span className="pl-2">{booking.table.floor.name}</span>
@@ -43,6 +51,11 @@ function Booking({ booking }: Props) {
             )}
             {displayType}
           </div>
+        </div>
+        <div className="py-1 text-yellow-600 text-sm px-2 font-medium flex gap-1 max-w-max bg-neutral-800 rounded-full">
+          {booking.user.names}
+          {' - '}
+          {booking.user.email}
         </div>
         <div className="flex space-x-2 text-sm flex-wrap text-neutral-400">
           <span className="flex items-center gap-2">
@@ -66,6 +79,7 @@ function Booking({ booking }: Props) {
           <span className="w-[8px] h-[8px] rounded-full bg-current" />
           <span className="pl-1">{displayStatus}</span>
         </div>
+        <Add booking={booking} />
       </div>
       <DropDownBooking booking={booking} />
     </div>

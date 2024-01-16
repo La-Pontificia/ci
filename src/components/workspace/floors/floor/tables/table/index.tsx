@@ -75,10 +75,9 @@ function Table({ table }: Props) {
 
   return (
     <Modal
-      width={700}
-      heigth={720}
       title={table.name}
       hiddenFooter
+      width={500}
       backdropBlur
       onOpenChange={setOpen}
       {...{ open }}
@@ -125,7 +124,7 @@ function Table({ table }: Props) {
         </Draggable>
       }
     >
-      <ModalContent table={table} />
+      {open && <ModalContent table={table} />}
     </Modal>
   )
 }

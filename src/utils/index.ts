@@ -10,6 +10,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function parseTimeStringToDate(timeString: string, da: Date): Date {
+  const [hours, minutes] = timeString.split(':').map(Number)
+  const date = new Date(da)
+  date.setHours(hours)
+  date.setMinutes(minutes)
+  return date
+}
+
 export function getRandomUserProfile(): string {
   const words = [
     '/default-profiles/0001.png',

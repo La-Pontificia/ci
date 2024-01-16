@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { format, formatDistanceToNow, parse } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
+import { es } from 'date-fns/locale'
 
 export function convertTimestampToJSDate(timestamp: any): Date {
   return new Date(timestamp._seconds * 1000 + timestamp._nanoseconds / 1000000)
 }
 
-export function convertFormatHour(input: string): string {
-  const formatInput = 'HH:mm'
+export function convertFormatHour(date: Date): string {
   const formatOutput = 'hh:mm a'
-  const hourDate = parse(input, formatInput, new Date())
-  return format(hourDate, formatOutput)
+  return format(date, formatOutput)
+}
+
+export function formatSpanishDate(date: Date): string {
+  const formatoFecha = 'EEE MMM dd yyyy'
+  return format(date, formatoFecha, { locale: es })
 }
 
 export function timeAgo(dateParam: any): string | null {

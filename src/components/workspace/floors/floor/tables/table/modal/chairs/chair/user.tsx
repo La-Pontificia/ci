@@ -34,14 +34,6 @@ function User({ control, user, onSubmit, isPending }: Props) {
             alt={user.names}
           />
         </span>
-        <a
-          target="_blank"
-          href={`/u/${user._id.toString()}`}
-          className="hover:underline"
-          rel="noreferrer"
-        >
-          <p className="text-center pt-3 font-semibold text-lg">{user.names}</p>
-        </a>
         <span className="text-center font-semibold text-neutral-500 text-sm">
           {user.email} -{' '}
           <span className="text-blue-500 font-semibold">{user.tenant}</span>
