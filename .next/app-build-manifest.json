@@ -1,0 +1,80 @@
+{
+  "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/(me)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(me)/layout.css",
+      "static/chunks/app/(me)/layout.js"
+    ],
+    "/(me)/me/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(me)/me/page.css",
+      "static/chunks/app/(me)/me/page.js"
+    ],
+    "/(me)/me/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(me)/me/layout.css",
+      "static/chunks/app/(me)/me/layout.js"
+    ],
+    "/workspace/(only-works)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/(only-works)/layout.css",
+      "static/chunks/app/workspace/(only-works)/layout.js"
+    ],
+    "/workspace/(only-works)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/(only-works)/page.css",
+      "static/chunks/app/workspace/(only-works)/page.js"
+    ],
+    "/workspace/(only-works)/users/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/(only-works)/users/page.css",
+      "static/chunks/app/workspace/(only-works)/users/page.js"
+    ],
+    "/workspace/floors/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/floors/layout.css",
+      "static/chunks/app/workspace/floors/layout.js"
+    ],
+    "/workspace/floors/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/floors/[slug]/page.css",
+      "static/chunks/app/workspace/floors/[slug]/page.js"
+    ],
+    "/workspace/floors/[slug]/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/workspace/floors/[slug]/layout.js"
+    ],
+    "/workspace/floors/[slug]/loading": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/floors/[slug]/loading.css",
+      "static/chunks/app/workspace/floors/[slug]/loading.js"
+    ],
+    "/workspace/floors/[slug]/reservations/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/workspace/floors/[slug]/reservations/page.css",
+      "static/chunks/app/workspace/floors/[slug]/reservations/page.js"
+    ]
+  }
+}
