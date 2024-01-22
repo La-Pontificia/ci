@@ -4,7 +4,7 @@ import React from 'react'
 import { type Booking as BookingType } from 'types'
 
 import { convertFormatHour, formatSpanishDate } from 'herpers'
-import Qr from './qr'
+// import Qr from './qr'
 import { CalendarIcon, ClockIcon, DisplayIcon, TableIcon } from 'icons'
 import DropDownBooking from './dropdown'
 import { cn } from 'utils'
@@ -27,7 +27,7 @@ function Booking({ booking }: Props) {
       key={booking._id.toString()}
       className="flex relative gap-3 py-3 items-center"
     >
-      <Qr booking={booking} />
+      {/* <Qr booking={booking} /> */}
       <div className="pl-1 flex flex-col gap-1">
         <div className="flex gap-2 divide-x text-lg font-semibold divide-neutral-700">
           <span className="capitalize">{booking.table.floor.headquarder}</span>
@@ -35,7 +35,7 @@ function Booking({ booking }: Props) {
           <span className="pl-2">{booking.table.name}</span>
         </div>
         <div className="flex">
-          <div className="flex gap-2 text-sm items-center rounded-full bg-neutral-700 p-1 px-3">
+          <div className="flex gap-2 text-sm items-center rounded-full bg-neutral-200 p-1 px-3">
             {booking.table.type === 'pc' ? (
               <DisplayIcon className="w-4" />
             ) : (

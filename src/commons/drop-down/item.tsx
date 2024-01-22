@@ -25,7 +25,7 @@ export function DropDownItem({
   const ref = useRef<HTMLButtonElement | null>(null)
   const isDisabled = !!(restProps.disabled ?? loading)
   const classname =
-    'rounded-sm font-semibold first:rounded-t-2xl relative bg-inherit text-neutral-300 focus-visible:outline outline-[3px] focus-visible:outline-neutral-200 last:rounded-b-2xl p-3 text-[15px] text-left'
+    'rounded-sm font-medium first:rounded-t-2xl relative bg-inherit text-neutral-800 focus-visible:outline outline-[3px] focus-visible:outline-neutral-200 last:rounded-b-2xl p-3 text-[15px] text-left'
   if (isLink && href) {
     return (
       <Link
@@ -47,7 +47,7 @@ export function DropDownItem({
       {children}
       {loading && (
         <div className="absolute top-0 rounded-[inherit] left-0 w-full h-full z-10 bg-inherit items-center flex justify-center">
-          <LineLoading size={20} className="text-neutral-400" />
+          <LineLoading size={20} className="text-neutral-800" />
         </div>
       )}
     </button>

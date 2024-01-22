@@ -18,10 +18,10 @@ function Floor({ flour }: Props) {
   return (
     <div className="relative max-800:w-full" key={flour._id.toString()}>
       <Link
-        className="w-[250px] max-800:w-full h-[180px] border border-neutral-700 hover:border-neutral-300 md:w-full flex flex-col font-semibold text-neutral-300 p-5 bg-neutral-950 rounded-2xl shadow-md shadow-black/20"
+        className="w-[250px] max-800:w-full h-[180px] border border-neutral-300 hover:border-neutral-600 md:w-full flex flex-col font-semibold text-neutral-800 p-5 bg-neutral-100 rounded-2xl shadow-md shadow-black/20"
         href={`/workspace/floors/${flour._id.toString()}`}
       >
-        <span>{flour.name}</span>
+        <span className="text-blue-700">{flour.name}</span>
         <span className="text-sm font-normal text-neutral-500">
           {timeAgo(flour.created_at)}
         </span>

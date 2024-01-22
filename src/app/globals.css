@@ -5,18 +5,18 @@
 :root {
   /* --foreground: #171717;
   --background: #e4e4e4; */
-  --foreground: #e4e4e4;
-  --background: #171717;
+  --foreground: #151515;
+  --background: #ffffff;
   --sidebar-width: 80px;
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground: #e4e4e4;
     --background: #171717;
   }
-}
+} */
 
 h1,
 h2,

@@ -100,7 +100,7 @@ function Table({ table }: Props) {
             }}
             aria-disabled={!table.status}
             data-editing={isEditing}
-            className="fixed shadow-xl aria-disabled:opacity-30 group data-[editing=true]:cursor-grabbing cursor-pointer  rounded-2xl bg-neutral-700 hover:bg-neutral-600"
+            className="fixed aria-disabled:opacity-30 group data-[editing=true]:cursor-grabbing cursor-pointer rounded-2xl bg-neutral-300 hover:bg-neutral-200"
             style={{
               width: size[0],
               height: size[1]
@@ -108,7 +108,7 @@ function Table({ table }: Props) {
           >
             <div
               data-currents={table.current_users.length > 0}
-              className="relative text-black/50 data-[currents=true]:bg-blue-500/20 rounded-[inherit] w-full h-full grid place-content-center"
+              className="relative text-white data-[currents=true]:bg-blue-500/20 rounded-[inherit] w-full h-full grid place-content-center"
             >
               {isEditing && (
                 <span className="absolute z-10 top-1 right-1">
@@ -116,7 +116,7 @@ function Table({ table }: Props) {
                 </span>
               )}
               <Chairs table={table} />
-              <span className="text-xs opacity-50 text-neutral-300">
+              <span className="text-xs font-semibold opacity-50 text-black">
                 {table.name}
               </span>
             </div>

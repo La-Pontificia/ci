@@ -29,8 +29,8 @@ function DropDownNav() {
       triggerButton={({ open }) => (
         <button
           className={cn(
-            'flex text-neutral-400 drop-shadow-md justify-center rounded-xl group font-medium transition-colors items-center relative gap-2 max-900:gap-0',
-            open && 'text-white'
+            'flex text-neutral-800 justify-center rounded-xl group font-medium transition-colors items-center relative gap-2 max-900:gap-0',
+            open && 'text-neutral-900'
           )}
         >
           <Menu2Icon className="w-7" />

@@ -1,33 +1,76 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
-
-on:
-  push:
-    branches: ['master']
-  pull_request:
-    branches: ['master']
-
-jobs:
-  build:
-    runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.9.2
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      # - run: pnpm i
-      # - run: pnpm run build --if-present
-      # - run: pm2 reload 0
+db.users.insertMany([
+  {
+    "nick_name": "Davi'd Bendezú",
+    "identifiers": [
+      "GDUL03B6ohsjTVkPaqLDhSQSdi3nwEgcx_5M1Y1embM",
+      "1217823242508366"
+    ],
+    "is_editor": true,
+    "facebook_id": "1217823242508366",
+    "access_token_facebook": "EAA0drTsZB5JIBOZBM4qTQC7ZCMgvh0IXhM0uGpmI8l4tcZCLEpVPWjajbPi0EZCXWbGNBK1E79FdkjZBX7dLkjxgNWA7F5HLWrM6I2J9FliBohXm0ajEA1L9ZCtCGNBTFWkdTrXbpaep8DVySRveLbihBsVQgrgaO6uUrMRScL9ThJTkPcASWswiFMjsL140h7g05bOnzk4I3SLXZAral7KjIqQ0pCa3biwCUG9Mpf9xGCKFMfTwUJNXrkMkcXsJ2bD6ZCAZDZD",
+    "image": "https://res.cloudinary.com/dc0t90ahb/image/upload/v1705094456/profiles/wjoorf20wqzmvlvntxf8.jpg",
+    "email": "72377685@elp.edu.pe",
+    "is_active": true,
+    "is_admin": true,
+    "names": "David Bendezu Ñahui",
+    "tenant": "elp",
+    "type_user": "student"
+  },
+  {
+    "nick_name": "Julio Flores",
+    "identifiers": ["VcSt4SN2CATrzAvMOMjj31v4gogPR_kS-NMCpD66hGk"],
+    "is_editor": true,
+    "facebook_id": null,
+    "access_token_facebook": null,
+    "image": "/default-profiles/0006.png",
+    "email": "julioflores@elp.edu.pe",
+    "is_active": true,
+    "is_admin": true,
+    "names": "Julio Flores",
+    "tenant": "elp",
+    "type_user": "executive"
+  },
+  {
+    "nick_name": "Leydi Valera",
+    "identifiers": ["E69n7ORUbHGYQXAGTjLojTYSQ--GFZPE8NCotnqJJtc"],
+    "is_editor": false,
+    "facebook_id": null,
+    "access_token_facebook": null,
+    "image": "/default-profiles/0002.png",
+    "email": "leydivalera@elp.edu.pe",
+    "is_active": true,
+    "is_admin": true,
+    "names": "Leydi Valera",
+    "tenant": "elp",
+    "type_user": "executive"
+  },
+  {
+    "nick_name": "Kenyi Lujan",
+    "identifiers": ["C6JkYSmdU6PozoiELsd6CDDCLvQoXw6dnLMWB-_paYI"],
+    "is_editor": false,
+    "facebook_id": null,
+    "access_token_facebook": null,
+    "image": "/default-profiles/0003.png",
+    "email": "kenyilujan@elp.edu.pe",
+    "is_active": true,
+    "is_admin": true,
+    "names": "Kenyi Lujan",
+    "tenant": "elp",
+    "type_user": "executive"
+  },
+  {
+    "nick_name": "Julio Flores Huamani",
+    "identifiers": ["w9Y-sTE04chIHZd3qmaVHjyubTAcJgBT3RlBhVkTlAc"],
+    "is_editor": false,
+    "facebook_id": null,
+    "access_token_facebook": null,
+    "image": "/default-profiles/0002.png",
+    "email": "julioflores@ilp.edu.pe",
+    "is_active": true,
+    "is_admin": false,
+    "names": "Julio Flores Huamani",
+    "tenant": "ilp",
+    "type_user": "executive"
+  }
+]
+)

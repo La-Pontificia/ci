@@ -9,7 +9,7 @@ import { type Booking } from 'types'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/sonner'
+import { ToastContainer } from 'commons/utils'
 
 function DropDownBooking({ booking }: { booking: Booking }) {
   const user = useAuth((store) => store.session)
@@ -32,8 +32,8 @@ function DropDownBooking({ booking }: { booking: Booking }) {
       triggerButton={({ open }) => (
         <button
           className={cn(
-            'flex text-neutral-400 absolute p-1 top-3 right-3 drop-shadow-md justify-center rounded-xl group font-medium transition-colors items-center gap-2 max-900:gap-0',
-            open && 'text-white'
+            'flex text-neutral-800 absolute p-1 top-3 right-3 justify-center rounded-xl group font-medium transition-colors items-center gap-2 max-900:gap-0',
+            open && 'text-black'
           )}
         >
           <MoreHorizonralIcon className="w-6" />

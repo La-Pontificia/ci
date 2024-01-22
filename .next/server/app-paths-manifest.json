@@ -1,10 +1,12 @@
 {
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/api/floors/[slug]/tables/route": "app/api/floors/[slug]/tables/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/floors/[slug]/tables/[table]/route": "app/api/floors/[slug]/tables/[table]/route.js",
   "/api/booking/table/[slug]/route": "app/api/booking/table/[slug]/route.js",
-  "/workspace/(only-works)/users/page": "app/workspace/(only-works)/users/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/page": "app/page.js",
   "/workspace/(only-works)/page": "app/workspace/(only-works)/page.js",
+  "/(me)/me/page": "app/(me)/me/page.js",
   "/workspace/floors/[slug]/page": "app/workspace/floors/[slug]/page.js",
-  "/workspace/floors/[slug]/reservations/page": "app/workspace/floors/[slug]/reservations/page.js",
-  "/(me)/me/page": "app/(me)/me/page.js"
+  "/workspace/floors/[slug]/reservations/page": "app/workspace/floors/[slug]/reservations/page.js"
 }

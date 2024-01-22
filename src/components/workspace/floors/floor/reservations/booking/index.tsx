@@ -22,12 +22,13 @@ function Booking({ booking }: Props) {
       : 'Completado'
 
   const displayType = booking.table.type === 'pc' ? 'Pc' : 'Mesa'
+
   return (
     <div
       key={booking._id.toString()}
       className="flex relative gap-3 py-3 items-start"
     >
-      <div className="w-[40px] bg-neutral-700 min-w-[40px] h-[40px] rounded-full overflow-hidden">
+      <div className="w-[40px] bg-neutral-300 min-w-[40px] h-[40px] rounded-full overflow-hidden">
         <img
           width={40}
           height={40}
@@ -37,13 +38,13 @@ function Booking({ booking }: Props) {
         />
       </div>
       <div className="pl-1 flex flex-col w-full gap-1">
-        <div className="flex gap-2 divide-x text-lg font-semibold divide-neutral-700">
+        <div className="flex gap-2 divide-x text-lg font-semibold divide-neutral-300">
           <span className="capitalize">{booking.table.floor.headquarder}</span>
           <span className="pl-2">{booking.table.floor.name}</span>
           <span className="pl-2">{booking.table.name}</span>
         </div>
         <div className="flex">
-          <div className="flex gap-2 text-sm items-center rounded-full bg-neutral-700 p-1 px-3">
+          <div className="flex gap-2 text-sm items-center rounded-full bg-neutral-200 p-1 px-3">
             {booking.table.type === 'pc' ? (
               <DisplayIcon className="w-4" />
             ) : (
@@ -52,7 +53,7 @@ function Booking({ booking }: Props) {
             {displayType}
           </div>
         </div>
-        <div className="py-1 text-yellow-600 text-sm px-2 font-medium flex gap-1 max-w-max bg-neutral-800 rounded-full">
+        <div className="py-1 text-yellow-600 text-sm px-2 font-medium flex gap-1 max-w-max bg-neutral-200 rounded-full">
           {booking.user.names}
           {' - '}
           {booking.user.email}

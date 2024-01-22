@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/sonner'
+import { ToastContainer } from 'commons/utils'
 import { useAuth } from 'stores'
 import { Modal } from 'commons/modal'
 import { useModal } from 'hooks/useModal'
@@ -64,7 +64,7 @@ function CreateFloor() {
           disabled={!user?.is_admin}
           onClick={onOpenModal}
           variant="none"
-          className="w-[200px] grid place-content-center border border-neutral-700 hover:border-neutral-300 font-semibold text-neutral-300 p-5 bg-neutral-950 rounded-2xl shadow-md shadow-black/20"
+          className="w-[200px] grid place-content-center border border-neutral-400 hover:border-neutral-300 font-semibold text-neutral-800 p-5 bg-neutral-100 rounded-2xl shadow-md shadow-black/20"
         >
           <XmarkIcon className="rotate-45 w-6" />
         </Button>
@@ -76,6 +76,12 @@ function CreateFloor() {
         <Input
           placeholder="Ingresa el nombre"
           control={control}
+          rules={{
+            required: {
+              value: true,
+              message: 'El nombre es requerido'
+            }
+          }}
           name="name"
           className="h-14"
         />

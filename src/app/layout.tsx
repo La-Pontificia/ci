@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import SonnerClient from 'commons/sonner'
+import SonnerClient from 'commons/utils'
 
 const inter = Inter({ subsets: ['latin'] })
 

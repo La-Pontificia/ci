@@ -22,7 +22,7 @@ export function timeAgo(dateParam: any): string | null {
   }
 
   const newD = new Date(dateParam)
-  const distance = formatDistanceToNow(newD, { addSuffix: true })
+  const distance = formatDistanceToNow(newD, { addSuffix: true, locale: es })
 
   return distance
 }

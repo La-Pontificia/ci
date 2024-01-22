@@ -24,25 +24,25 @@ function Header() {
             <div>
               <h2
                 title={user.nick_name}
-                className="text-3xl max-700:text-xl leading-8 text-neutral-200 tracking-tight font-bold capitalize"
+                className="text-3xl max-700:text-xl leading-8 text-neutral-700 tracking-tight font-bold capitalize"
               >
                 {user?.nick_name.toLocaleLowerCase()}
               </h2>
               <p className="text-sm opacity-70">{user.names}</p>
             </div>
-            <div className="flex max-700:hidden flex-wrap pb-2 border-b border-neutral-700 gap-2">
+            <div className="flex max-700:hidden flex-col pb-2 border-b border-neutral-200 gap-2">
               <a
                 href={urlTenant}
                 target="_blank"
                 rel="noreferrer"
-                className="flex max-w-max items-center text-sm text-white rounded-full gap-2 p-1"
+                className="flex max-w-max items-center text-sm text-neutral-600 rounded-full gap-2 p-1"
               >
                 <LinkIcon className="w-4" />
                 <p>{isElp ? 'Escuela' : 'Instituto'}</p>
               </a>
               <a
                 href={`mailto:${user.email}`}
-                className="flex max-w-max items-center text-sm text-white rounded-full gap-2 p-1"
+                className="flex max-w-max items-center text-sm text-neutral-600 rounded-full gap-2 p-1"
               >
                 <MailIcon className="w-5" />
                 {user.email}

@@ -52,7 +52,7 @@ export function DropDown({
           alignOffset={5}
           sideOffset={5}
           align="end"
-          className="outline-none flex flex-col divide-y divide-neutral-700 min-w-[170px] shadow-xl z-[200] bg-neutral-900 rounded-2xl border border-neutral-700"
+          className="outline-none flex flex-col divide-y divide-neutral-200 min-w-[170px] shadow-xl z-[200] bg-white rounded-2xl border border-neutral-200"
           {...popoverContentProps}
         >
           {childArray.map((child, index) =>

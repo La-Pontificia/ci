@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Button } from 'commons/button'
-import { convertFormatHour, formatSpanishDate } from 'herpers'
+import { convertFormatHour, formatSpanishDate, timeAgo } from 'herpers'
 import { CalendarIcon, ClockIcon } from 'icons'
 import React, { useEffect, useState } from 'react'
 import { type NewTypeTable } from 'stores/tables/tables.store'
@@ -25,16 +25,20 @@ export default function Bookings({ table }: Props) {
   }, [])
 
   return (
-    <div className="pb-4 flex flex-col divide-y divide-neutral-700">
+    <div className="pb-4 flex flex-col divide-y divide-neutral-300">
       {bookings.map((booking) => {
+        const today = new Date()
+        const newFrom = new Date(booking.from)
+        const isPosibleAsign = today >= newFrom
         return (
           <div
-            className="flex gap-2 rounded-2xl p-2 items-center bg-neutral-800"
+            className="flex gap-2 rounded-xl p-2 items-center bg-neutral-200"
             key={booking._id.toString()}
           >
             <div>
-              <h2 className="font-semibold">{booking.user.names}</h2>
-              <div className="flex space-x-2 text-sm flex-wrap text-neutral-400">
+              <h2 className="font-semibold text-lg">{booking.user.names}</h2>
+              <span>{timeAgo(booking.to)}</span>
+              <div className="flex space-x-2 text-sm flex-wrap text-neutral-600">
                 <span className="flex items-center gap-2">
                   <CalendarIcon className="w-4" />{' '}
                   {formatSpanishDate(booking.date)}
@@ -47,7 +51,12 @@ export default function Bookings({ table }: Props) {
                 </span>
               </div>
             </div>
-            <Button variant="white" isFilled className="ml-auto">
+            <Button
+              disabled={!isPosibleAsign}
+              variant="white"
+              isFilled
+              className="ml-auto"
+            >
               Asignar
             </Button>
           </div>

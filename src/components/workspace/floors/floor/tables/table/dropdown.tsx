@@ -7,7 +7,7 @@ import { MoreHorizonralIcon } from 'icons'
 import axios from 'axios'
 import { useTables, type NewTypeTable } from 'stores/tables/tables.store'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/sonner'
+import { ToastContainer } from 'commons/utils'
 
 function DropDownTable({ table }: { table: NewTypeTable }) {
   const tables = useTables((store) => store.tables)
@@ -88,8 +88,8 @@ function DropDownTable({ table }: { table: NewTypeTable }) {
       triggerButton={({ open }) => (
         <button
           className={cn(
-            'w-[30px] h-[30px] group-hover:opacity-100 opacity-0 text-neutral-300 p-1 bg-neutral-700 rounded-full',
-            open && 'text-white opacity-100'
+            'w-[30px] h-[30px] group-hover:opacity-100 opacity-0 text-neutral-700 p-1 bg-white shadow-xl rounded-full',
+            open && 'text-black opacity-100'
           )}
         >
           <MoreHorizonralIcon />

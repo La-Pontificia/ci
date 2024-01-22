@@ -5,7 +5,6 @@ import { Add } from './add'
 import Tables from './tables'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { useAuth, useUI } from 'stores'
-import { ReloadIcon, XmarkIcon } from 'icons'
 import { Toggle } from 'commons/toggle'
 
 export function Floor() {
@@ -25,7 +24,7 @@ export function Floor() {
         initialPositionX={pinchState.positionX}
         initialPositionY={pinchState.positionY}
         minScale={0.8}
-        maxScale={1.2}
+        maxScale={1.3}
         onZoomStop={(e) => setPinchState(e.state)}
         onPanningStop={(e) => setPinchState(e.state)}
         onPinchingStop={(e) => setPinchState(e.state)}
@@ -34,54 +33,30 @@ export function Floor() {
         limitToBounds={false}
         pinch={{ step: 5 }}
       >
-        {({ zoomIn, zoomOut, resetTransform }) => (
-          <>
-            <div
-              aria-selected={isEditing}
-              className="fixed z-10 opacity-40 hover:opacity-100 aria-selected:opacity-100 transition-opacity divide-x text-neutral-400 divide-neutral-800 bg-neutral-950 p-1 rounded-full flex justify-between w-[300px] h-[40px] bottom-5 left-5"
-            >
-              <button
-                className="w-full disabled:cursor-not-allowed hover:text-neutral-100"
-                onClick={() => zoomIn()}
-              >
-                <XmarkIcon className="w-5 mx-auto rotate-45" />
-              </button>
-              <button
-                className="w-full disabled:cursor-not-allowed text-2xl hover:text-neutral-100"
-                onClick={() => zoomOut()}
-              >
-                -
-              </button>
-              <button
-                className="w-full disabled:cursor-not-allowed hover:text-neutral-100"
-                onClick={() => resetTransform(1)}
-              >
-                <ReloadIcon className="w-4 mx-auto" />
-              </button>
-              <div className="px-2">
-                <Toggle
-                  className="text-sm"
-                  disabled={!user?.is_editor}
-                  onChangeValue={() => setIsEditing(!isEditing)}
-                  checked={isEditing}
-                >
-                  Edicion
-                </Toggle>
-              </div>
-            </div>
-            <TransformComponent
-              wrapperStyle={{
-                height: '100vh',
-                width: '100vw',
-                position: 'fixed',
-                inset: 0
-              }}
-              contentClass="flex absolute"
-            >
-              <Tables />
-            </TransformComponent>
-          </>
-        )}
+        <div
+          aria-selected={isEditing}
+          className="fixed pr-4 z-10 opacity-40 hover:opacity-100 aria-selected:opacity-100 transition-opacity divide-x text-neutral-400 divide-neutral-800 bg-neutral-700 p-1 rounded-full flex justify-between h-[40px] bottom-5 left-5"
+        >
+          <Toggle
+            className="text-sm"
+            disabled={!user?.is_editor}
+            onChangeValue={() => setIsEditing(!isEditing)}
+            checked={isEditing}
+          >
+            <span className="text-white">Edicion</span>
+          </Toggle>
+        </div>
+        <TransformComponent
+          wrapperStyle={{
+            height: '100vh',
+            width: '100vw',
+            position: 'fixed',
+            inset: 0
+          }}
+          contentClass="flex absolute"
+        >
+          <Tables />
+        </TransformComponent>
       </TransformWrapper>
     </>
   )

@@ -11,7 +11,7 @@ export const ItemNav = ({ href, title }: { title: string; href: string }) => {
     <Link
       href={href}
       aria-checked={isActive}
-      className="aria-checked:text-white relative p-3 px-5 hover:text-neutral-200 text-neutral-400 text-center grid place-content-center rounded-2xl drop-shadow-sm"
+      className="aria-checked:text-black relative p-3 px-5 hover:text-neutral-500 text-neutral-400 text-center grid place-content-center rounded-2xl drop-shadow-sm"
     >
       {title}
       <span

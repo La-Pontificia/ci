@@ -17,7 +17,7 @@ function CloseButton() {
         onClick={() => {
           router.push('/workspace')
         }}
-        className="w-10 p-2 rounded-full bg-neutral-700 hover:bg-neutral-800"
+        className="w-10 p-2 rounded-full bg-neutral-200 hover:bg-neutral-300"
         variant="none"
       >
         <XmarkIcon />

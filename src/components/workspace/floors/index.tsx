@@ -6,7 +6,6 @@ import CreateFloor from './create'
 
 async function Floors() {
   const flours = await getFloors()
-
   const groupedFloor = divideAndGroupByHeadquarter(flours)
   return (
     <div className="max-700:justify-center">

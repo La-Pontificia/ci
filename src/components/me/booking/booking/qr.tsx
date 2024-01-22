@@ -35,13 +35,13 @@ function Qr({ booking }: Props) {
       trigger={
         <button
           onClick={onOpenModal}
-          className="w-[120px] min-w-[120px] h-[120px] grid place-content-center bg-neutral-800 hover:scale-105 relative border-neutral-700 border rounded-2xl"
+          className="w-[120px] min-w-[120px] h-[120px] grid place-content-center bg-neutral-200 hover:scale-105 relative border-neutral-400 border rounded-2xl"
         >
           <Qr />
         </button>
       }
     >
-      <div className="w-[300px] h-[300px] grid place-content-center bg-neutral-800 relative border-neutral-700 border rounded-3xl">
+      <div className="w-[300px] h-[300px] grid place-content-center bg-white relative border-neutral-700 border rounded-3xl">
         <Qr />
       </div>
     </Dialog>

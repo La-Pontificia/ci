@@ -48,20 +48,20 @@ export const Toggle = ({
         type="button"
         onClick={handleToggleClick}
         className={cn(
-          'bg-neutral-800 h-8 w-[50px] duration-300 relative rounded-full flex items-center transition-all',
+          'bg-neutral-300 h-8 w-[50px] duration-300 relative rounded-full flex items-center transition-all',
           isDisabled && 'opacity-60 cursor-not-allowed',
-          isSelected && 'bg-white'
+          isSelected && 'bg-black'
         )}
       >
         <div
           className={cn(
-            'bg-neutral-950 absolute top-[50%] duration-200 translate-y-[-50%] transition-transform h-[28px] w-[28px] rounded-full',
+            'bg-white absolute top-[50%] duration-200 translate-y-[-50%] transition-transform h-[28px] w-[28px] rounded-full',
             isSelected ? 'translate-x-[20px]' : 'translate-x-[3px]'
           )}
         />
       </button>
 
-      <div className="text-neutral-200 font-medium">{children}</div>
+      <div className="text-neutral-800 font-medium">{children}</div>
     </div>
   )
 }

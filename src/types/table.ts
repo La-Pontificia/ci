@@ -32,10 +32,9 @@ export interface TableCurrentUser {
     | 'is_admin'
     | 'created_at'
   >
-  from: string
+  from: Date
   chair: number
-  to: string
+  to: Date
   time: string
   display_time: string
-  date: Date
 }

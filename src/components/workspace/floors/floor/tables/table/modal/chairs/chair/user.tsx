@@ -4,24 +4,22 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { type Control } from 'react-hook-form'
 import { type User as UserType } from 'types'
-import { type TableCurrentUser } from 'types/table'
-import { generateHours } from 'utils'
+import { converterForma12Hour, generateHourList } from 'utils'
+import { type TypeForm } from '.'
 
 type Props = {
-  control: Control<TableCurrentUser>
+  control: Control<TypeForm>
   user: UserType
   onSubmit: (u: UserType | null) => void
   isPending?: boolean
 }
 
 function User({ control, user, onSubmit, isPending }: Props) {
-  const [toHour] = useState<Array<{ time: string; displayName: string }>>(
-    generateHours(null, '21:00')
-  )
+  const [toHour] = useState<string[]>(generateHourList())
 
   return (
-    <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-neutral-900 p-3">
-      <h2 className="text-center pb-4 pt-1 font-bold text-xl text-neutral-300">
+    <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-white p-3">
+      <h2 className="text-center pb-4 pt-1 font-bold text-xl text-neutral-900">
         Configura el usuario
       </h2>
       <div className="grid py-5">
@@ -34,6 +32,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
             alt={user.names}
           />
         </span>
+        <span className="text-lg font-bold mx-auto pt-2">{user.names}</span>
         <span className="text-center font-semibold text-neutral-500 text-sm">
           {user.email} -{' '}
           <span className="text-blue-500 font-semibold">{user.tenant}</span>
@@ -49,8 +48,8 @@ function User({ control, user, onSubmit, isPending }: Props) {
         >
           {toHour.map((item) => {
             return (
-              <option key={item.time} value={item.time}>
-                {item.displayName}
+              <option key={item} value={item}>
+                {converterForma12Hour(item)}
               </option>
             )
           })}
@@ -59,7 +58,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
       <div className="mt-auto flex gap-3 pt-2">
         <Button
           onClick={() => onSubmit(null)}
-          className="w-[100px] p-3 bg-neutral-700 text-base rounded-xl text-center"
+          className="w-[100px] p-3 bg-neutral-200 text-base rounded-xl text-center"
           variant="none"
           isFilled
         >

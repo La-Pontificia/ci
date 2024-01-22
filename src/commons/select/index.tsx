@@ -64,13 +64,11 @@ export const Select = <T extends FieldValues>({
     onChangeOrigin?.(e)
   }
 
-  const getInputValue = () => {
-    return value ?? ''
-  }
+  const isValue = typeof value !== 'undefined'
 
   const classname = cn(
-    'px-3 h-12 border-neutral-700 rounded-xl text-neutral-200 transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-neutral-800',
-    value && placeholder && 'pt-4',
+    'px-3 h-12 border-neutral-400 rounded-xl text-neutral-800 transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-neutral-100',
+    isValue && placeholder && 'pt-4',
     (icon ?? start) && 'pl-6',
     className,
     isLoading && 'pointer-events-none animate-pulse select-none',
@@ -99,7 +97,6 @@ export const Select = <T extends FieldValues>({
         <select
           ref={ref}
           disabled={isDisabled}
-          value={getInputValue()}
           onBlur={handleBlur}
           onChange={handleChange}
           className={classname}
@@ -110,12 +107,12 @@ export const Select = <T extends FieldValues>({
         {placeholder && (
           <div
             className={cn(
-              'absolute font-light pointer-events-none transition-all select-none top-[50%] translate-y-[-50%] left-4',
-              value && 'top-[33%] text-xs',
+              'absolute pointer-events-none transition-all select-none top-[50%] translate-y-[-50%] left-4',
+              isValue && 'top-[33%] text-xs',
               (icon ?? start) && 'pl-4'
             )}
           >
-            <div className="opacity-60 line-clamp-1">
+            <div className="opacity-80 line-clamp-1">
               <span>{placeholder}</span>
             </div>
           </div>

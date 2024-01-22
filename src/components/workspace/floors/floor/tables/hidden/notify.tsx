@@ -56,8 +56,8 @@ function RemainingTimeHidden({ table, currentUser }: Props) {
 
   return (
     <Dialog backdropBlur open={!active}>
-      <div className="bg-neutral-900 border border-neutral-800 p-3 rounded-3xl text-neutral-100">
-        <div className="p-2 text-sm text-neutral-300">
+      <div className="bg-white p-3 rounded-3xl text-neutral-800">
+        <div className="p-2 text-sm text-neutral-800">
           Terminó el tiempo del cubículo{' '}
           <b>
             {table.name} - Silla {currentUser.chair}

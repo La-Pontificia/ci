@@ -27,8 +27,8 @@ function Users({ onAdd }: Props) {
   }, [debouncedValue])
 
   return (
-    <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-neutral-900 p-3">
-      <h2 className="text-center pb-4 pt-1 font-bold text-xl text-neutral-300">
+    <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-white p-3">
+      <h2 className="text-center pb-4 pt-1 font-bold text-xl text-neutral-800">
         Selecciona un usuario
       </h2>
       <div className="">
@@ -38,7 +38,7 @@ function Users({ onAdd }: Props) {
             autoFocus
             onChange={onChange}
             type="search"
-            className="w-full font-medium focus:bg-neutral-700/40 outline-none pl-14 placeholder:text-neutral-500 bg-neutral-800 rounded-2xl p-5"
+            className="w-full font-medium focus:bg-neutral-200 border outline-none pl-14 placeholder:text-neutral-500 bg-neutral-100 rounded-2xl p-5"
             placeholder="Nombres, dni, correo"
           />
         </span>
@@ -58,7 +58,7 @@ function Users({ onAdd }: Props) {
                 onClick={() => onAdd(user)}
                 variant="none"
                 key={user._id.toString()}
-                className="flex hover:bg-neutral-800 p-2 rounded-2xl items-center gap-2"
+                className="flex hover:bg-neutral-100 p-2 rounded-2xl items-center gap-2"
               >
                 <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
                   <Image
@@ -70,7 +70,7 @@ function Users({ onAdd }: Props) {
                   />
                 </div>
                 <div>
-                  <h3 className="text-base text-neutral-100 capitalize font-medium line-clamp-1">
+                  <h3 className="text-base text-neutral-900 capitalize font-medium line-clamp-1">
                     {user.names.toLocaleLowerCase()}
                   </h3>
                   <p className="text-sm font-normal text-neutral-400">
@@ -85,7 +85,7 @@ function Users({ onAdd }: Props) {
       <div className="mt-auto">
         <Button
           onClick={() => onAdd(null)}
-          className="w-full p-3 bg-neutral-700 text-base rounded-xl text-center"
+          className="w-full p-3 bg-neutral-200 text-base rounded-xl text-center"
           variant="none"
           isFilled
         >

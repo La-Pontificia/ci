@@ -52,7 +52,7 @@ export default function Content(props: PropsType) {
   return (
     <div className="relative h-full">
       {title && !hiddenHeader && (
-        <header className="p-2 text-center font-medium text-lg max-900:hidden">
+        <header className="p-2 text-center text-white font-medium text-lg max-900:hidden">
           {title}
         </header>
       )}
@@ -67,7 +67,7 @@ export default function Content(props: PropsType) {
         }}
         data-screen={heigth === 'screen'}
         className={cn(
-          'flex flex-col data-[screen=true]:rounded-none w-full border border-neutral-800 bg-[#101010] overflow-hidden rounded-2xl max-900:rounded-none max-900:border-0 max-900:w-full relative',
+          'flex flex-col data-[screen=true]:rounded-none w-full shadow-2xl bg-white overflow-hidden rounded-2xl max-900:rounded-none max-900:border-0 max-900:w-full relative',
           className,
           isPending && 'border-0'
         )}
@@ -112,13 +112,13 @@ export default function Content(props: PropsType) {
               width: width === 'screen' ? '100%' : width,
               height: heigth === 'screen' ? '100%' : heigth
             }}
-            className="modal-content-media max-900:bg-neutral-950 h-full"
+            className="modal-content-media h-full"
           >
             {children}
           </div>
         </div>
         {!hiddenFooter && (
-          <footer className="font-medium border-t bg-neutral-900 border-neutral-700/80 max-900:hidden relative divide-neutral-700/80 flex">
+          <footer className="font-medium border-t bg-neutral-100 border-neutral-200/80 max-900:hidden relative divide-neutral-700/80 flex">
             <button
               onClick={handleCancel}
               className="w-full disabled:opacity-60 text-neutral-300 p-3"
@@ -128,7 +128,7 @@ export default function Content(props: PropsType) {
             </button>
             <div className="relative w-full">
               {isPending && (
-                <div className="absolute z-[1] justify-center bg-[#14141490] backdrop-blur-md inset-0 grid place-content-center">
+                <div className="absolute z-[1] justify-center bg-neutral-100 backdrop-blur-md inset-0 grid place-content-center">
                   <span className="mx-auto">
                     <LineLoading className="text-neutral-400" size={20} />
                   </span>

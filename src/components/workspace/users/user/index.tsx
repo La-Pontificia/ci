@@ -27,8 +27,8 @@ function User({ user: userInit }: { user: Type }) {
           alt={user.names}
         />
       </div>
-      <div className="border-b pb-4 border-neutral-700 w-full flex items-center">
-        <div className="flex flex-col gap-1 text-zinc-200 text-sm tracking-tight font-medium">
+      <div className="border-b pb-4 border-neutral-300 w-full flex items-center">
+        <div className="flex flex-col gap-1 text-zinc-800 text-sm tracking-tight font-medium">
           <span className="text-base font-semibold">{user.names}</span>
           <span className="lowercase text-neutral-400 font-light">
             {user.email}

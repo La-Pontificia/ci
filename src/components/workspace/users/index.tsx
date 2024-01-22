@@ -23,7 +23,7 @@ async function Users({ searchParams }: Props) {
             />
           ))
         ) : (
-          <div className="text-neutral-400 p-20 grid place-content-center">
+          <div className="text-neutral-800 p-20 grid place-content-center">
             No hay nada que mostrar
           </div>
         )}

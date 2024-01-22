@@ -17,7 +17,7 @@ async function Reservations({ params, searchParams }: Props) {
   return (
     <div className="p-4 flex flex-col h-full">
       {bookings.length > 0 ? (
-        <div className="flex flex-col h-full divide-y divide-neutral-700">
+        <div className="flex flex-col h-full divide-y divide-neutral-200">
           {bookings.map((booking) => {
             return <Booking key={booking._id.toString()} booking={booking} />
           })}

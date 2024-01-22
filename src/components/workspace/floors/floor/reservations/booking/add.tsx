@@ -6,6 +6,10 @@ import { type Booking } from 'types'
 function Add({ booking }: { booking: Booking }) {
   if (booking.status !== 'active') return null
 
+  const today = new Date()
+  const newFrom = new Date(booking.from)
+  const isPosibleAsign = today >= newFrom
+
   const addReservation = async () => {
     console.log(booking)
   }
@@ -15,7 +19,12 @@ function Add({ booking }: { booking: Booking }) {
       title="¿Agregar y completar la reseración?"
       description="Al confirmar el usuario se asignara al cubículo reservado y la reservacion cambiará al estado de completado"
       trigger={
-        <Button variant="grey" className="rounded-xl w-full" isFilled>
+        <Button
+          disabled={!isPosibleAsign}
+          variant="black"
+          className="rounded-xl h-12 w-full"
+          isFilled
+        >
           Agregar
         </Button>
       }

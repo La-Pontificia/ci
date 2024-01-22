@@ -6,6 +6,28 @@ import axios from 'axios'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+export const generateDateRange = (): { min: string; max: string } => {
+  const today = new Date()
+  const minDate = new Date(today)
+  const maxDate = new Date(today)
+  minDate.setDate(today.getDate() + 1)
+  maxDate.setDate(today.getDate() + 4)
+  const formattedMin = minDate.toISOString().split('T')[0]
+  const formattedMax = maxDate.toISOString().split('T')[0]
+  return { min: formattedMin, max: formattedMax }
+}
+
+export const isDateInRange = (dateToCheck: Date): boolean => {
+  const today = new Date()
+  const minDate = new Date(today)
+  const maxDate = new Date(today)
+  minDate.setDate(today.getDate() + 1)
+  minDate.setHours(0, 0, 0, 0)
+  maxDate.setDate(today.getDate() + 4)
+  maxDate.setHours(23, 59, 59, 999)
+  return dateToCheck >= minDate && dateToCheck <= maxDate
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -175,38 +197,75 @@ export const getUserByDni = async (dni: string) => {
 }
 
 // MOMENTS UTILS
-export function generateHours(
-  startTime: string | null,
-  endTime: string | null
-): Array<{ time: string; displayName: string }> {
-  if (!startTime) {
-    startTime = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
-  if (!endTime) endTime = '24:00'
-  const hours: Array<{ time: string; displayName: string }> = []
-  const [startHour, startMinute] = startTime.split(':').map(Number)
-  const [endHour] = endTime.split(':').map(Number)
+export const generateHourList = () => {
+  const now = new Date()
+  const currentHour = now.getHours()
+  const currentMinutes = now.getMinutes()
 
-  for (let hour = startHour; hour <= endHour; hour++) {
-    for (let minute = 0; minute < 60; minute += 30) {
-      if (hour === startHour && minute < startMinute) {
-        continue
-      }
-      const formattedHour = hour.toString().padStart(2, '0')
-      const formattedMinute = minute.toString().padStart(2, '0')
-      const time = `${formattedHour}:${formattedMinute}`
-      const displayName = convertirFormato12Horas(time)
-      hours.push({ time, displayName })
+  let startHour
+
+  if (currentMinutes > 45) {
+    // Si los minutos actuales son mayores que 45, avanzar a la próxima hora
+    startHour = currentHour + 1
+  } else {
+    // En caso contrario, usar la hora actual
+    startHour = currentHour
+  }
+
+  // Ajustar la hora de inicio a las 7:00 am si es menor
+  startHour = Math.max(startHour, 7)
+
+  // Generar la lista de horas cada 15 minutos
+  const hourList = []
+  for (let hour = startHour; hour <= 22; hour++) {
+    for (let minutes = 0; minutes < 60; minutes += 15) {
+      const formattedHour = `${hour.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}`
+      hourList.push(formattedHour)
     }
   }
 
-  return hours
+  return hourList
 }
 
-function convertirFormato12Horas(hora24: string): string {
+export const generateFullDayHourList = (start?: string | null) => {
+  let startHour = 7
+  let startMinutes = 0
+
+  if (start) {
+    const parsedStart = new Date(`2000-01-01T${start}`)
+    startHour = parsedStart.getHours()
+    startMinutes = parsedStart.getMinutes()
+  }
+
+  startHour = Math.max(Math.min(startHour, 22), 7)
+
+  const hourList = []
+
+  for (let hour = startHour; hour <= 22; hour++) {
+    let initialMinutes = 0
+
+    if (hour === startHour) {
+      // Si estamos en la misma hora que la proporcionada, ajustamos los minutos iniciales
+      initialMinutes = Math.ceil(startMinutes / 15) * 15
+    }
+
+    for (let minutes = initialMinutes; minutes < 60; minutes += 15) {
+      const formattedHour = `${hour.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}`
+      if (!(hour === startHour && minutes === initialMinutes)) {
+        // Agregamos a la lista solo si no es la hora exacta proporcionada
+        hourList.push(formattedHour)
+      }
+    }
+  }
+
+  return hourList
+}
+
+export function converterForma12Hour(hora24: string): string {
   const [hours, minutes] = hora24.split(':')
   let hours12 = parseInt(hours, 10)
   const ampm = hours12 >= 12 ? 'PM' : 'AM'
@@ -227,11 +286,8 @@ export function calculateDuration(startTime: string, endTime: string): string {
   return `${formattedHours}:${formattedMinutes}`
 }
 
-export const calculateTimeMargin = (startTime: string, endTime: string) => {
-  const start = new Date(`2000-01-01T${startTime}`)
-  const end = new Date(`2000-01-01T${endTime}`)
-
-  const difference = end.getTime() - start.getTime()
+export const calculateTimeMargin = (startTime: Date, endTime: Date) => {
+  const difference = endTime.getTime() - startTime.getTime()
   const hours = Math.floor(difference / (1000 * 60 * 60))
   const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
   const displayTime = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`

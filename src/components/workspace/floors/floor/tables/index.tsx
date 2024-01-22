@@ -20,10 +20,10 @@ function Tables() {
 
   return tables.map((table) => {
     return (
-      <>
+      <div key={table._id}>
         <HiddenChairs table={table} />
         <Table table={table} key={table._id} />
-      </>
+      </div>
     )
   })
 }

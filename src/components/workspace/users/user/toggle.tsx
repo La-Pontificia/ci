@@ -5,7 +5,7 @@ import { type Type } from '.'
 import { Toggle } from 'commons/toggle'
 import axios from 'axios'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/sonner'
+import { ToastContainer } from 'commons/utils'
 import { useAuth } from 'stores'
 
 type Props = {

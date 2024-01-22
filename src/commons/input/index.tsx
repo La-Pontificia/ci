@@ -87,7 +87,7 @@ export const Input = <T extends FieldValues>({
   const isMoveTop = (focus && placeholder) ?? (value === 0 && placeholder)
 
   const classname = cn(
-    'p-4 h-12 border-neutral-700 rounded-xl text-neutral-200 appearance-none transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-transparent',
+    'p-4 h-12 border-neutral-400 rounded-xl text-neutral-800 appearance-none transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-transparent',
     (isMoveTop || (value && placeholder)) && 'pt-7',
     inputProps.type === 'date' && 'pt-7',
     (icon ?? currency ?? start) && 'pl-8',
@@ -135,7 +135,7 @@ export const Input = <T extends FieldValues>({
               (icon ?? currency ?? start) && 'pl-4'
             )}
           >
-            <div className="opacity-60 line-clamp-1">
+            <div className="opacity-80 line-clamp-1">
               <span>{placeholder}</span>
             </div>
           </div>

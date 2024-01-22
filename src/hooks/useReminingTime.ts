@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
 
-export const useRemainingTime = (startTime: string, endTime: string) => {
+export const useRemainingTime = (startTime: Date, endTime: Date) => {
   const [remainingTime, setRemainingTime] = useState<string>('') // Format "Xh Ym"
   const [active, setActive] = useState<boolean>(true)
 
   useEffect(() => {
     const calculateRemainingTime = () => {
       const now = new Date()
-      const end = new Date(now.toDateString() + ' ' + endTime)
-
-      if (now < end) {
+      const end = new Date(endTime)
+      if (end > now) {
         const difference = end.getTime() - now.getTime()
         const hours = Math.floor(difference / (1000 * 60 * 60))
         const minutes = Math.floor(

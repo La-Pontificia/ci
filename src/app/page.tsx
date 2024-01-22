@@ -14,10 +14,11 @@ export default function Home() {
         <div className="h-full flex w-full max-w-7xl mx-auto items-center justify-center">
           <div className="text-center p-5 justify-center">
             <div className="relative">
-              <h1 className="text-center font-medium relative text-[150px] max-900:text-[100px] max-500:text-[60px] text-stone-200 leading-[1] tracking-tight">
-                {/* Lee, Conecta, y Enseña. */}
+              <h1
+                data-aos="fade-down"
+                className="text-center animate-wiggle font-medium relative text-[150px] max-900:text-[100px] max-500:text-[60px] text-stone-200 leading-[1] tracking-tight"
+              >
                 Libros abiertos, mentes abiertas.
-                {/* Descubre, reserva, disfruta. */}
               </h1>
               <p className="pt-6 text-neutral-400 text-lg font-medium max-w-2xl mx-auto">
                 En La Pontificia , ofrecemos una experiencia educativa única y

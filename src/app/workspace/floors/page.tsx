@@ -1,7 +1,7 @@
-import React from 'react'
+import { redirect } from 'next/navigation'
 
 function FloorsPage() {
-  return <div></div>
+  redirect('/dashboard')
 }
 
 export default FloorsPage

@@ -47,7 +47,7 @@ export const Add = () => {
         onClick={onClick}
         isFilled
         variant={'none'}
-        className="rounded-xl aria-checked:bg-white aria-checked:text-neutral-800 text-center h-12 bg-neutral-800"
+        className="rounded-xl aria-checked:bg-black text-neutral-800 aria-checked:text-white text-center h-12 bg-neutral-200"
       >
         {n}
       </Button>
@@ -84,10 +84,6 @@ export const Add = () => {
   return (
     <>
       <span className="grid-background pointer-events-none select-none w-screen fixed h-screen opacity-40" />
-      <span className="pointer-events-none text-5xl font-bold top-14 left-[50%] translate-x-[-50%] select-none fixed opacity-5 text-center">
-        <h3>La pontificia</h3>
-        <p className="text-base font-medium">Beta - Maintained by Daustinn </p>
-      </span>
       <Modal
         onDone={handleSubmit(onSubmit)}
         width={400}
@@ -145,7 +141,7 @@ export const Add = () => {
                 <ButtonChair n={12} />
               </div>
               {watch().chairs !== 4 && watch().chairs !== 1 && (
-                <div className="bg-neutral-950 relative grid place-content-center p-10 rounded-2xl">
+                <div className="bg-neutral-100 relative grid place-content-center p-10 rounded-2xl">
                   <FramerTable
                     c={chairs ?? 4}
                     rotate={ui?.rotation ?? 'vertical'}
@@ -153,7 +149,7 @@ export const Add = () => {
                   <div className="absolute bottom-2 left-2 flex items-center">
                     <button
                       onClick={onChangeRotate}
-                      className="bg-neutral-700 p-1 text-sm font-semibold rounded-full px-3"
+                      className="bg-neutral-200 p-1 text-sm font-semibold rounded-full px-3"
                     >
                       {ui?.rotation === 'vertical' ? 'Horizontal' : 'Vertical'}
                     </button>

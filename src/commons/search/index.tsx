@@ -41,7 +41,7 @@ function Search({
       <input
         onChange={handleChange}
         className={clsx(
-          'h-16 outline-none focus:shadow-md disabled:opacity-80 font-medium shadow-black/50 transition-all px-14 appearance-none text-lg placeholder:text-neutral-600 focus:placeholder:text-neutral-700  w-full rounded-2xl border bg-neutral-950/50 border-neutral-700',
+          'h-16 outline-none focus:shadow-md disabled:opacity-80 font-medium shadow-black/50 transition-all px-14 appearance-none text-lg placeholder:text-neutral-400 focus:placeholder:text-neutral-700 w-full rounded-2xl border bg-neutral-white border-neutral-300',
           className
         )}
         value={inputValue}
@@ -52,7 +52,7 @@ function Search({
         <button
           aria-hidden={!inputValue}
           onClick={handleClearClick}
-          className="absolute top-[50%] aria-hidden:pointer-events-none aria-hidden:opacity-0 opacity-100 translate-y-[-50%] transition-opacity right-5 bg-neutral-600 rounded-full p-1 text-black"
+          className="absolute top-[50%] aria-hidden:pointer-events-none aria-hidden:opacity-0 opacity-100 translate-y-[-50%] transition-opacity right-5 bg-neutral-300 rounded-full p-1 text-black"
         >
           <XmarkIcon className="w-3" />
         </button>

@@ -5,7 +5,7 @@ import { Button } from 'commons/button'
 import { Input } from 'commons/input'
 import { Modal } from 'commons/modal'
 import { Select } from 'commons/select'
-import { ToastContainer } from 'commons/sonner'
+import { ToastContainer } from 'commons/utils'
 import { parse } from 'date-fns'
 import { useModal } from 'hooks/useModal'
 import { usePending } from 'hooks/usePending'
@@ -16,7 +16,14 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { type Floor } from 'types'
 import { type Table } from 'types/table'
-import { calculateDuration, generateHours, parseTimeStringToDate } from 'utils'
+import {
+  calculateDuration,
+  converterForma12Hour,
+  generateDateRange,
+  generateFullDayHourList,
+  isDateInRange,
+  parseTimeStringToDate
+} from 'utils'
 
 type FormData = {
   headquarder: Floor['headquarder']
@@ -41,8 +48,8 @@ function Create() {
     defaultValues: {
       date: null,
       headquarder: 'alameda',
-      from: null,
-      to: null,
+      from: undefined,
+      to: undefined,
       type: 'pc',
       time: '00:00'
     }
@@ -52,6 +59,8 @@ function Create() {
     const date = parse(d.date ?? '', 'yyyy-MM-dd', new Date())
     const newDateFrom = parseTimeStringToDate(d.from!, date)
     const newDateTo = parseTimeStringToDate(d.to!, date)
+    if (!isDateInRange(date)) return
+
     try {
       start()
       await axios.post('/api/booking', {
@@ -75,16 +84,12 @@ function Create() {
   }
 
   const { from, to, time } = watch()
-  const [fromHour] = useState<Array<{ time: string; displayName: string }>>(
-    generateHours('07:00', '21:00')
-  )
-  const [toHour, setToHour] = useState<
-    Array<{ time: string; displayName: string }>
-  >(generateHours('07:00', '21:00'))
+  const [fromHour] = useState<string[]>(generateFullDayHourList())
+  const [toHour, setToHour] = useState<string[]>(generateFullDayHourList())
 
   useEffect(() => {
     if (from === '07:00') return
-    setToHour(generateHours(from, '21:00'))
+    setToHour(generateFullDayHourList(from))
     setValue('to', from)
   }, [from])
 
@@ -95,6 +100,8 @@ function Create() {
   }, [from, to])
 
   const disable_button = time === '00:00' || Object.entries(errors).length > 0
+
+  const { max, min } = generateDateRange()
 
   return (
     <Modal
@@ -158,8 +165,8 @@ function Create() {
             }}
             name="date"
             className="h-14"
-            min="2024-01-12"
-            max="2024-01-16"
+            min={min}
+            max={max}
           />
           <label>
             <Select
@@ -177,8 +184,8 @@ function Create() {
               <option value=""></option>
               {fromHour.map((item) => {
                 return (
-                  <option key={`${item.time}-from`} value={item.time}>
-                    {item.displayName}
+                  <option key={`${item}-from`} value={item}>
+                    {converterForma12Hour(item)}
                   </option>
                 )
               })}
@@ -201,8 +208,8 @@ function Create() {
 
               {toHour.map((item) => {
                 return (
-                  <option key={`${item.time}-to`} value={item.time}>
-                    {item.displayName}
+                  <option key={`${item}-to`} value={item}>
+                    {converterForma12Hour(item)}
                   </option>
                 )
               })}
@@ -236,7 +243,7 @@ function Create() {
           loading={isPending}
           disabled={disable_button}
           onClick={handleSubmit(onSearch)}
-          variant="white"
+          variant="primary"
           isFilled
           className="h-12 mt-auto rounded-xl w-full"
         >

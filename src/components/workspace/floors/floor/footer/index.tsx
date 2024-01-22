@@ -10,7 +10,7 @@ async function Footer({ slug }: { slug: string }) {
   return (
     <div className="fixed bottom-0 left-[50%] translate-x-[-50%] p-5">
       <div className="flex gap-1 items-center px-2 bg-neutral-950 rounded-full">
-        <h4 className="capitalize text-sm pl-2 border-r pr-4 border-neutral-600">
+        <h4 className="capitalize text-sm text-white pl-2 border-r pr-4 border-neutral-600">
           {finded.headquarder}
         </h4>
         {floorsGroup.map((floor) => {

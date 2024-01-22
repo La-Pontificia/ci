@@ -9,7 +9,7 @@ import Users from './users'
 import { useForm } from 'react-hook-form'
 import User from './user'
 import { type User as UserType } from 'types'
-import { calculateTimeMargin } from 'utils'
+import { calculateTimeMargin, parseTimeStringToDate } from 'utils'
 import axios from 'axios'
 import { usePending } from 'hooks/usePending'
 
@@ -19,6 +19,11 @@ type Props = {
   index: number
 }
 
+export type TypeForm = {
+  from: string
+  to: string
+}
+
 function Chair({ index, table, currentUser }: Props) {
   const { onOpenModal, open, onCloseModal } = useModal()
   const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
@@ -26,10 +31,10 @@ function Chair({ index, table, currentUser }: Props) {
   const tables = useTables((store) => store.tables)
   const setTables = useTables((store) => store.setTables)
 
-  const { control, watch } = useForm<TableCurrentUser>({
+  const { control, watch } = useForm<TypeForm>({
     defaultValues: {
-      from: currentUser?.from ?? '',
-      to: currentUser?.to ?? ''
+      from: '',
+      to: ''
     }
   })
 
@@ -40,20 +45,19 @@ function Chair({ index, table, currentUser }: Props) {
 
   const constructTimes = () => {
     const date = new Date()
-    const hour = date.getHours().toString().padStart(2, '0')
-    const min = date.getMinutes().toString().padStart(2, '0')
-    const newFrom = `${hour}:${min}`
-    const { displayTime, time } = calculateTimeMargin(newFrom, watch().to)
+    const newDateTo = parseTimeStringToDate(watch().to, date)
+    const { displayTime, time } = calculateTimeMargin(date, newDateTo)
     return {
       displayTime,
       time,
-      newFrom
+      date,
+      newDateTo
     }
   }
 
   const onSubmit = (u: UserType | null) => {
     if (!u) return setSelectedUser(null)
-    const { displayTime, time, newFrom } = constructTimes()
+    const { displayTime, time, date, newDateTo } = constructTimes()
     const newCurrentUser: TableCurrentUser = {
       user: {
         _id: u._id,
@@ -63,9 +67,8 @@ function Chair({ index, table, currentUser }: Props) {
         tenant: u.tenant,
         type_user: u.type_user
       },
-      date: new Date(),
-      to: watch().to,
-      from: newFrom,
+      to: newDateTo,
+      from: date,
       chair: index,
       display_time: displayTime,
       time
@@ -105,56 +108,72 @@ function Chair({ index, table, currentUser }: Props) {
     }
   }
 
-  // const removeCurrentUser = () => {
-  //   if (currentUser) {
-  //     // void removeUserByTable(table, currentUser.chair)
-  //     onCloseModal()
-  //   } else {
-  //     setSelectedUser(null)
-  //     onCloseModal()
-  //   }
-  // }
+  const onRemove = () => {
+    if (currentUser) {
+      const newCurrentUsers = table.current_users.filter(
+        (u) => u.user._id !== currentUser.user._id
+      )
+      void onUpdateTable(newCurrentUsers)
+      onCloseModal()
+    } else {
+      setSelectedUser(null)
+      onCloseModal()
+    }
+  }
 
   return (
     <>
-      <Button
-        onClick={onOpenModal}
-        data-occupied={!!currentUser}
-        className={
-          'h-[200px] z-[1] w-full data-[occupied=true]:bg-green-400/10 grid place-content-center relative bg-neutral-800/80 hover:border-neutral-300 border border-transparent rounded-2xl'
-        }
-        variant="none"
-      >
-        <div className="absolute text-sm tracking-tight top-3 left-3 text-neutral-400 font-medium">
-          {index}
-        </div>
-        {currentUser ? (
-          <>
-            <span className="absolute top-4 right-4 w-[10px] animate-ping h-[10px] bg-green-600 rounded-full"></span>
-            <span className="absolute top-4 right-4 w-[10px] h-[10px] bg-green-600 rounded-full"></span>
-            <div>
-              <div
-                className={
-                  'w-[100px] h-[100px] border border-neutral-800 mx-auto relative z-10 overflow-hidden rounded-full'
-                }
-              >
-                <img
-                  width={100}
-                  height={100}
-                  className="w-full h-full object-cover"
-                  src={currentUser?.user.image}
-                  alt={currentUser?.user.names}
-                />
-              </div>
-            </div>
-            <RemainingTime currentUser={currentUser} />
-          </>
-        ) : (
-          <div className="rotate-45 text-neutral-500">
-            <XmarkIcon className="w-8" />
-          </div>
+      <div className="relative z-[1]">
+        {currentUser && (
+          <Button
+            onClick={onRemove}
+            className="absolute top-2 left-[50%] translate-x-[-50%] z-[2]"
+          >
+            Eliminar
+          </Button>
         )}
-      </Button>
+        <Button
+          onClick={onOpenModal}
+          data-occupied={!!currentUser}
+          className={
+            'h-[200px] z-[1] w-full data-[occupied=true]:bg-green-400/40 grid place-content-center relative bg-neutral-200/80 hover:border-neutral-800 border border-transparent rounded-2xl'
+          }
+          variant="none"
+        >
+          <div className="absolute text-sm tracking-tight top-3 left-3 text-neutral-800 font-medium">
+            {index}
+          </div>
+          {currentUser ? (
+            <>
+              <span className="absolute top-4 right-4 w-[10px] animate-ping h-[10px] bg-green-600 rounded-full"></span>
+              <span className="absolute top-4 right-4 w-[10px] h-[10px] bg-green-600 rounded-full"></span>
+              <div>
+                <div
+                  className={
+                    'w-[70px] h-[70px] border border-neutral-400 mx-auto relative z-10 overflow-hidden rounded-full'
+                  }
+                >
+                  <img
+                    width={70}
+                    height={70}
+                    className="w-full h-full object-cover"
+                    src={currentUser?.user.image}
+                    alt={currentUser?.user.names}
+                  />
+                </div>
+                <span className="text-sm pt-2 block">
+                  {currentUser.user.names}
+                </span>
+              </div>
+              <RemainingTime currentUser={currentUser} />
+            </>
+          ) : (
+            <div className="rotate-45 text-neutral-800">
+              <XmarkIcon className="w-8" />
+            </div>
+          )}
+        </Button>
+      </div>
       {open && <Users onAdd={onAdd} />}
       {selectedUser && (
         <User

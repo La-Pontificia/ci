@@ -14,7 +14,7 @@ function RemainingTime({ currentUser }: Props) {
   return (
     <>
       <div className="absolute mx-auto left-[50%] translate-x-[-50%] bottom-1">
-        <p className="text-center text-xs text-neutral-400 font-medium pt-2">
+        <p className="text-center text-xs text-green-600 font-medium pt-2">
           {remainingTime}
         </p>
       </div>
