@@ -16,7 +16,7 @@ async function Floors() {
           <Floor key={flour._id.toString()} flour={flour} />
         ))}
       </div>
-      <h2 className="py-3 pl-2">Lazminez</h2>
+      <h2 className="py-3 pl-2">Jazminez</h2>
       <div className="flex flex-wrap gap-2">
         {groupedFloor.jazmines.map((flour) => (
           <Floor key={flour._id.toString()} flour={flour} />
