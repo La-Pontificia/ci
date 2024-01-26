@@ -57,3 +57,11 @@ h1 {
     linear-gradient(90deg, rgba(119, 119, 119, 0.1) 1px, transparent 1px);
   background-size: 0.9em 0.9em;
 }
+
+.bg-hero {
+  background-image: url('/bg.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}

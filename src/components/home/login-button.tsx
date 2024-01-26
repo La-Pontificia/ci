@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import { type AuthErrorNextAuth } from 'types'
 import { handleErrorNextAuth } from 'utils'
-import { FacebookIcon, MicrosoftIcon } from 'icons'
+import { MicrosoftIcon } from 'icons'
 import { usePending } from 'hooks/usePending'
 
 function LoginButton() {
@@ -21,15 +21,6 @@ function LoginButton() {
     }
   }
 
-  const signInFacebook = async () => {
-    start()
-    try {
-      await signIn('facebook')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const error = searchParams.get('error') as AuthErrorNextAuth
   const errorMessage = handleErrorNextAuth(error)
 
@@ -40,7 +31,7 @@ function LoginButton() {
           disabled={isPending}
           onClick={signInFetch}
           aria-hidden={isPending}
-          className="border-neutral-400 max-700:w-full w-[300px] aria-hidden:animate-pulse aria-hidden:opacity-50 text-neutral-300 transition-all border divide-x divide-neutral-400 relative overflow-hidden rounded-full justify-center flex items-center p-3 py-2 gap-4 font-medium px-3"
+          className="border-neutral-400 max-700:w-full w-[400px] aria-hidden:animate-pulse aria-hidden:opacity-50 text-neutral-300 transition-all border divide-x divide-neutral-400 relative overflow-hidden rounded-full justify-center flex items-center p-3 py-2 gap-4 font-medium px-3"
         >
           <div className="flex items-center">
             <MicrosoftIcon className="w-10" />
@@ -48,20 +39,6 @@ function LoginButton() {
           <div className="text-left pl-4">
             <span className="text-sm opacity-70">Inicia sesión con tu </span>
             <h2>Cuenta institucional</h2>
-          </div>
-        </button>
-        <button
-          disabled={isPending}
-          onClick={signInFacebook}
-          aria-hidden={isPending}
-          className="border-neutral-400 max-700:w-full w-[250px] aria-hidden:animate-pulse aria-hidden:opacity-50 text-neutral-300 transition-all border divide-x divide-neutral-400 relative overflow-hidden rounded-full justify-center flex items-center p-3 py-2 gap-4 font-medium px-3"
-        >
-          <div className="flex items-center">
-            <FacebookIcon className="w-10 text-blue-500" />
-          </div>
-          <div className="text-left pl-4">
-            <span className="text-sm opacity-70">Iniciar sesión con</span>
-            <h2>Facebook</h2>
           </div>
         </button>
       </div>

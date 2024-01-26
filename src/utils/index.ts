@@ -311,3 +311,17 @@ export const addMinutes = (
     .padStart(2, '0')}`
   return formattedTime
 }
+
+// Función de utilidad para verificar si las fechas están en el rango actual
+export function isDateInRangeVerify(from: Date, to: Date): boolean {
+  const currentDate = new Date()
+  const v =
+    currentDate.getTime() >= from.getTime() &&
+    currentDate.getTime() <= to.getTime()
+  return v
+}
+
+export function isExpiredVerify(to: Date): boolean {
+  const currentDate = new Date()
+  return currentDate.getTime() > to.getTime()
+}

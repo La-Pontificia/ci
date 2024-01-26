@@ -1,8 +1,10 @@
 'use client'
 
 import { Button } from 'commons/button'
+import { Dialog } from 'commons/dialog'
 import { LineLoading } from 'commons/loading/line'
 import { ToastContainer } from 'commons/utils'
+import { useModal } from 'hooks/useModal'
 import { usePending } from 'hooks/usePending'
 import { CameraIcon } from 'icons'
 import { uploadImage } from 'libs/client/cloudinary'
@@ -21,6 +23,7 @@ function PhotoProfile() {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const { end, isPending, start } = usePending()
+  const { onOpenModal, open, setOpen } = useModal()
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const image = e?.target?.files?.[0]
     if (image && validImage(image)) {
@@ -51,6 +54,18 @@ function PhotoProfile() {
 
   return (
     <>
+      <div className="absolute z-10 pointer-events-none blur-xl max-700:block hidden opacity-80 top-0 w-full h-[400px] cursor-pointer border-[--background] overflow-hidden">
+        <div className="w-full h-full relative">
+          <Image
+            className="w-full h-full object-cover"
+            width={50}
+            height={50}
+            src={image}
+            alt=""
+          />
+          <span className="bg-gradient-to-b to-white from-transparent absolute inset-0"></span>
+        </div>
+      </div>
       <div className="relative z-20">
         {isPending && (
           <span className="absolute rounded-full bg-neutral-200/80 inset-0 grid place-content-center">
@@ -67,15 +82,34 @@ function PhotoProfile() {
             type="file"
           />
         </span>
-        <div className="w-[230px] max-700:w-[100px] border-[--background] max-700:h-[100px]  h-[230px] overflow-hidden rounded-full">
-          <Image
-            className="w-full h-full object-cover"
-            width={230}
-            height={230}
-            src={image}
-            alt=""
-          />
-        </div>
+        <Dialog
+          open={open}
+          onOpenChange={setOpen}
+          trigger={
+            <div
+              onClick={onOpenModal}
+              className="w-[230px] cursor-pointer border-[--background] h-[230px] overflow-hidden rounded-full"
+            >
+              <Image
+                className="w-full h-full object-cover"
+                width={230}
+                height={230}
+                src={image}
+                alt=""
+              />
+            </div>
+          }
+        >
+          <div className="w-[300px] border-[--background] h-[300px] overflow-hidden rounded-full">
+            <Image
+              className="w-full h-full object-cover"
+              width={300}
+              height={300}
+              src={image}
+              alt=""
+            />
+          </div>
+        </Dialog>
         <div className="absolute bottom-0 w-full justify-center">
           <Button
             disabled={isPending}

@@ -58,7 +58,7 @@ function ModalMenu() {
           <ul
             data-aos="fade-up"
             data-aos-delay="500"
-            className="font-serif flex flex-col gap-5 font-medium text-neutral-300 text-6xl"
+            className="font-serif flex-wrap flex flex-col gap-5 font-medium text-neutral-300 text-6xl"
           >
             <li>
               <Link href="/" className="hover:underline hover:text-white">
@@ -84,7 +84,7 @@ function ModalMenu() {
           <span className="w-7 block -rotate-90">
             <ArrowDownIcon />
           </span>
-          <ul className="font-bold text-neutral-300 flex gap-6 items-center">
+          <ul className="font-bold text-neutral-300 flex-wrap flex gap-6 items-center">
             <li>
               <a
                 className="hover:opacity-70 transition-colors"

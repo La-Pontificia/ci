@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-import { type Table } from 'types/table'
-import { getRandomTable } from '.'
+import { type TableCurrentUser, type Table } from 'types/table'
+import { getRandomTable, getTable, updateTable } from '.'
 import { connectToMongoDB, getCollection } from 'libs/mongodb'
 import { type Booking, type User } from 'types'
 import { ObjectId, type WithId } from 'mongodb'
+import { calculateTimeMargin } from 'utils'
 
 type FormData = {
   headquarder: string
@@ -111,6 +112,40 @@ export async function updateBooking(partials: any, _id?: ObjectId) {
     if (docSnapshot) {
       await collection.updateOne(query, { $set: partials })
     }
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export async function completBooking(_id: string, chair: number) {
+  try {
+    await connectToMongoDB()
+    const booking = await getBooking(new ObjectId(_id))
+    const table = await getTable(booking.table._id.toString())
+    if (!table) throw new Error('No se encontro la mesa')
+    if (!booking) throw new Error('No se encontro la reserva')
+
+    const { displayTime, time } = calculateTimeMargin(booking.date, booking.to)
+    const newCurrentUser: TableCurrentUser = {
+      user: {
+        _id: booking.user._id,
+        email: booking.user.email,
+        image: booking.user.image,
+        names: booking.user.names,
+        tenant: booking.user.tenant,
+        type_user: 'student'
+      },
+      to: booking.to,
+      from: booking.from,
+      chair,
+      display_time: displayTime,
+      time
+    }
+    const newList = table.current_users.filter((e) => e.chair !== chair)
+    const current_users: Table['current_users'] = [...newList, newCurrentUser]
+    await updateTable({ current_users }, table._id)
+    await updateBooking({ status: 'completed' }, new ObjectId(_id))
   } catch (error) {
     console.log(error)
     throw error

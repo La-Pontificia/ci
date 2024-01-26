@@ -11,6 +11,6 @@ export interface Booking {
   to: Date
   time: Time
   date: Date
-  status: 'active' | 'cancelled' | 'completed'
+  status: 'active' | 'cancelled' | 'completed' | 'expired'
   created_at: Date
 }

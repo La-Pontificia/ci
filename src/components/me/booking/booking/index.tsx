@@ -1,13 +1,14 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { type Booking as BookingType } from 'types'
 
 import { convertFormatHour, formatSpanishDate } from 'herpers'
 import Qr from './qr'
 import { CalendarIcon, ClockIcon, DisplayIcon, TableIcon } from 'icons'
 import DropDownBooking from './dropdown'
-import { cn } from 'utils'
+import { cn, isExpiredVerify } from 'utils'
+import axios from 'axios'
 
 type Props = {
   booking: BookingType
@@ -22,6 +23,22 @@ function Booking({ booking }: Props) {
       : 'Completado'
 
   const displayType = booking.table.type === 'pc' ? 'Pc' : 'Mesa'
+
+  const isExpired = isExpiredVerify(booking.to)
+
+  const onExpired = async () => {
+    try {
+      await axios.patch(`/api/booking/${booking._id.toString()}`, {
+        status: 'expired'
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    if (isExpired) void onExpired()
+  }, [])
+
   return (
     <div
       key={booking._id.toString()}
@@ -29,7 +46,7 @@ function Booking({ booking }: Props) {
     >
       <Qr booking={booking} />
       <div className="pl-1 flex flex-col gap-1">
-        <div className="flex gap-2 divide-x text-lg font-semibold divide-neutral-700">
+        <div className="flex gap-2 divide-x text-lg max-700:text-sm font-semibold divide-neutral-700">
           <span className="capitalize">{booking.table.floor.headquarder}</span>
           <span className="pl-2">{booking.table.floor.name}</span>
           <span className="pl-2">{booking.table.name}</span>
@@ -44,7 +61,7 @@ function Booking({ booking }: Props) {
             {displayType}
           </div>
         </div>
-        <div className="flex space-x-2 text-sm flex-wrap text-neutral-400">
+        <div className="flex space-x-2 max-700:space-x-0 max-700:flex-col text-sm flex-wrap text-neutral-400">
           <span className="flex items-center gap-2">
             <CalendarIcon className="w-4" /> {formatSpanishDate(booking.date)}
           </span>
@@ -60,11 +77,12 @@ function Booking({ booking }: Props) {
           className={cn(
             'text-green-500 text-sm flex items-center gap-1',
             booking.status === 'cancelled' && 'text-red-500',
-            booking.status === 'completed' && 'text-blue-500'
+            booking.status === 'completed' && 'text-blue-500',
+            isExpired && 'text-yellow-500'
           )}
         >
           <span className="w-[8px] h-[8px] rounded-full bg-current" />
-          <span className="pl-1">{displayStatus}</span>
+          <span className="pl-1">{isExpired ? 'Expirado' : displayStatus}</span>
         </div>
       </div>
       <DropDownBooking booking={booking} />

@@ -4,28 +4,23 @@ import React from 'react'
 function Footer() {
   return (
     <footer className="bg-neutral-900 h-[200px]">
-      <section className="max-w-7xl mx-auto p-8 h-full w-full">
-        <div className="flex  items-end h-full">
+      <section className="max-w-7xl mx-auto  p-8 h-full w-full">
+        <div className="flex max-700:flex-col max-700:justify-center max-700:items-center items-end h-full">
           <div className="text-neutral-400 text-sm flex flex-col">
-            <span>© 2023 The president and members of La pontificia</span>
-            <span className="opacity-60">
-              Developed by{' '}
+            <span>© 2024 Escuela Superior La Pontificia</span>
+            <span className="">
+              Desarrollado por{' '}
               <a
                 href="https://daustinn.com/"
                 target="_blank"
                 rel="noreferrer"
-                className="hover:underline text-stone-200"
+                className="hover:underline text-blue-500"
               >
                 Daustinn
               </a>
             </span>
           </div>
-          <div className="mx-auto md:mx-1">
-            {/* <span className="w-[140px] block">
-            <img src="elp.png" alt="" />
-          </span> */}
-          </div>
-          <div className="md:w-full">
+          <div className="md:w-full ml-auto max-700:ml-0 max-700:pt-10">
             <ul className="flex gap-5 text-neutral-400">
               <li>
                 <a

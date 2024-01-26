@@ -16,7 +16,7 @@ function DropDownBooking({ booking }: { booking: Booking }) {
   const router = useRouter()
   if (!user) return null
 
-  const url = `https://ci.ilp.edu.pe/booking/${booking._id.toString()}`
+  const url = `http://localhost:3000/booking/${booking._id.toString()}`
 
   const onCancel = async () => {
     try {

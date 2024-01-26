@@ -27,7 +27,7 @@ function Qr({ booking }: Props) {
   }
 
   return (
-    <div className="w-[300px] h-[300px] grid place-content-center bg-neutral-800 relative border-neutral-700 border rounded-3xl">
+    <div className="w-[300px] h-[300px] grid place-content-center bg-neutral-100 relative border-neutral-700 border rounded-3xl">
       <Qr />
     </div>
   )

@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
   return (
     <div className="w-full mt-auto">
-      <footer className="p-3 border-t border-neutral-700 bg-neutral-800">
+      <footer className="p-3 border-t border-neutral-400 bg-white">
         <div className="flex mx-auto max-w-xl w-full text-neutral-400 text-sm">
           <p>
             <a href="https://elp.edu.pe" target="_blank" rel="noreferrer">
@@ -11,16 +11,16 @@ function Footer() {
             </a>
           </p>
           <p className="ml-auto flex gap-2">
-            Developed in{' '}
+            Desarrollado en{' '}
             <a
               href="https://Nextjs.org"
               target="_blank"
-              className="hover:underline font-semibold text-neutral-200"
+              className="hover:underline font-semibold text-neutral-950"
               rel="noreferrer"
             >
               Nextjs
             </a>{' '}
-            by{' '}
+            {/* by{' '}
             <a
               href="https://daustinn.com"
               target="_blank"
@@ -35,7 +35,7 @@ function Footer() {
                 />
               </span>
               Daustinn
-            </a>
+            </a> */}
           </p>
         </div>
       </footer>

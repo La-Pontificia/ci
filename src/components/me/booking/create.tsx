@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { type Floor } from 'types'
 import { type Table } from 'types/table'
+import confetti from 'canvas-confetti'
 import {
   calculateDuration,
   converterForma12Hour,
@@ -34,6 +35,22 @@ type FormData = {
   time: string | null
 }
 
+const tomorrow = new Date()
+tomorrow.setDate(tomorrow.getDate() + 1)
+
+const count = 200
+const defaults = {
+  origin: { y: 0.7 }
+}
+
+function fire(particleRatio: number, opts: any) {
+  confetti({
+    ...defaults,
+    ...opts,
+    particleCount: Math.floor(count * particleRatio)
+  })
+}
+
 function Create() {
   const router = useRouter()
   const { end, isPending, start } = usePending()
@@ -46,7 +63,7 @@ function Create() {
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
-      date: null,
+      date: tomorrow.toISOString().split('T')[0],
       headquarder: 'alameda',
       from: undefined,
       to: undefined,
@@ -69,6 +86,29 @@ function Create() {
         to: newDateTo,
         date
       })
+
+      fire(0.25, {
+        spread: 26,
+        startVelocity: 55
+      })
+      fire(0.2, {
+        spread: 60
+      })
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.8
+      })
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        scalar: 1.2
+      })
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 45
+      })
       onCloseModal()
       router.refresh()
     } catch (error) {
@@ -89,8 +129,8 @@ function Create() {
 
   useEffect(() => {
     if (from === '07:00') return
-    setToHour(generateFullDayHourList(from))
-    setValue('to', from)
+    setToHour(generateFullDayHourList(from).slice(0, 8))
+    setValue('to', generateFullDayHourList(from).slice(0, 8)[0])
   }, [from])
 
   useEffect(() => {
@@ -99,13 +139,16 @@ function Create() {
     setValue('time', calculateDuration(from, to))
   }, [from, to])
 
+  useEffect(() => {
+    setValue('from', fromHour[0])
+  }, [])
+
   const disable_button = time === '00:00' || Object.entries(errors).length > 0
 
   const { max, min } = generateDateRange()
 
   return (
     <Modal
-      backdropBlur
       title="Crear una reserva"
       onOpenChange={setOpen}
       hiddenFooter
@@ -124,6 +167,10 @@ function Create() {
       }
     >
       <div className="flex h-full p-4 flex-col gap-5">
+        <p className="text-yellow-500 text-center p-2">
+          Las resevaciones solo se hacen con 1 dia de anticipación y como máximo
+          por 2 horas.
+        </p>
         <label>
           <Select
             placeholder="Sede"
@@ -181,7 +228,6 @@ function Create() {
               }}
               className="h-14"
             >
-              <option value=""></option>
               {fromHour.map((item) => {
                 return (
                   <option key={`${item}-from`} value={item}>
@@ -204,8 +250,6 @@ function Create() {
               }}
               className="h-14"
             >
-              <option value=""></option>
-
               {toHour.map((item) => {
                 return (
                   <option key={`${item}-to`} value={item}>
@@ -220,35 +264,27 @@ function Create() {
           <span className="block text-sm">Tiempo:</span>
           <p className="tracking-tight">{time}:00</p>
         </div>
-        {/* {to && (
-          <div className="flex justify-center max-700:hidden">
-            <div className="bg-neutral-800 pb-2 hover:scale-105 relative border-neutral-700 border rounded-3xl">
-              <QRNormal
-                className="scale-110"
-                value={to}
-                size={90}
-                posType="round"
-                type="round"
-                opacity={90}
-                otherColor="currentColor"
-                posColor="currentColor"
-              />
-              <span className="absolute bottom-1 opacity-50 text-center text-xs inset-x-0">
-                By daustinn
-              </span>
-            </div>
-          </div>
-        )} */}
-        <Button
-          loading={isPending}
-          disabled={disable_button}
-          onClick={handleSubmit(onSearch)}
-          variant="primary"
-          isFilled
-          className="h-12 mt-auto rounded-xl w-full"
-        >
-          Buscar
-        </Button>
+        <div className="space-y-2">
+          <Button
+            loading={isPending}
+            disabled={disable_button}
+            onClick={handleSubmit(onSearch)}
+            variant="primary"
+            isFilled
+            className="h-12 mt-auto rounded-xl w-full"
+          >
+            Buscar
+          </Button>
+          <Button
+            loading={isPending}
+            onClick={onCloseModal}
+            variant="grey"
+            isFilled
+            className="h-12 mt-auto rounded-xl w-full"
+          >
+            Cancelar
+          </Button>
+        </div>
       </div>
     </Modal>
   )

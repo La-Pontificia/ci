@@ -15,7 +15,7 @@ type Props = {
 }
 
 function User({ control, user, onSubmit, isPending }: Props) {
-  const [toHour] = useState<string[]>(generateHourList())
+  const [toHour] = useState<string[]>(generateHourList().slice(0, 9))
 
   return (
     <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-white p-3">
