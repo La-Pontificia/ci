@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: 'Bilblioteca virtual - La Pontificia',
     description: 'Bilblioteca virtual - Escuela Superior La Pontificia',
     siteName: 'Bilblioteca virtual - La Pontificia',
-    url: 'https:/ci.ilp.edu.pe',
+    url: 'https://ci.ilp.edu.pe',
     images: '/only-logo.png'
   },
   icons: {
