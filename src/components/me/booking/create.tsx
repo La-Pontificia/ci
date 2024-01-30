@@ -275,7 +275,7 @@ function Create() {
             isFilled
             className="h-12 mt-auto rounded-xl w-full"
           >
-            Buscar
+            Reservar
           </Button>
           <Button
             loading={isPending}
