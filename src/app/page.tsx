@@ -14,11 +14,11 @@ export default function Home() {
           <div className="text-center p-5 max-500:p-2 justify-center">
             <div className="relative">
               <h1
-                title="Biblioteca Virtual La Pontificia"
+                title="Centro de Información La Pontificia"
                 data-aos="fade-down"
                 className="text-center font-serif font-medium relative text-3xl text-stone-200 max-500:text-[20px] leading-[1] tracking-tight"
               >
-                Biblioteca Virtual
+                Centro de Información
               </h1>
               <h1
                 title="Libros abiertos, mentes abiertas."
