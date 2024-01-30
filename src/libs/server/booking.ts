@@ -203,7 +203,8 @@ export async function getAllBookingsByFloor(
           { 'user.tenant': regexQuery },
           { 'table.name': regexQuery }
         ],
-        'table.floor._id': floorId
+        'table.floor._id': floorId,
+        status: 'active'
       })
       .sort({ from: 1 })
       .sort({ created_at: -1 })
