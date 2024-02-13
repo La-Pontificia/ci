@@ -5,7 +5,7 @@ import { type User, type AuthErrorNextAuth, type Floor } from 'types'
 import axios from 'axios'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { toDate } from 'date-fns'
+import { toDate, addMinutes } from 'date-fns'
 
 const today = toDate(new Date())
 
@@ -202,21 +202,13 @@ export const generateHourList = () => {
   const now = new Date()
   const currentHour = now.getHours()
   const currentMinutes = now.getMinutes()
-
   let startHour
-
   if (currentMinutes > 45) {
-    // Si los minutos actuales son mayores que 45, avanzar a la próxima hora
     startHour = currentHour + 1
   } else {
-    // En caso contrario, usar la hora actual
     startHour = currentHour
   }
-
-  // Ajustar la hora de inicio a las 7:00 am si es menor
   startHour = Math.max(startHour, 7)
-
-  // Generar la lista de horas cada 15 minutos
   const hourList = []
   for (let hour = startHour; hour <= 22; hour++) {
     for (let minutes = 0; minutes < 60; minutes += 15) {
@@ -226,7 +218,6 @@ export const generateHourList = () => {
       hourList.push(formattedHour)
     }
   }
-
   return hourList
 }
 
@@ -234,15 +225,19 @@ export const generateFullDayHourList = (start?: string | null) => {
   let startHour = 8
   let startMinutes = 0
   if (start) {
-    const parsedStart = new Date(`2000-01-01T${start}`)
+    const [hourStr, minuteStr] = start.split(':')
+    const parsedStart = addMinutes(
+      new Date(2000, 0, 1, parseInt(hourStr), parseInt(minuteStr)),
+      0
+    )
     startHour = parsedStart.getHours()
     startMinutes = parsedStart.getMinutes()
   }
 
   if (startHour < 8 || startHour >= 20) return []
-
   if (!start && startMinutes === 0) startHour = 8
   startHour = Math.max(Math.min(startHour, 20), 8)
+
   const endHour = 20
   const hourList = []
   for (let hour = startHour; hour <= endHour; hour++) {
@@ -294,20 +289,6 @@ export const calculateTimeMargin = (startTime: Date, endTime: Date) => {
     .padStart(2, '0')}`
 
   return { displayTime, time }
-}
-
-export const addMinutes = (
-  originalTime: string,
-  minutesToAdd: number
-): string => {
-  const [hours, minutes] = originalTime.split(':').map(Number)
-  const totalMinutes = hours * 60 + minutes + minutesToAdd
-  const newHours = Math.floor(totalMinutes / 60)
-  const newMinutes = totalMinutes % 60
-  const formattedTime = `${newHours.toString().padStart(2, '0')}:${newMinutes
-    .toString()
-    .padStart(2, '0')}`
-  return formattedTime
 }
 
 // Función de utilidad para verificar si las fechas están en el rango actual
