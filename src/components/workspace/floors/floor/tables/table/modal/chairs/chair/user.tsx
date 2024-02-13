@@ -4,8 +4,9 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { type Control } from 'react-hook-form'
 import { type User as UserType } from 'types'
-import { converterForma12Hour, generateHourList } from 'utils'
+import { converterForma12Hour, generateFullDayHourList } from 'utils'
 import { type TypeForm } from '.'
+import { toDate } from 'date-fns'
 
 type Props = {
   control: Control<TypeForm>
@@ -15,12 +16,19 @@ type Props = {
 }
 
 function User({ control, user, onSubmit, isPending }: Props) {
-  const [toHour] = useState<string[]>(generateHourList().slice(0, 9))
+  const now = toDate(new Date())
+
+  const currentHour = now.getHours()
+  const currentMinute = now.getMinutes()
+
+  const [toHour] = useState<string[]>(
+    generateFullDayHourList(`${currentHour}:${currentMinute}`).slice(0, 9)
+  )
 
   return (
     <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-white p-3">
       <h2 className="text-center pb-4 pt-1 font-bold text-xl text-neutral-900">
-        Configura el usuario
+        Configura el tiempo de uso
       </h2>
       <div className="grid py-5">
         <span className="w-[200px] mx-auto block h-[200px] rounded-full overflow-hidden">
@@ -32,8 +40,8 @@ function User({ control, user, onSubmit, isPending }: Props) {
             alt={user.names}
           />
         </span>
-        <span className="text-lg font-bold mx-auto pt-2">{user.names}</span>
-        <span className="text-center font-semibold text-neutral-500 text-sm">
+        <span className="text-lg font-medium mx-auto pt-2">{user.names}</span>
+        <span className="text-center pt-3 block text-neutral-500 text-sm">
           {user.email} -{' '}
           <span className="text-blue-500 font-semibold">{user.tenant}</span>
         </span>
@@ -58,7 +66,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
       <div className="mt-auto flex gap-3 pt-2">
         <Button
           onClick={() => onSubmit(null)}
-          className="w-[100px] p-3 bg-neutral-200 text-base rounded-xl text-center"
+          className="w-[100px] p-3 bg-neutral-200 text-sm rounded-xl text-center"
           variant="none"
           isFilled
         >
@@ -67,7 +75,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
         <Button
           loading={isPending}
           onClick={() => onSubmit(user)}
-          className="w-full p-3 text-base rounded-xl text-center"
+          className="w-full bg-black p-3 text-sm rounded-xl text-center"
           variant="primary"
           isFilled
         >

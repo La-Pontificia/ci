@@ -5,20 +5,21 @@ import { type User, type AuthErrorNextAuth, type Floor } from 'types'
 import axios from 'axios'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { toDate } from 'date-fns'
+
+const today = toDate(new Date())
 
 export const generateDateRange = (): { min: string; max: string } => {
-  const today = new Date()
-  const minDate = new Date(today)
-  const maxDate = new Date(today)
-  minDate.setDate(today.getDate() + 1)
-  maxDate.setDate(today.getDate() + 4)
+  const minDate = new Date()
+  const maxDate = new Date()
+  minDate.setDate(today.getDate() - 1)
+  maxDate.setDate(today.getDate() + 1)
   const formattedMin = minDate.toISOString().split('T')[0]
   const formattedMax = maxDate.toISOString().split('T')[0]
   return { min: formattedMin, max: formattedMax }
 }
 
 export const isDateInRange = (dateToCheck: Date): boolean => {
-  const today = new Date()
   const minDate = new Date(today)
   const maxDate = new Date(today)
   minDate.setDate(today.getDate() + 1)
@@ -230,38 +231,35 @@ export const generateHourList = () => {
 }
 
 export const generateFullDayHourList = (start?: string | null) => {
-  let startHour = 7
+  let startHour = 8
   let startMinutes = 0
-
   if (start) {
     const parsedStart = new Date(`2000-01-01T${start}`)
     startHour = parsedStart.getHours()
     startMinutes = parsedStart.getMinutes()
   }
 
-  startHour = Math.max(Math.min(startHour, 22), 7)
+  if (startHour < 8 || startHour >= 20) return []
 
+  if (!start && startMinutes === 0) startHour = 8
+  startHour = Math.max(Math.min(startHour, 20), 8)
+  const endHour = 20
   const hourList = []
-
-  for (let hour = startHour; hour <= 22; hour++) {
+  for (let hour = startHour; hour <= endHour; hour++) {
     let initialMinutes = 0
-
     if (hour === startHour) {
-      // Si estamos en la misma hora que la proporcionada, ajustamos los minutos iniciales
-      initialMinutes = Math.ceil(startMinutes / 15) * 15
+      initialMinutes = startMinutes
     }
-
-    for (let minutes = initialMinutes; minutes < 60; minutes += 15) {
+    for (let minutes = initialMinutes; minutes < 60; minutes += 30) {
       const formattedHour = `${hour.toString().padStart(2, '0')}:${minutes
         .toString()
         .padStart(2, '0')}`
-      if (!(hour === startHour && minutes === initialMinutes)) {
-        // Agregamos a la lista solo si no es la hora exacta proporcionada
-        hourList.push(formattedHour)
-      }
+      hourList.push(formattedHour)
     }
   }
-
+  if (hourList.length > 0 && hourList[hourList.length - 1] === '20:30') {
+    hourList.pop()
+  }
   return hourList
 }
 

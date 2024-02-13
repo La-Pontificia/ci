@@ -15,7 +15,7 @@ function ModalMenu() {
           setOpen(true)
           disableScrollbar()
         }}
-        className="flex gap-2 text-xl hover:bg-white/10 px-5 w-[140px] items-center text-white"
+        className="flex gap-2 font-sans text-xl hover:bg-white/10 px-5 w-[140px] items-center text-white"
       >
         <MenuIcon className="w-[25px] block" />
         <span>Menu</span>
@@ -54,7 +54,7 @@ function ModalMenu() {
             </span>
           </button>
         </header>
-        <nav className="p-5 px-10">
+        <nav className="p-5 px-10 ">
           <ul
             data-aos="fade-up"
             data-aos-delay="500"

@@ -14,7 +14,7 @@ export async function uploadImage(image: File) {
         .upload_stream(
           {
             folder: 'profiles',
-            format: 'jpg'
+            format: 'webp'
           },
           (err, result) => {
             if (err) {
@@ -25,6 +25,8 @@ export async function uploadImage(image: File) {
         )
         .end(buffer)
     })
+
+    console.log(response)
 
     if (response) {
       const { secure_url } = response as CloudinaryImageResponseApi

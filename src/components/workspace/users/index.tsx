@@ -7,7 +7,7 @@ async function Users({ searchParams }: Props) {
   const { q, status, tenant, type } = searchParams
   const users = await getUsers(
     q,
-    30,
+    q ? 20 : 4,
     tenant,
     type,
     status === 'active' ? true : status === 'inactive' ? false : undefined
@@ -16,12 +16,18 @@ async function Users({ searchParams }: Props) {
     <div className="max-w-3xl mx-auto py-5 w-full">
       <div className="flex flex-col">
         {users.length > 0 ? (
-          users.map((user) => (
-            <User
-              user={{ ...user, _id: user._id.toString() }}
-              key={user._id.toString()}
-            />
-          ))
+          <div>
+            {users.map((user) => (
+              <User
+                user={{ ...user, _id: user._id.toString() }}
+                key={user._id.toString()}
+              />
+            ))}
+            <p className="p-2 text-sm">
+              Por favor escribe en el formulario de busqueda si desea ver un
+              usuario en específico
+            </p>
+          </div>
         ) : (
           <div className="text-neutral-800 p-20 grid place-content-center">
             No hay nada que mostrar

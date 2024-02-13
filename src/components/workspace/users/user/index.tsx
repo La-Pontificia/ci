@@ -30,7 +30,7 @@ function User({ user: userInit }: { user: Type }) {
       <div className="border-b pb-4 border-neutral-300 w-full flex items-center">
         <div className="flex flex-col gap-1 text-zinc-800 text-sm tracking-tight font-medium">
           <span className="text-base font-semibold">{user.names}</span>
-          <span className="lowercase text-neutral-400 font-light">
+          <span className="lowercase text-neutral-600 font-light">
             {user.email}
           </span>
           <div className="flex gap-3 divide-x divide-neutral-700">

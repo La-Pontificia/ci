@@ -6,7 +6,6 @@ import { LineLoading } from 'commons/loading/line'
 import { ToastContainer } from 'commons/utils'
 import { useModal } from 'hooks/useModal'
 import { usePending } from 'hooks/usePending'
-import { CameraIcon } from 'icons'
 import { uploadImage } from 'libs/client/cloudinary'
 import { updateProfile } from 'libs/client/user'
 import Image from 'next/image'
@@ -54,18 +53,6 @@ function PhotoProfile() {
 
   return (
     <>
-      <div className="absolute z-10 pointer-events-none blur-xl max-700:block hidden opacity-80 top-0 w-full h-[400px] cursor-pointer border-[--background] overflow-hidden">
-        <div className="w-full h-full relative">
-          <Image
-            className="w-full h-full object-cover"
-            width={50}
-            height={50}
-            src={image}
-            alt=""
-          />
-          <span className="bg-gradient-to-b to-white from-transparent absolute inset-0"></span>
-        </div>
-      </div>
       <div className="relative z-20">
         {isPending && (
           <span className="absolute rounded-full bg-neutral-200/80 inset-0 grid place-content-center">
@@ -88,12 +75,12 @@ function PhotoProfile() {
           trigger={
             <div
               onClick={onOpenModal}
-              className="w-[230px] cursor-pointer border-[--background] h-[230px] overflow-hidden rounded-full"
+              className="w-[150px] max-700:w-[100px] max-700:h-[100px] border cursor-pointer  h-[150px] overflow-hidden rounded-full"
             >
               <Image
                 className="w-full h-full object-cover"
-                width={230}
-                height={230}
+                width={150}
+                height={150}
                 src={image}
                 alt=""
               />
@@ -110,15 +97,14 @@ function PhotoProfile() {
             />
           </div>
         </Dialog>
-        <div className="absolute bottom-0 w-full justify-center">
+        <div className="absolute bottom-0 w-full flex justify-center">
           <Button
             disabled={isPending}
             aria-disabled={isPending}
             onClick={() => !isPending && onClickFileContent()}
-            className="flex aria-disabled:cursor-not-allowed w-[100px] mx-auto items-center gap-2 shadow-lg"
+            className="flex rounded-xl aria-disabled:cursor-not-allowed border"
             variant="white"
             isFilled
-            icon={<CameraIcon className="w-5" />}
           >
             Editar
           </Button>

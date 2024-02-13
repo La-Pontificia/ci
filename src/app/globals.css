@@ -6,7 +6,7 @@
   /* --foreground: #171717;
   --background: #e4e4e4; */
   --foreground: #151515;
-  --background: #ffffff;
+  --background: #f3f3f3;
   --sidebar-width: 80px;
   color-scheme: light;
 }
@@ -31,18 +31,13 @@ p {
   text-wrap: pretty;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-}
-
-h1 {
-  font-family: 'Canela Deck Web';
-  font-size: 42px;
-  line-height: 1.15;
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: -0.1px;
 }
 
 .hidden-scroll::-webkit-scrollbar {
@@ -56,12 +51,4 @@ h1 {
     ),
     linear-gradient(90deg, rgba(119, 119, 119, 0.1) 1px, transparent 1px);
   background-size: 0.9em 0.9em;
-}
-
-.bg-hero {
-  background-image: url('/bg.webp');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
 }

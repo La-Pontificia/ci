@@ -2,13 +2,14 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import SonnerClient from 'commons/utils'
+import SessionProviderClient from 'contexts/session-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Bilblioteca virtual - La Pontificia',
+  title: 'Centro de información - Escuela Superior La Pontificia',
   description:
-    'Bilblioteca virtual | Escuela Superior La Pontifica (ELP) | Instituto La Pontifica (ILP)',
+    'Centro de información | Escuela Superior La Pontifica (ELP) | Instituto La Pontifica (ILP)',
   keywords: [
     'La pontificia',
     'Instituto La Pontificia',
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
     'Ayacucho',
     'ELP Ayacucho',
     'Escuela Peru',
-    'Biblioteca virtual La Pontificia'
+    'Centro de información La Pontificia'
   ],
   authors: {
     name: 'David Bendezú (Daustinn)',
@@ -25,9 +26,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    title: 'Bilblioteca virtual - La Pontificia',
-    description: 'Bilblioteca virtual - Escuela Superior La Pontificia',
-    siteName: 'Bilblioteca virtual - La Pontificia',
+    title: 'Centro de información - La Pontificia',
+    description: 'Centro de información - Escuela Superior La Pontificia',
+    siteName: 'Centro de información - La Pontificia',
     url: 'https://ci.ilp.edu.pe',
     images: '/only-logo.png'
   },
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     creator: '@ELP_Ayacucho',
-    images: '/only-logo.png',
+    images: ['/only-logo.png'],
     site: '@ELP_Ayacucho',
     title: 'Bilblioteca virtual - La Pontificia',
     description: 'Bilblioteca virtual - Escuela Superior La Pontificia'
@@ -51,10 +52,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={inter.className}>
-        <SonnerClient />
-        {children}
-      </body>
+      <SessionProviderClient>
+        <body className={inter.className}>
+          <SonnerClient />
+          {children}
+        </body>
+      </SessionProviderClient>
     </html>
   )
 }

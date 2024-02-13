@@ -3,10 +3,10 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer className="bg-neutral-900 h-[200px]">
-      <section className="max-w-7xl mx-auto  p-8 h-full w-full">
+    <footer className="bg-stone-900 flex-none relative z-[1]">
+      <section className="max-w-7xl mx-auto p-8 py-20 h-full w-full">
         <div className="flex max-700:flex-col max-700:justify-center max-700:items-center items-end h-full">
-          <div className="text-neutral-400 text-sm flex flex-col">
+          <div className="text-neutral-200 text-base flex flex-col">
             <span>© 2024 Escuela Superior La Pontificia</span>
             <span className="">
               Desarrollado por{' '}
@@ -21,7 +21,7 @@ function Footer() {
             </span>
           </div>
           <div className="md:w-full ml-auto max-700:ml-0 max-700:pt-10">
-            <ul className="flex gap-5 text-neutral-400">
+            <ul className="flex gap-5 text-neutral-200">
               <li>
                 <a
                   className="hover:underline hover:text-white"
@@ -29,7 +29,7 @@ function Footer() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <FaceboolIcon className="w-6" />
+                  <FaceboolIcon className="w-10" />
                 </a>
               </li>
               <li>
@@ -39,7 +39,7 @@ function Footer() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <XIcon className="w-6" />
+                  <XIcon className="w-10" />
                 </a>
               </li>
               <li>
@@ -49,7 +49,7 @@ function Footer() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <ThreadsIcon className="w-6" />
+                  <ThreadsIcon className="w-10" />
                 </a>
               </li>
             </ul>

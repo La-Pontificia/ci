@@ -43,6 +43,6 @@ const config: Config = {
       'min-200': { min: '200px' }
     }
   },
-  plugins: []
+  plugins: [require('tailwindcss-animate')]
 }
 export default config

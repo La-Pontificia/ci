@@ -22,7 +22,7 @@ function Booking({ booking }: Props) {
       ? 'Cancelado'
       : 'Completado'
 
-  const displayType = booking.table.type === 'pc' ? 'Pc' : 'Mesa'
+  const displayType = booking.table.type === 'pc' ? 'Computadora' : 'Cubículo'
 
   const isExpired = isExpiredVerify(booking.to)
   const onExpired = async () => {
@@ -35,7 +35,7 @@ function Booking({ booking }: Props) {
     }
   }
   useEffect(() => {
-    if (isExpired) void onExpired()
+    if (isExpired && booking.status === 'active') void onExpired()
   }, [])
 
   return (
@@ -53,7 +53,7 @@ function Booking({ booking }: Props) {
         />
       </div>
       <div className="pl-1 flex flex-col w-full gap-1">
-        <div className="flex gap-2 max-700:text-sm divide-x text-lg font-semibold divide-neutral-300">
+        <div className="flex gap-2 divide-x font-medium divide-neutral-300">
           <span className="capitalize">{booking.table.floor.headquarder}</span>
           <span className="pl-2">{booking.table.floor.name}</span>
           <span className="pl-2">{booking.table.name}</span>
@@ -61,14 +61,14 @@ function Booking({ booking }: Props) {
         <div className="flex">
           <div className="flex gap-2 text-sm items-center rounded-full bg-neutral-200 p-1 px-3">
             {booking.table.type === 'pc' ? (
-              <DisplayIcon className="w-4" />
+              <DisplayIcon className="w-5" />
             ) : (
-              <TableIcon className="w-4" />
+              <TableIcon className="w-5" />
             )}
             {displayType}
           </div>
         </div>
-        <div className="py-1 text-blue-500 text-sm px-2 font-medium flex gap-1 max-w-max rounded-full">
+        <div className="py-1 text-black text-sm font-medium flex gap-1 max-w-max rounded-full">
           {booking.user.names}
           {' - '}
           {booking.user.email}
@@ -87,7 +87,7 @@ function Booking({ booking }: Props) {
         </div>
         <div
           className={cn(
-            'text-green-500 p-2 text-sm flex items-center gap-1',
+            'text-green-500 p-2 text-xs flex items-center gap-1',
             booking.status === 'cancelled' && 'text-red-500',
             booking.status === 'completed' && 'text-blue-500',
             isExpired && 'text-yellow-500'

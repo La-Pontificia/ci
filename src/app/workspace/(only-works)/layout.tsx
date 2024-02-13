@@ -35,8 +35,10 @@ async function LayoutWorkspace({ children }: Props) {
         }}
       />
       <div className="flex min-h-screen flex-col">
-        <Tabs />
-        {children}
+        <div className="flex-grow">
+          <Tabs />
+          {children}
+        </div>
         <Footer />
       </div>
     </>

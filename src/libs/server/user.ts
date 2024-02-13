@@ -110,12 +110,23 @@ export async function getUserByIdentifier(
 ): Promise<User | null> {
   try {
     await connectToMongoDB()
-    const idCollection = getCollection('users')
-    const user = await idCollection.findOne({
+    return await getCollection('users').findOne<User>({
       identifiers: { $in: [identifier] }
     })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
 
-    return user as User
+export async function getUserByEmail(
+  email?: string | null
+): Promise<User | null> {
+  try {
+    await connectToMongoDB()
+    return await getCollection('users').findOne<User>({
+      email
+    })
   } catch (error) {
     console.log(error)
     throw error

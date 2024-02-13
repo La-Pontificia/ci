@@ -16,37 +16,32 @@ function Header() {
 
   return (
     <div className="w-full">
-      <header className="max-w-3xl px-4 mx-auto justify-center w-full h-full">
-        <div className="flex relative items-center max-700:flex-col w-full py-8 max-700:pb-0 gap-5">
+      <header className="max-w-xl px-4 mx-auto justify-center w-full h-full">
+        <div className="flex relative items-center w-full py-8 gap-5">
           <PhotoProfile />
-          <div className="flex relative z-20 max-700:text-center w-full flex-col gap-3 max-700:gap-0">
-            <div>
-              <h2
-                title={user.nick_name}
-                className="text-3xl max-w-[300px] max-700:mx-auto text-nowrap flex-nowrap truncate overflow-ellipsis max-700:text-xl leading-8 text-neutral-700 tracking-tight font-bold capitalize"
-              >
-                {user?.nick_name.toLocaleLowerCase()}
-              </h2>
-              <p className="text-sm opacity-70">{user.names}</p>
-            </div>
-            <div className="flex flex-col max-700:pt-2 max-700:items-center pb-2 border-b border-neutral-200 gap-2">
-              <a
-                href={urlTenant}
-                target="_blank"
-                rel="noreferrer"
-                className="flex max-w-max text-blue-600 items-center font-semibold rounded-full gap-2 p-1"
-              >
-                <LinkIcon className="w-4" />
-                <p>{isElp ? 'Escuela' : 'Instituto'}</p>
-              </a>
-              <a
-                href={`mailto:${user.email}`}
-                className="flex max-w-max items-center text-sm text-neutral-600 rounded-full gap-2 p-1"
-              >
-                <MailIcon className="w-5" />
-                {user.email}
-              </a>
-            </div>
+          <div className="relative z-20 w-full">
+            <h2
+              title={user.names}
+              className="text-xl capitalize max-w-[300px] text-nowrap flex-nowrap truncate overflow-ellipsis max-700:text-lg leading-8 text-neutral-700 tracking-tight font-semibold"
+            >
+              {user?.names.toLocaleLowerCase()}
+            </h2>
+            <a
+              href={urlTenant}
+              target="_blank"
+              rel="noreferrer"
+              className="flex text-blue-600 items-center rounded-full gap-2 p-1"
+            >
+              <LinkIcon className="w-4" />
+              <p className="text-sm">{isElp ? 'Escuela' : 'Instituto'}</p>
+            </a>
+            <a
+              href={`mailto:${user.email}`}
+              className="flex items-center text-sm text-neutral-600 rounded-full gap-2 p-1"
+            >
+              <MailIcon className="w-5" />
+              {user.email}
+            </a>
           </div>
           <DropDownNav />
         </div>

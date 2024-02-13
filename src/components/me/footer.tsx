@@ -1,45 +1,43 @@
+import { DevIconIcon } from 'icons'
+import Link from 'next/link'
 import React from 'react'
 
 function Footer() {
+  const classname = 'hover:underline flex justify-center gap-1'
+  const props = {
+    className: classname,
+    target: '_blank'
+  }
   return (
-    <div className="w-full mt-auto">
-      <footer className="p-3 border-t border-neutral-400 bg-white">
-        <div className="flex mx-auto max-w-xl w-full text-neutral-400 text-sm">
-          <p>
-            <a href="https://elp.edu.pe" target="_blank" rel="noreferrer">
-              La pontificia
-            </a>
-          </p>
-          <p className="ml-auto flex gap-2">
-            Desarrollado en{' '}
-            <a
-              href="https://Nextjs.org"
-              target="_blank"
-              className="hover:underline font-semibold text-neutral-950"
-              rel="noreferrer"
-            >
-              Nextjs
-            </a>{' '}
-            {/* by{' '}
-            <a
-              href="https://daustinn.com"
-              target="_blank"
-              className="hover:underline flex gap-1 items-center font-semibold text-neutral-200"
-              rel="noreferrer"
-            >
-              <span className="w-[20px] block rounded-full overflow-hidden h-[20px]">
-                <img
-                  className="w-full h-full object-cover"
-                  src="https://daustinn.com/_next/image?url=%2Fdaustinn.webp&w=48&q=75"
-                  alt=""
-                />
-              </span>
-              Daustinn
-            </a> */}
-          </p>
-        </div>
-      </footer>
-    </div>
+    <footer className="p-10">
+      <div className="mx-auto text-center space-y-3 w-full text-neutral-900 text-sm">
+        <p className="flex justify-center space-x-5 flex-wrap">
+          <Link href="https://ilp.edu.pe" {...props}>
+            Instituto
+          </Link>
+          <Link href="https://elp.edu.pe" {...props}>
+            Escuela
+          </Link>
+          <Link href="https://www.continualp.edu.pe/" {...props}>
+            Educación Continua
+          </Link>
+          <Link href="https://www.idiomaslp.edu.pe/" {...props}>
+            Idiomas
+          </Link>
+          <Link href="/home" {...props} target="">
+            Landing
+          </Link>
+          <Link href="/home/#termn" {...props} target="">
+            Términos de uso
+          </Link>
+          <Link href="https://daustinn.com" {...props}>
+            <DevIconIcon className="w-4 text-black" />
+            Daustinn
+          </Link>
+        </p>
+        <p>© 2024 Escuela La Ponitifica - Centro de Información</p>
+      </div>
+    </footer>
   )
 }
 

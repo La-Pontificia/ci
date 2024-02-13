@@ -63,7 +63,7 @@ export const Dialog = (props: DialogProps) => {
               aria-disabled={staticBackdrop}
               data-blur={backdropBlur}
               className={cn(
-                'inset-0 fixed z-20 aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-neutral-700/90',
+                'inset-0 fixed z-20 aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-white/95',
                 classNameOutline
               )}
             />

@@ -37,7 +37,7 @@ function DropDownBooking({ booking }: { booking: Booking }) {
             open && 'text-black'
           )}
         >
-          <MoreHorizonralIcon className="w-6" />
+          <MoreHorizonralIcon className="w-5" />
         </button>
       )}
     >

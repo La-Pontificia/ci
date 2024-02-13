@@ -4,7 +4,7 @@ import React from 'react'
 function WorksSpacePage() {
   return (
     <div className="flex h-full items-center flex-col">
-      <div className="max-w-5xl mx-auto w-full h-full my-auto py-10 max-700:p-3">
+      <div className="max-w-5xl mx-auto w-full h-full my-auto py-10 p-3">
         <Floors />
       </div>
     </div>

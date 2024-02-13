@@ -8,27 +8,25 @@ import { Input } from 'commons/input'
 import { Modal } from 'commons/modal'
 import { Select } from 'commons/select'
 import { ToastContainer } from 'commons/utils'
-import { parse } from 'date-fns'
+import { parse, format, toDate } from 'date-fns'
 import { useModal } from 'hooks/useModal'
 import { usePending } from 'hooks/usePending'
-import { XmarkIcon } from 'icons'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { type Floor } from 'types'
 import { type Table } from 'types/table'
 import confetti from 'canvas-confetti'
 import {
-  calculateDuration,
   converterForma12Hour,
   generateDateRange,
-  generateFullDayHourList,
   isDateInRange,
   parseTimeStringToDate
 } from 'utils'
+import { useBookingCreateDate } from './hook'
 
-type FormData = {
+export type FormData = {
   headquarder: Floor['headquarder']
   type: Table['type']
   from: string | null
@@ -36,9 +34,6 @@ type FormData = {
   date: string | null
   time: string | null
 }
-
-const tomorrow = new Date()
-tomorrow.setDate(tomorrow.getDate() + 1)
 
 const count = 200
 const defaults = {
@@ -53,7 +48,20 @@ function fire(particleRatio: number, opts: any) {
   })
 }
 
-function Create() {
+const congratulations = () => {
+  fire(0.25, {
+    spread: 26,
+    startVelocity: 55
+  })
+  fire(0.2, {
+    spread: 60
+  })
+}
+
+function Create({ trigger }: { trigger: React.ReactNode }) {
+  const now = toDate(new Date())
+  const formattedDate = format(now, 'yyyy-MM-dd')
+
   const router = useRouter()
   const { end, isPending, start } = usePending()
   const { onOpenModal, onCloseModal, open, setOpen } = useModal()
@@ -62,10 +70,12 @@ function Create() {
     handleSubmit,
     watch,
     setValue,
+    clearErrors,
+    reset,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
-      date: tomorrow.toISOString().split('T')[0],
+      date: formattedDate,
       headquarder: 'alameda',
       from: undefined,
       to: undefined,
@@ -80,38 +90,18 @@ function Create() {
     const newDateTo = parseTimeStringToDate(d.to!, date)
     if (!isDateInRange(date)) return
 
+    const newData = {
+      ...d,
+      from: newDateFrom,
+      to: newDateTo,
+      date
+    }
     try {
       start()
-      await axios.post('/api/booking', {
-        ...d,
-        from: newDateFrom,
-        to: newDateTo,
-        date
-      })
-
-      fire(0.25, {
-        spread: 26,
-        startVelocity: 55
-      })
-      fire(0.2, {
-        spread: 60
-      })
-      fire(0.35, {
-        spread: 100,
-        decay: 0.91,
-        scalar: 0.8
-      })
-      fire(0.1, {
-        spread: 120,
-        startVelocity: 25,
-        decay: 0.92,
-        scalar: 1.2
-      })
-      fire(0.1, {
-        spread: 120,
-        startVelocity: 45
-      })
+      await axios.post('/api/booking', newData)
       onCloseModal()
+      congratulations()
+      reset()
       router.refresh()
     } catch (error) {
       console.log(error)
@@ -125,28 +115,14 @@ function Create() {
     }
   }
 
-  const { from, to, time } = watch()
-  const [fromHour] = useState<string[]>(generateFullDayHourList())
-  const [toHour, setToHour] = useState<string[]>(generateFullDayHourList())
+  const { fromHour, toHour } = useBookingCreateDate({
+    setValue,
+    watch,
+    clearErrors
+  })
 
-  useEffect(() => {
-    if (from === '07:00') return
-    setToHour(generateFullDayHourList(from).slice(0, 8))
-    setValue('to', generateFullDayHourList(from).slice(0, 8)[0])
-  }, [from])
-
-  useEffect(() => {
-    if (!from) return
-    if (!to) return
-    setValue('time', calculateDuration(from, to))
-  }, [from, to])
-
-  useEffect(() => {
-    setValue('from', fromHour[0])
-  }, [])
-
+  const { time } = watch()
   const disable_button = time === '00:00' || Object.entries(errors).length > 0
-
   const { max, min } = generateDateRange()
 
   return (
@@ -157,60 +133,54 @@ function Create() {
       {...{ open, isPending }}
       width={520}
       trigger={
-        <Button
-          onClick={onOpenModal}
-          isFilled
-          variant="primary"
-          className="flex h-11 rounded-xl w-full items-center gap-2 font-semibold justify-center"
-        >
-          <XmarkIcon className="w-5 rotate-45" />
-          <span>Buscar y crear reserva</span>
-        </Button>
+        <div onClick={onOpenModal} className="cursor-pointer w-full">
+          {trigger}
+        </div>
       }
     >
       <div className="flex h-full p-4 flex-col gap-5">
-        <p className="text-yellow-500 text-center p-2">
-          Las resevaciones solo se hacen con 1 dia de anticipación y como máximo
-          por 2 horas.
+        <p className="text-stone-800 text-left text-sm p-2">
+          Se permitirá un margen de tolerancia de 10 minutos para su reserva; en
+          caso de no hacer uso de la misma dentro de este período, la reserva
+          será cancelada automáticamente.
         </p>
-        <label>
-          <Select
-            placeholder="Sede"
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="headquarder"
-            className="h-14"
-          >
-            <option value="alameda">Alameda</option>
-            <option value="jazmines">Jazminez</option>
-          </Select>
-        </label>
-        <label>
-          <Select
-            placeholder="Tipo de cubículo"
-            control={control}
-            rules={{
-              required: true
-            }}
-            name="type"
-            className="h-14"
-          >
-            <option value="pc">PC</option>
-            <option value="table">Mesa</option>
-          </Select>
-        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <label>
+            <Select
+              placeholder="Sede"
+              control={control}
+              rules={{
+                required: 'Seleciona una sede'
+              }}
+              name="headquarder"
+              className="h-14"
+            >
+              <option value="alameda">Sede Alameda: Pabellón D-101 </option>
+              <option value="jazmines">Sede Jazmines: Pabellón S-201</option>
+            </Select>
+          </label>
+          <label>
+            <Select
+              placeholder="Tipo de cubículo"
+              control={control}
+              rules={{
+                required: true
+              }}
+              name="type"
+              className="h-14"
+            >
+              <option value="pc">Computadora</option>
+              <option value="table">Cubículo</option>
+            </Select>
+          </label>
+        </div>
         <div className="grid grid-cols-3 max-800:grid-cols-2 max-400:grid-cols-1 gap-4">
           <Input
             type="date"
             placeholder="Fecha"
             control={control}
             rules={{
-              required: {
-                value: true,
-                message: 'La fecha es requerida'
-              }
+              required: 'La fecha es requerida'
             }}
             name="date"
             className="h-14"
@@ -230,7 +200,7 @@ function Create() {
               }}
               className="h-14"
             >
-              {fromHour.map((item) => {
+              {fromHour?.map((item) => {
                 return (
                   <option key={`${item}-from`} value={item}>
                     {converterForma12Hour(item)}
@@ -252,7 +222,7 @@ function Create() {
               }}
               className="h-14"
             >
-              {toHour.map((item) => {
+              {toHour?.map((item) => {
                 return (
                   <option key={`${item}-to`} value={item}>
                     {converterForma12Hour(item)}
@@ -271,9 +241,9 @@ function Create() {
             loading={isPending}
             disabled={disable_button}
             onClick={handleSubmit(onSearch)}
-            variant="primary"
+            variant="none"
             isFilled
-            className="h-12 mt-auto rounded-xl w-full"
+            className="h-12 justify-center flex items-center bg-black hover:bg-black/80 text-white mt-auto rounded-xl w-full"
           >
             Reservar
           </Button>

@@ -91,7 +91,8 @@ export async function getRandomTable(
 
     const totalDocts = await collection.countDocuments({
       type,
-      'floor.headquarder': headquarder
+      'floor.headquarder': headquarder,
+      status: true
     })
 
     if (totalDocts === 0) return null
@@ -100,7 +101,8 @@ export async function getRandomTable(
     const randomDoc = await collection
       .find({
         type,
-        'floor.headquarder': headquarder
+        'floor.headquarder': headquarder,
+        status: true
       })
       .skip(randomIndex)
       .limit(1)

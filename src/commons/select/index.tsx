@@ -100,6 +100,7 @@ export const Select = <T extends FieldValues>({
           onBlur={handleBlur}
           onChange={handleChange}
           className={classname}
+          value={value}
           {...rest}
         >
           {children}

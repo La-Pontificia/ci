@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { getServerSession, type NextAuthOptions } from 'next-auth'
+import { type NextAuthOptions } from 'next-auth'
 import AzureADProvider from 'next-auth/providers/azure-ad'
 import FacebookProvider from 'next-auth/providers/facebook'
 
 import { type InputData, transformUserData } from 'utils/auth'
-import { addIdentifier, creteNewUser, getUserByIdentifier } from './server'
+import {
+  creteNewUser,
+  getUserByEmail,
+  getUserByIdentifier,
+  updateUser
+} from './server'
 import { cookies } from 'next/headers'
 
 export const authOptions: NextAuthOptions = {
@@ -31,23 +36,27 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user, account }) {
-      const session = await getServerSession(authOptions)
-      // IF LOGEED
-      if (session) {
-        return await addIdentifier(account, user, session)
-      }
+      // const session = await getServerSession(authOptions)
+      // // IF LOGEED
+      // if (session) {
+      //   return await addIdentifier(account, user, session)
+      // }
 
       // IF NO LOGEED
       const cookieStore = cookies()
-      const uDB = await getUserByIdentifier(user.id)
-      if (!uDB) {
+      let uDB = await getUserByIdentifier(user.id)
+      const emailExisted = await getUserByEmail(user.email)
+
+      if (!uDB && emailExisted) {
+        await updateUser({ identifiers: [user.id] }, emailExisted._id)
+        uDB = emailExisted
+      }
+      if (!uDB && !emailExisted) {
         // IF PROVIDER IS FACEBOOK
-        if (account?.provider === 'facebook') {
-          return '/?error=facebookNotProvider'
-        }
-
+        // if (account?.provider === 'facebook') {
+        //   return '/?error=facebookNotProvider'
+        // }
         const userData = transformUserData(user as InputData)
-
         const newUser = await creteNewUser(userData)
         user.email = newUser.email
         user.name = newUser.names
@@ -56,20 +65,18 @@ export const authOptions: NextAuthOptions = {
         cookieStore.set('uft-ln', newUser.identifiers[0])
         return true
       }
-      user.email = uDB.email
-      user.name = uDB.names
-      user.image = uDB.image
-      user.id = uDB.identifiers[0]
-      cookieStore.set('uft-ln', uDB.identifiers[0])
+
+      const email = user.email ?? emailExisted?.email
+      const names = user.name ?? emailExisted?.names
+      const image = user.image ?? emailExisted?.image
+      const id = user.id
+      user.email = email
+      user.name = names
+      user.image = image
+      user.id = id
+
+      cookieStore.set('uft-ln', id)
       return true
-    },
-    async session({ session, token }) {
-      if (!token.sub) return session
-      const _id = token.sub
-      const uDB = await getUserByIdentifier(_id)
-      if (!uDB) return session
-      session.user = uDB
-      return session
     }
   },
   jwt: {

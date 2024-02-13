@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Toaster } from 'sonner'
-// import AOS from 'aos'
 
 export const ToastContainer = (text: string) => (
   <div className="bg-white mx-auto flex justify-center text-center text-black rounded-md shadow-lg text-base font-semibold p-3 px-4">
@@ -11,10 +10,6 @@ export const ToastContainer = (text: string) => (
 )
 
 function SonnerClient() {
-  // useEffect(() => {
-  //   AOS.init()
-  // }, [])
-
   return (
     <Toaster
       theme="light"

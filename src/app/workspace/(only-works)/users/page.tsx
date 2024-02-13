@@ -25,7 +25,7 @@ function UsersPage(props: Props) {
         key={`query-${q}`}
         fallback={
           <div className="grid place-content-center p-20">
-            <LineLoading size={20} />
+            <LineLoading className="text-black" size={20} />
           </div>
         }
       >

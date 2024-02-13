@@ -33,13 +33,13 @@ function DropDownNav() {
             open && 'text-neutral-900'
           )}
         >
-          <Menu2Icon className="w-7" />
+          <Menu2Icon className="w-6" />
         </button>
       )}
     >
       {(user.is_admin || user.is_editor) && (
         <DropDownItem href="/workspace" isLink>
-          Centro de información
+          Administración
         </DropDownItem>
       )}
       <DropDownItem href={urlVirtualClassroom} isLink isExternalLink>

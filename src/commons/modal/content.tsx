@@ -67,9 +67,8 @@ export default function Content(props: PropsType) {
         }}
         data-screen={heigth === 'screen'}
         className={cn(
-          'flex flex-col data-[screen=true]:rounded-none w-full shadow-2xl bg-white overflow-hidden rounded-2xl max-900:rounded-none max-900:border-0 max-900:w-full relative',
-          className,
-          isPending && 'border-0'
+          'flex flex-col border data-[screen=true]:rounded-none w-full shadow-2xl bg-white overflow-hidden rounded-2xl max-900:rounded-none max-900:border-0 max-900:w-full relative',
+          className
         )}
       >
         <header className="p-3 px-5 border-b border-b-neutral-700 max-900:flex items-center w-full space-x-3 hidden relative gap-4">
