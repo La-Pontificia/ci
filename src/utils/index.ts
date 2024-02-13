@@ -22,9 +22,9 @@ export const generateDateRange = (): { min: string; max: string } => {
 export const isDateInRange = (dateToCheck: Date): boolean => {
   const minDate = new Date(today)
   const maxDate = new Date(today)
-  minDate.setDate(today.getDate() + 1)
+  minDate.setDate(today.getDate())
   minDate.setHours(0, 0, 0, 0)
-  maxDate.setDate(today.getDate() + 4)
+  maxDate.setDate(today.getDate() + 2)
   maxDate.setHours(23, 59, 59, 999)
   return dateToCheck >= minDate && dateToCheck <= maxDate
 }
