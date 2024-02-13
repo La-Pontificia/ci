@@ -12,8 +12,8 @@ const today = toDate(new Date())
 export const generateDateRange = (): { min: string; max: string } => {
   const minDate = new Date()
   const maxDate = new Date()
-  minDate.setDate(today.getDate() - 1)
-  maxDate.setDate(today.getDate() + 1)
+  minDate.setDate(today.getDate())
+  maxDate.setDate(today.getDate() + 2)
   const formattedMin = minDate.toISOString().split('T')[0]
   const formattedMax = maxDate.toISOString().split('T')[0]
   return { min: formattedMin, max: formattedMax }
