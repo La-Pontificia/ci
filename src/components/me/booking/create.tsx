@@ -170,7 +170,7 @@ function Create({ trigger }: { trigger: React.ReactNode }) {
               className="h-14"
             >
               <option value="pc">Computadora</option>
-              <option value="table">Cubículo</option>
+              <option value="table">Mesa</option>
             </Select>
           </label>
         </div>
