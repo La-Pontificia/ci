@@ -21,13 +21,13 @@ const defaultImage = process.env.PROFILE_DEFAULT_USER!
 
 export function transformUserData(data: InputData): UserResponse {
   let tenant: User['tenant']
-  const e = data.email.split('@')[1]
+  const e = data.email.split('@')[1].trim()
   if (e === 'elp.edu.pe') {
     tenant = 'elp'
   } else if (e === 'ilp.edu.pe') {
     tenant = 'ilp'
   } else {
-    throw new Error('tenantNotAllowed')
+    throw new Error(`tenantNotAllowed ${e}`)
   }
 
   const dniMatch = data.email.match(/\d{8}/)
