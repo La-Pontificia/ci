@@ -20,7 +20,9 @@ function Booking({ booking }: Props) {
       ? 'Activo'
       : booking.status === 'cancelled'
       ? 'Cancelado'
-      : 'Completado'
+      : booking.status === 'completed'
+      ? 'Completado'
+      : 'Expirado'
 
   const displayType = booking.table.type === 'pc' ? 'Computadora' : 'Cubículo'
 
@@ -78,7 +80,7 @@ function Booking({ booking }: Props) {
             'text-green-500 text-sm flex items-center gap-1',
             booking.status === 'cancelled' && 'text-red-500',
             booking.status === 'completed' && 'text-blue-500',
-            isExpired && 'text-yellow-500'
+            booking.status === 'expired' && 'text-yellow-500'
           )}
         >
           <span className="w-[8px] h-[8px] rounded-full bg-current" />
