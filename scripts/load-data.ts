@@ -1,5 +1,7 @@
 import { type User } from 'types'
-import data from './Matriculados 2023-IIC ELP-ILP.json'
+// import data from './Matriculados 2023-IIC ELP-ILP.json'
+import data from './data2.json'
+
 import { ObjectId } from 'mongodb'
 import { getRandomUserProfile } from 'utils'
 import { transformUserData } from 'utils/auth'
