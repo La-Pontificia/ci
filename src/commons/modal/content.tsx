@@ -71,7 +71,7 @@ export default function Content(props: PropsType) {
           className
         )}
       >
-        <header className="p-3 px-5 border-b border-b-neutral-700 max-900:flex items-center w-full space-x-3 hidden relative gap-4">
+        <header className="p-3 px-5 border-b border-b-neutral-400 max-900:flex items-center w-full space-x-3 hidden relative gap-4">
           {isPending && (
             <div className="absolute justify-center bg-[#101010]/90 inset-0 grid place-content-center z-10">
               <span className="mx-auto">

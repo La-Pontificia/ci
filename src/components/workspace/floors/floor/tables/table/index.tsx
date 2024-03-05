@@ -9,6 +9,7 @@ import { useModal } from 'hooks/useModal'
 import { Modal } from 'commons/modal'
 import ModalContent from './modal'
 import DropDownTable from './dropdown'
+import { UsersIcon } from 'icons'
 
 type Props = {
   table: NewTypeTable
@@ -113,6 +114,11 @@ function Table({ table }: Props) {
               {isEditing && (
                 <span className="absolute z-10 top-1 right-1">
                   <DropDownTable table={table} />
+                </span>
+              )}
+              {table.accept_mutiple && (
+                <span className="absolute text-white w-5 p-0.5 aspect-square rounded-full bg-blue-500 z-10 bottom-1 left-1">
+                  <UsersIcon />
                 </span>
               )}
               <Chairs table={table} />

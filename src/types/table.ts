@@ -6,18 +6,27 @@ export interface Table {
   _id: ObjectId
   name: string
   floor: Pick<Floor, '_id' | 'name' | 'headquarder'>
-  chairs: 1 | 4 | 8 | 12
+  chairs: 1 | 4 | 6 | 8 | 12
   type: 'table' | 'pc'
   connected_to_printer: boolean
   current_users: TableCurrentUser[]
   occupied: boolean
   status: boolean
+  accept_mutiple?: boolean
+  companions: TableCompanion[]
   ui: {
     x: number
     y: number
     rotation: 'horizontal' | 'vertical'
   }
   created_at: Date
+}
+
+export interface TableCompanion {
+  _id: ObjectId
+  names: string
+  image: string
+  email: string
 }
 
 export interface TableCurrentUser {

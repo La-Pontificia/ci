@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Add } from './add'
+import { AddOrEditPable } from './add-or-edit'
 import Tables from './tables'
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 import { useAuth, useUI } from 'stores'
@@ -18,13 +18,13 @@ export function Floor() {
 
   return (
     <>
-      <Add />
+      <AddOrEditPable />
       <TransformWrapper
         initialScale={pinchState.scale}
         initialPositionX={pinchState.positionX}
         initialPositionY={pinchState.positionY}
-        minScale={0.8}
-        maxScale={1.3}
+        minScale={1}
+        maxScale={2}
         onZoomStop={(e) => setPinchState(e.state)}
         onPanningStop={(e) => setPinchState(e.state)}
         onPinchingStop={(e) => setPinchState(e.state)}

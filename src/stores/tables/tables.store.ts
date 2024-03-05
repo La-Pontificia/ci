@@ -27,7 +27,7 @@ const StoreApi: StateCreator<TablesState> = (set) => {
       void fetchDataFromApi(floorId)
       intervalId = setInterval(() => {
         void fetchDataFromApi(floorId)
-      }, 120000)
+      }, 520000)
       return () => {
         if (intervalId) {
           clearInterval(intervalId)

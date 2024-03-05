@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
+import * as Drawer from 'commons/vaul'
 import axios from 'axios'
 import { Button } from 'commons/button'
 import { Input } from 'commons/input'
-import { Modal } from 'commons/modal'
 import { Select } from 'commons/select'
 import { ToastContainer } from 'commons/utils'
 import { parse, format, toDate } from 'date-fns'
@@ -126,139 +126,138 @@ function Create({ trigger }: { trigger: React.ReactNode }) {
   const { max, min } = generateDateRange()
 
   return (
-    <Modal
-      title="Crear una reserva"
-      onOpenChange={setOpen}
-      hiddenFooter
-      {...{ open, isPending }}
-      width={520}
-      trigger={
+    <Drawer.root open={open} onOpenChange={setOpen}>
+      <Drawer.trigger asChild>
         <div onClick={onOpenModal} className="cursor-pointer w-full">
           {trigger}
         </div>
-      }
-    >
-      <div className="flex h-full p-4 flex-col gap-5">
-        <p className="text-stone-800 text-left text-sm p-2">
-          Se permitirá un margen de tolerancia de 10 minutos para su reserva; en
-          caso de no hacer uso de la misma dentro de este período, la reserva
-          será cancelada automáticamente.
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          <label>
-            <Select
-              placeholder="Sede"
+      </Drawer.trigger>
+      <Drawer.content>
+        <div className="flex max-w-xl mx-auto p-4 flex-col gap-2">
+          <h2 className="text-xl font-bold text-center">Crear nueva reserva</h2>
+          <p className="text-stone-800 text-left text-sm p-2">
+            Se permitirá un margen de tolerancia de 10 minutos para su reserva;
+            en caso de no hacer uso de la misma dentro de este período, la
+            reserva será cancelada automáticamente.
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <label>
+              <Select
+                placeholder="Sede"
+                control={control}
+                rules={{
+                  required: 'Seleciona una sede'
+                }}
+                name="headquarder"
+                className="h-14"
+              >
+                <option value="alameda">Sede Alameda: Pabellón D-101 </option>
+                <option value="jazmines">Sede Jazmines: Pabellón S-201</option>
+              </Select>
+            </label>
+            <label>
+              <Select
+                placeholder="Tipo de cubículo"
+                control={control}
+                rules={{
+                  required: true
+                }}
+                name="type"
+                className="h-14"
+              >
+                <option value="pc">Computadora</option>
+                <option value="table">Mesa</option>
+              </Select>
+            </label>
+          </div>
+          <div className="grid grid-cols-3 max-800:grid-cols-2 max-400:grid-cols-1 gap-4">
+            <Input
+              type="date"
+              placeholder="Fecha"
               control={control}
               rules={{
-                required: 'Seleciona una sede'
+                required: 'La fecha es requerida'
               }}
-              name="headquarder"
+              name="date"
               className="h-14"
-            >
-              <option value="alameda">Sede Alameda: Pabellón D-101 </option>
-              <option value="jazmines">Sede Jazmines: Pabellón S-201</option>
-            </Select>
-          </label>
-          <label>
-            <Select
-              placeholder="Tipo de cubículo"
-              control={control}
-              rules={{
-                required: true
-              }}
-              name="type"
-              className="h-14"
-            >
-              <option value="pc">Computadora</option>
-              <option value="table">Mesa</option>
-            </Select>
-          </label>
+              min={min}
+              max={max}
+            />
+            <label>
+              <Select
+                placeholder="Hora de inicio"
+                control={control}
+                name="from"
+                rules={{
+                  required: {
+                    value: true,
+                    message: 'La hora de inicio es requerida'
+                  }
+                }}
+                className="h-14"
+              >
+                {fromHour?.map((item) => {
+                  return (
+                    <option key={`${item}-from`} value={item}>
+                      {converterForma12Hour(item)}
+                    </option>
+                  )
+                })}
+              </Select>
+            </label>
+            <label>
+              <Select
+                placeholder="Hora de fin"
+                control={control}
+                name="to"
+                rules={{
+                  required: {
+                    value: true,
+                    message: 'La hora de fin es requerida'
+                  }
+                }}
+                className="h-14"
+              >
+                {toHour?.map((item) => {
+                  return (
+                    <option key={`${item}-to`} value={item}>
+                      {converterForma12Hour(item)}
+                    </option>
+                  )
+                })}
+              </Select>
+            </label>
+          </div>
+          <div className="flex gapt justify-between">
+            <div className="text-center text-neutral-500 max-700:5xl font-semibold text-2xl">
+              <span className="block text-sm">Tiempo:</span>
+              <p className="tracking-tight">{time}:00</p>
+            </div>
+            <div className="space-y-2 justify-end flex gap-2">
+              <Button
+                loading={isPending}
+                disabled={disable_button}
+                onClick={handleSubmit(onSearch)}
+                variant="none"
+                isFilled
+                className="h-12 w-fit px-4 justify-center flex items-center bg-blue-600 hover:bg-blue-600/80 text-white mt-auto rounded-full"
+              >
+                Reservar
+              </Button>
+              <Button
+                loading={isPending}
+                onClick={onCloseModal}
+                variant="grey"
+                isFilled
+                className="h-12 w-fit px-4 rounded-full"
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
         </div>
-        <div className="grid grid-cols-3 max-800:grid-cols-2 max-400:grid-cols-1 gap-4">
-          <Input
-            type="date"
-            placeholder="Fecha"
-            control={control}
-            rules={{
-              required: 'La fecha es requerida'
-            }}
-            name="date"
-            className="h-14"
-            min={min}
-            max={max}
-          />
-          <label>
-            <Select
-              placeholder="Hora de inicio"
-              control={control}
-              name="from"
-              rules={{
-                required: {
-                  value: true,
-                  message: 'La hora de inicio es requerida'
-                }
-              }}
-              className="h-14"
-            >
-              {fromHour?.map((item) => {
-                return (
-                  <option key={`${item}-from`} value={item}>
-                    {converterForma12Hour(item)}
-                  </option>
-                )
-              })}
-            </Select>
-          </label>
-          <label>
-            <Select
-              placeholder="Hora de fin"
-              control={control}
-              name="to"
-              rules={{
-                required: {
-                  value: true,
-                  message: 'La hora de fin es requerida'
-                }
-              }}
-              className="h-14"
-            >
-              {toHour?.map((item) => {
-                return (
-                  <option key={`${item}-to`} value={item}>
-                    {converterForma12Hour(item)}
-                  </option>
-                )
-              })}
-            </Select>
-          </label>
-        </div>
-        <div className="text-center text-neutral-500 max-700:5xl font-semibold text-7xl">
-          <span className="block text-sm">Tiempo:</span>
-          <p className="tracking-tight">{time}:00</p>
-        </div>
-        <div className="space-y-2">
-          <Button
-            loading={isPending}
-            disabled={disable_button}
-            onClick={handleSubmit(onSearch)}
-            variant="none"
-            isFilled
-            className="h-12 justify-center flex items-center bg-black hover:bg-black/80 text-white mt-auto rounded-xl w-full"
-          >
-            Reservar
-          </Button>
-          <Button
-            loading={isPending}
-            onClick={onCloseModal}
-            variant="grey"
-            isFilled
-            className="h-12 mt-auto rounded-xl w-full"
-          >
-            Cancelar
-          </Button>
-        </div>
-      </div>
-    </Modal>
+      </Drawer.content>
+    </Drawer.root>
   )
 }
 

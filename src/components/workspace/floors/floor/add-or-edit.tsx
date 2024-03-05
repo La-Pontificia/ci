@@ -5,30 +5,38 @@ import React from 'react'
 import { type Table } from 'types/table'
 import { useUI } from 'stores'
 import { useFloor } from 'stores/floor/floor.store'
-import { useModal } from 'hooks/useModal'
 import { Modal } from 'commons/modal'
 import { useForm } from 'react-hook-form'
 import { Input } from 'commons/input'
 import { cn } from 'utils'
-import { Button } from 'commons/button'
 import axios from 'axios'
 import { type NewTypeTable, useTables } from 'stores/tables/tables.store'
 import { usePending } from 'hooks/usePending'
 import { PlusIcon } from 'icons'
+import { DropDownItem } from 'commons/drop-down'
+import { useDialog } from 'commons/vaul/use-dialog'
+import ToggleControl from 'commons/toggle/control'
 
-export const Add = () => {
+type Props = {
+  initial?: NewTypeTable
+}
+export const AddOrEditPable = ({ initial }: Props) => {
   const floor = useFloor((state) => state.floor)
   const setTable = useTables((store) => store.setTable)
+  const setTables = useTables((store) => store.setTables)
+  const tables = useTables((store) => store.tables)
+
   const { end, isPending, start } = usePending()
-  const { onCloseModal, onOpenModal, open, setOpen } = useModal()
+  const { onClose, onOpen, setOpen, open } = useDialog()
   if (!floor) return
 
   const isEditing = useUI((state) => state.isEditing)
 
   const { control, setValue, reset, watch, handleSubmit } = useForm<Table>({
-    defaultValues: {
+    defaultValues: initial ?? {
       connected_to_printer: false,
       status: true,
+      accept_mutiple: false,
       ui: {
         rotation: 'horizontal',
         x: 100,
@@ -37,22 +45,6 @@ export const Add = () => {
     }
   })
   const { chairs, ui, type } = watch()
-
-  const ButtonChair = ({ n }: { n: Table['chairs'] }) => {
-    const isActive = !!(n === chairs)
-    const onClick = () => setValue('chairs', n)
-    return (
-      <Button
-        aria-checked={isActive}
-        onClick={onClick}
-        isFilled
-        variant={'none'}
-        className="rounded-xl aria-checked:bg-black text-neutral-800 aria-checked:text-white text-center h-12 bg-neutral-200"
-      >
-        {n}
-      </Button>
-    )
-  }
 
   const onChangeRotate = () => {
     setValue(
@@ -63,16 +55,33 @@ export const Add = () => {
 
   const onSubmit = async (d: Partial<Table>) => {
     start()
+    const uri = initial
+      ? `/api/tables/${initial?._id}`
+      : `/api/floors/${floor?._id}/tables`
     try {
-      const { data } = await axios.post(`/api/floors/${floor._id}/tables`, {
+      const { data } = await axios.post(uri, {
         ...d,
         ui: {
           ...ui,
           rotation: d.chairs === 4 ? 'horizontal' : d.ui?.rotation
         }
       })
-      setTable(data as NewTypeTable)
-      onCloseModal()
+      if (initial) {
+        setTables(
+          tables.map((t) => {
+            if (t._id === initial._id) {
+              return {
+                ...t,
+                ...(data as NewTypeTable)
+              }
+            }
+            return t
+          })
+        )
+      } else {
+        setTable(data as NewTypeTable)
+      }
+      onClose()
       reset()
     } catch (error) {
       console.log(error)
@@ -87,14 +96,16 @@ export const Add = () => {
       <Modal
         onDone={handleSubmit(onSubmit)}
         width={400}
+        classNameOutline="z-[201]"
+        className="z-[201]"
         trigger={
-          isEditing && (
+          isEditing && !initial ? (
             <div className="fixed bottom-5 flex gap-5 z-10 right-5">
               <button
                 onClick={(e) => {
                   setValue('type', 'table')
                   setValue('chairs', 4)
-                  onOpenModal()
+                  onOpen()
                 }}
                 className="opacity-20 transition-all p-3 hover:opacity-100"
               >
@@ -105,7 +116,7 @@ export const Add = () => {
                 onClick={(e) => {
                   setValue('type', 'pc')
                   setValue('chairs', 1)
-                  onOpenModal()
+                  onOpen()
                 }}
                 className="opacity-20 transition-all p-3 hover:opacity-100"
               >
@@ -113,9 +124,20 @@ export const Add = () => {
                 <span>Pc</span>
               </button>
             </div>
+          ) : (
+            isEditing &&
+            initial && (
+              <DropDownItem
+                className="rounded-t-xl"
+                closeDropDownOnclick
+                onClick={onOpen}
+              >
+                Editar
+              </DropDownItem>
+            )
           )
         }
-        title="Agregar un cubículo"
+        title={initial ? 'Editar Mesa/Pc' : 'Agregar Mesa/Pc'}
         onOpenChange={setOpen}
         {...{ open, isPending }}
       >
@@ -133,27 +155,61 @@ export const Add = () => {
             control={control}
             name="name"
           />
+          {type === 'pc' && (
+            <ToggleControl control={control} name="accept_mutiple">
+              Usuarios multiples
+            </ToggleControl>
+          )}
           {type === 'table' && (
             <>
-              <div className="grid grid-cols-3 gap-2 text-neutral-200 font-semibold">
-                <ButtonChair n={4} />
-                <ButtonChair n={8} />
-                <ButtonChair n={12} />
+              <div className="grid grid-cols-4 gap-2 text-neutral-200 font-semibold">
+                <button
+                  aria-checked={!!(chairs === 4)}
+                  onClick={() => setValue('chairs', 4)}
+                  className="rounded-xl aria-checked:bg-black text-neutral-800 aria-checked:text-white text-center h-12 bg-neutral-200"
+                >
+                  4
+                </button>
+                <button
+                  aria-checked={!!(chairs === 6)}
+                  onClick={() => setValue('chairs', 6)}
+                  className="rounded-xl aria-checked:bg-black text-neutral-800 aria-checked:text-white text-center h-12 bg-neutral-200"
+                >
+                  6
+                </button>
+                <button
+                  aria-checked={!!(chairs === 8)}
+                  onClick={() => setValue('chairs', 8)}
+                  className="rounded-xl aria-checked:bg-black text-neutral-800 aria-checked:text-white text-center h-12 bg-neutral-200"
+                >
+                  8
+                </button>
+                <button
+                  aria-checked={!!(chairs === 12)}
+                  onClick={() => setValue('chairs', 12)}
+                  className="rounded-xl aria-checked:bg-black text-neutral-800 aria-checked:text-white text-center h-12 bg-neutral-200"
+                >
+                  12
+                </button>
               </div>
-              {watch().chairs !== 4 && watch().chairs !== 1 && (
+              {watch().chairs !== 1 && (
                 <div className="bg-neutral-100 relative grid place-content-center p-10 rounded-2xl">
                   <FramerTable
                     c={chairs ?? 4}
                     rotate={ui?.rotation ?? 'vertical'}
                   />
-                  <div className="absolute bottom-2 left-2 flex items-center">
-                    <button
-                      onClick={onChangeRotate}
-                      className="bg-neutral-200 p-1 text-sm font-semibold rounded-full px-3"
-                    >
-                      {ui?.rotation === 'vertical' ? 'Horizontal' : 'Vertical'}
-                    </button>
-                  </div>
+                  {watch().chairs !== 4 && (
+                    <div className="absolute bottom-2 left-2 flex items-center">
+                      <button
+                        onClick={onChangeRotate}
+                        className="bg-neutral-200 p-1 text-sm font-semibold rounded-full px-3"
+                      >
+                        {ui?.rotation === 'vertical'
+                          ? 'Horizontal'
+                          : 'Vertical'}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </>
@@ -175,6 +231,7 @@ const FramerTable = ({
     className={cn(
       'relative ease-in-out duration-700 transition-transform bg-neutral-700 w-[80px] rounded-2xl',
       c === 4 && 'h-[80px]',
+      c === 6 && 'h-[150px]',
       c === 8 && 'h-[200px]',
       c === 12 && 'h-[280px]'
     )}
@@ -192,9 +249,16 @@ const FramerTable = ({
         </div>
       </>
     )}
+
     <span className="flex flex-col absolute translate-y-[-50%] -left-3 gap-2 top-[50%]">
       {c === 4 ? (
         <ChairUI />
+      ) : c === 6 ? (
+        <>
+          <ChairUI />
+          <ChairUI />
+          <ChairUI />
+        </>
       ) : c === 8 ? (
         <>
           <ChairUI />
@@ -213,9 +277,16 @@ const FramerTable = ({
         </>
       )}
     </span>
+
     <span className="flex flex-col justify-between absolute translate-y-[-50%] -right-3 gap-2 top-[50%]">
       {c === 4 ? (
         <ChairUI />
+      ) : c === 6 ? (
+        <>
+          <ChairUI />
+          <ChairUI />
+          <ChairUI />
+        </>
       ) : c === 8 ? (
         <>
           <ChairUI />
@@ -253,4 +324,4 @@ const ChairUI = ({
   )
 }
 
-export default Add
+export default AddOrEditPable

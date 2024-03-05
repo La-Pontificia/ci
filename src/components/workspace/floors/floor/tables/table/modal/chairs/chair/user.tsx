@@ -22,7 +22,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
   const currentMinute = now.getMinutes()
 
   const [toHour] = useState<string[]>(
-    generateFullDayHourList(`${currentHour}:${currentMinute}`).slice(0, 9)
+    generateFullDayHourList(`${currentHour}:${currentMinute}`).slice(0, 6)
   )
 
   return (
@@ -66,7 +66,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
       <div className="mt-auto flex gap-3 pt-2">
         <Button
           onClick={() => onSubmit(null)}
-          className="w-[100px] p-3 bg-neutral-200 text-sm rounded-xl text-center"
+          className="w-[100px] p-3 bg-neutral-200 text-sm rounded-full text-center"
           variant="none"
           isFilled
         >
@@ -75,7 +75,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
         <Button
           loading={isPending}
           onClick={() => onSubmit(user)}
-          className="w-full bg-black p-3 text-sm rounded-xl text-center"
+          className="w-full bg-black p-3 text-sm rounded-full text-center"
           variant="primary"
           isFilled
         >

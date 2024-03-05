@@ -22,7 +22,9 @@ export async function POST(
       chairs: data.chairs as Table['chairs'],
       connected_to_printer: data.connected_to_printer,
       created_at: new Date(),
+      companions: [],
       current_users: [],
+      accept_mutiple: zVa.data.accept_mutiple,
       floor: {
         _id: floor._id,
         headquarder: floor.headquarder,

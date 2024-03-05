@@ -9,6 +9,7 @@ export interface DialogProps {
   open?: true | false
   onOpenChange?: (open: boolean) => void
   children?: React.ReactNode
+  className?: string
   trigger?: React.ReactNode
   classNames?: classNames
   defaultOpen?: boolean
@@ -37,12 +38,12 @@ export const Dialog = (props: DialogProps) => {
   const {
     children,
     onOpenChange,
-    classNamePortal,
+    className,
     classNameOutline,
+    classNamePortal,
     open,
     trigger,
-    staticBackdrop,
-    backdropBlur
+    staticBackdrop
   } = props
 
   useEffect(() => {
@@ -61,9 +62,9 @@ export const Dialog = (props: DialogProps) => {
                 onOpenChange?.(false)
               }}
               aria-disabled={staticBackdrop}
-              data-blur={backdropBlur}
+              // data-blur={backdropBlur}
               className={cn(
-                'inset-0 fixed z-20 aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-white/95',
+                'inset-0 fixed z-20 aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-black/50',
                 classNameOutline
               )}
             />
@@ -73,6 +74,7 @@ export const Dialog = (props: DialogProps) => {
               autoFocus
               className={cn(
                 'pointer-events-auto z-20 max-h-[100svh] max-w-[100vw] fixed left-[50%] translate-x-[-50%] translate-y-[-50%] top-[50%]',
+                className,
                 classNamePortal
               )}
             >

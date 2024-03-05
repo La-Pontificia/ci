@@ -27,7 +27,7 @@ const ToggleControl = <T extends FieldValues>({
 
   return (
     <Toggle
-      onChange={onChange}
+      onChangeValue={onChange}
       checked={value}
       onBlur={onBlur}
       disabled={isSubmitting}

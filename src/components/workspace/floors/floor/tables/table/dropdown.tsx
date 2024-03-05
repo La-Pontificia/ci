@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useTables, type NewTypeTable } from 'stores/tables/tables.store'
 import { toast } from 'sonner'
 import { ToastContainer } from 'commons/utils'
+import AddOrEditPable from '../../add-or-edit'
 
 function DropDownTable({ table }: { table: NewTypeTable }) {
   const tables = useTables((store) => store.tables)
@@ -50,39 +51,6 @@ function DropDownTable({ table }: { table: NewTypeTable }) {
     }
   }
 
-  const onToggleRotation = async () => {
-    try {
-      await axios.patch(
-        `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
-        {
-          ui: {
-            ...table.ui,
-            rotation:
-              table.ui.rotation === 'horizontal' ? 'vertical' : 'horizontal'
-          }
-        }
-      )
-      setTables(
-        tables.map((t) => {
-          if (t._id === table._id) {
-            return {
-              ...t,
-              ui: {
-                ...table.ui,
-                rotation:
-                  table.ui.rotation === 'horizontal' ? 'vertical' : 'horizontal'
-              }
-            }
-          }
-          return t
-        })
-      )
-      toast(ToastContainer('Rotación cambiada del Cubículo'))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
     <DropDown
       triggerButton={({ open }) => (
@@ -96,7 +64,7 @@ function DropDownTable({ table }: { table: NewTypeTable }) {
         </button>
       )}
     >
-      <DropDownItem onClick={onToggleRotation}>Rotar</DropDownItem>
+      <AddOrEditPable initial={table} />
       <DropDownItem>Historial</DropDownItem>
       <DropDownItem
         closeDropDownOnclick

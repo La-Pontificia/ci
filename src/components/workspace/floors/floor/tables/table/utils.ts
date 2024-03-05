@@ -18,6 +18,12 @@ export function getUI(t: NewTypeTable): ReturnSize {
     size = [110, 110]
     chairs = [[...Array(1)], [...Array(1)], [...Array(1)], [...Array(1)]]
   }
+  if (t.chairs === 6) {
+    size = isH ? [160, 110] : [110, 160]
+    chairs = isH
+      ? [[...Array(3)], [...Array(0)], [...Array(0)], [...Array(3)]]
+      : [[...Array(0)], [...Array(3)], [...Array(3)], [...Array(0)]]
+  }
   if (t.chairs === 8) {
     size = isH ? [200, 110] : [110, 200]
     chairs = isH

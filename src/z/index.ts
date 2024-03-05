@@ -10,5 +10,6 @@ export const TableCrearSchema = z.object({
     x: z.number(),
     y: z.number()
   }),
+  accept_mutiple: z.boolean(),
   connected_to_printer: z.boolean()
 })

@@ -5,8 +5,8 @@ import Content from './content'
 import { type ButtonProps } from 'commons/button'
 
 export interface ModalProps extends DialogProps {
-  className?: string
   title?: string
+  className?: string
 
   width?: number | 'screen'
   heigth?: number | 'screen'

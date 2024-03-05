@@ -10,7 +10,7 @@ type Props = {
 export default function ChairList({ table }: Props) {
   const chairsQuantity = table.chairs
   return (
-    <div className="w-full h-full max-h-[600px] overflow-y-auto gap-2 hidden-scroll">
+    <div className="w-full h-full max-900:h-auto max-h-[600px] overflow-y-auto gap-2 hidden-scroll">
       <div
         className={cn(
           'grid grid-cols-2 w-full gap-2',

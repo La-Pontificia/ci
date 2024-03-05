@@ -1,5 +1,5 @@
 import { Button } from 'commons/button'
-import { XmarkIcon } from 'icons'
+import { AddCircleIcon } from 'icons'
 import React, { useState } from 'react'
 import { type Table, type TableCurrentUser } from 'types/table'
 import RemainingTime from './remaining-time'
@@ -77,24 +77,24 @@ function Chair({ index, table, currentUser }: Props) {
       ...table.current_users,
       newCurrentUser
     ]
-    void onUpdateTable(newCurrentUsers)
+    void onUpdateTable({
+      current_users: newCurrentUsers
+    })
   }
 
-  const onUpdateTable = async (current_users: Table['current_users']) => {
+  const onUpdateTable = async (form: any) => {
     start()
     try {
       await axios.patch(
         `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
-        {
-          current_users
-        }
+        form
       )
       setTables(
         tables.map((t) => {
           if (t._id === table._id) {
             return {
               ...t,
-              current_users
+              ...(form as typeof table)
             }
           }
           return t
@@ -108,13 +108,27 @@ function Chair({ index, table, currentUser }: Props) {
     }
   }
 
-  const onRemove = () => {
+  const onRemove = async () => {
     if (currentUser) {
-      const newCurrentUsers = table.current_users.filter(
-        (u) => u.user._id !== currentUser.user._id
-      )
-      void onUpdateTable(newCurrentUsers)
-      onCloseModal()
+      try {
+        const newCurrentUsers = table.current_users.filter(
+          (u) => u.user._id !== currentUser.user._id
+        )
+
+        // create record
+        await axios.post('/api/records', {
+          table_id: table._id,
+          user_id: currentUser?.user._id
+        })
+
+        void onUpdateTable({
+          companions: [],
+          current_users: newCurrentUsers
+        })
+        onCloseModal()
+      } catch (error) {
+        console.error(error)
+      }
     } else {
       setSelectedUser(null)
       onCloseModal()
@@ -126,8 +140,10 @@ function Chair({ index, table, currentUser }: Props) {
       <div className="relative z-[1]">
         {currentUser && (
           <Button
+            variant="black"
+            isFilled
             onClick={onRemove}
-            className="absolute top-2 left-[50%] translate-x-[-50%] z-[2]"
+            className="absolute text-sm top-2 left-[50%] translate-x-[-50%] z-[2]"
           >
             Eliminar
           </Button>
@@ -168,8 +184,8 @@ function Chair({ index, table, currentUser }: Props) {
               <RemainingTime currentUser={currentUser} />
             </>
           ) : (
-            <div className="rotate-45 text-neutral-800">
-              <XmarkIcon className="w-8" />
+            <div className="text-neutral-800">
+              <AddCircleIcon className="w-10" />
             </div>
           )}
         </Button>
