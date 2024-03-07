@@ -1,6 +1,7 @@
 import { connectToMongoDB, getCollection } from 'libs/mongodb'
 import { ObjectId, type WithId } from 'mongodb'
 import { type Table } from 'types/table'
+import { getFloor } from '.'
 
 export async function getTables(floor: ObjectId): Promise<Table[]> {
   try {
@@ -108,7 +109,16 @@ export async function getRandomTable(
       .limit(1)
       .toArray()
 
-    return (randomDoc[0] as Table) || null
+    // IF NOT TABLE FOUND
+    const table = randomDoc[0] as Table
+    if (!table) return null
+
+    // IF FLOOR IS DISABLED
+    const floor = await getFloor(table.floor._id.toString())
+    if (floor?.status === false) return null
+
+    // IF TABLE IS AVAILABLE
+    return table
   } catch (error) {
     console.log(error)
     throw error
