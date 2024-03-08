@@ -10,7 +10,6 @@ export async function middleware(req: NextRequest) {
     req,
     secret: process.env.NEXTAUTH_SECRET
   })
-
   const response = NextResponse.next()
 
   if (originUrl.pathname === '/me') {

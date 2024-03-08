@@ -24,7 +24,7 @@ function Booking({ booking }: Props) {
       ? 'Completado'
       : 'Expirado'
 
-  const displayType = booking.table.type === 'pc' ? 'Computadora' : 'Cubículo'
+  const displayType = booking.table.type === 'pc' ? 'Computadora' : 'Mesa'
 
   const isExpired = isExpiredVerify(booking.to)
 

@@ -43,7 +43,8 @@ export const Dialog = (props: DialogProps) => {
     classNamePortal,
     open,
     trigger,
-    staticBackdrop
+    staticBackdrop,
+    backdropBlur
   } = props
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export const Dialog = (props: DialogProps) => {
                 onOpenChange?.(false)
               }}
               aria-disabled={staticBackdrop}
-              // data-blur={backdropBlur}
+              data-blur={backdropBlur}
               className={cn(
                 'inset-0 fixed z-20 aria-disabled:pointer-events-none data-[blur=true]:backdrop-blur-sm bg-black/50',
                 classNameOutline

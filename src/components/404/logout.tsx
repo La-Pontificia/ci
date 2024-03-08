@@ -7,10 +7,16 @@ import React from 'react'
 function Logout() {
   const logout = async () => {
     await signOut()
+    window.location.href = '/'
   }
 
   return (
-    <Button isFilled variant="white" onClick={logout}>
+    <Button
+      isFilled
+      variant="black"
+      className="p-3 rounded-xl"
+      onClick={logout}
+    >
       Cerrar sesión
     </Button>
   )

@@ -4,9 +4,9 @@ import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import Create from './create'
-import Booking from './booking'
-import { TableIcon } from 'icons'
+import { AddCircleIcon } from 'icons'
 import { Button } from 'commons/button'
+import Booking from './booking'
 
 type Props = {
   q: string | undefined
@@ -25,13 +25,14 @@ async function Bookings({ q }: Props) {
     <div className="p-4 flex flex-col h-full">
       {bookings.length > 0 && (
         <Create
+          user={user}
           trigger={
             <Button
               isFilled
               variant="none"
-              className="flex h-11 bg-black hover:bg-black/80 text-white flex-none rounded-full w-full items-center gap-2 font-semibold justify-center"
+              className="flex h-11 bg-black hover:bg-black/80 text-white flex-none rounded-xl w-full items-center gap-2 font-semibold justify-center"
             >
-              <TableIcon className="w-5" />
+              <AddCircleIcon className="w-7" />
               <span>Nueva reserva</span>
             </Button>
           }
@@ -46,16 +47,17 @@ async function Bookings({ q }: Props) {
       ) : (
         <div className="h-full grid place-content-center text-center">
           <Create
+            user={user}
             trigger={
               <div className="space-y-3 flex flex-col">
-                <TableIcon className="w-20 text-neutral-400 mx-auto" />
-                <h2 className="text-2xl font-bold">Crear reserva</h2>
-                <p className="text-sm">
-                  Los registros de reservas se mostrarán en esta página.{' '}
-                </p>
-                <span className="font-medium text-sm text-blue-500">
-                  Realiza tu primera reserva
-                </span>
+                <Button
+                  isFilled
+                  variant="none"
+                  className="flex p-1 border px-3 border-black/50 text-black font-bold flex-none rounded-2xl z w-full items-center gap-2 justify-center"
+                >
+                  <AddCircleIcon className="w-7" />
+                  <span>Realiza tu primera reserva</span>
+                </Button>
               </div>
             }
           />

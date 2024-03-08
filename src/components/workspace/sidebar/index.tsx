@@ -1,16 +1,20 @@
 import React from 'react'
-import DropDownUser from './user-dropdown'
-import CloseButton from './close-button'
+import { ItemTab } from './item'
+import { Chart2Icon, TableIcon, Users2Icon } from 'icons'
 
-function Sidebar() {
+export default function Sidebar() {
   return (
-    <>
-      <div className="fixed z-10 right-0 p-3">
-        <DropDownUser />
-        <CloseButton />
-      </div>
-    </>
+    <aside className="w-60 fixed h-[calc(100svh-4rem)] flex flex-col border-r p-2 px-3 border-neutral-200 bg-white">
+      <nav className="font-medium flex-grow space-y-1 flex flex-col w-full">
+        <ItemTab
+          icon={<TableIcon className="scale-110" />}
+          href="/floors_and_headquarters"
+          title="Pisos y sedes"
+        />
+        <ItemTab icon={<Users2Icon />} href="/users" title="Usuarios" />
+        <ItemTab icon={<Chart2Icon />} href="/reports" title="Reportes" />
+      </nav>
+      <footer>davadvadv</footer>
+    </aside>
   )
 }
-
-export default Sidebar

@@ -1,5 +1,6 @@
 import { type ObjectId } from 'mongodb'
 import { type ERRORS_NEXT_AUTH } from '../constants'
+import { type User } from './user'
 
 export * from './booking'
 export * from './next-auth'
@@ -13,4 +14,10 @@ export interface Floor {
   headquarder: 'alameda' | 'jazmines'
   status: boolean
   created_at: Date
+}
+
+declare module 'next-auth' {
+  interface Session {
+    account: User | null
+  }
 }

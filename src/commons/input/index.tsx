@@ -93,7 +93,7 @@ export const Input = <T extends FieldValues>({
     (icon ?? currency ?? start) && 'pl-8',
     className,
     isLoading && 'pointer-events-none animate-pulse select-none',
-    disabled && 'cursor-not-allowed text-white'
+    disabled && 'cursor-not-allowed text-stone-500'
   )
 
   return (

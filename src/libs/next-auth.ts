@@ -77,6 +77,11 @@ export const authOptions: NextAuthOptions = {
 
       cookieStore.set('uft-ln', id)
       return true
+    },
+    async session({ session, token }) {
+      const account = await getUserByIdentifier(token.sub!)
+      session.account = account
+      return session
     }
   },
   jwt: {

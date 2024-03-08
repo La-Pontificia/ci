@@ -40,6 +40,7 @@ export interface TableCurrentUser {
     | 'is_active'
     | 'is_admin'
     | 'created_at'
+    | 'bio'
   >
   from: Date
   chair: number

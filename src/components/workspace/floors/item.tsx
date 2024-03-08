@@ -18,7 +18,7 @@ function Floor({ flour }: Props) {
   return (
     <div className="relative max-800:w-full" key={flour._id.toString()}>
       <Link
-        className="w-[250px] max-800:w-full h-[180px] border border-neutral-300 hover:border-neutral-600 md:w-full flex flex-col font-semibold text-neutral-800 p-5 bg-neutral-100 rounded-2xl shadow-md shadow-black/20"
+        className="w-[250px] max-800:w-full h-[180px] border border-neutral-300 hover:border-neutral-600 md:w-full flex flex-col font-semibold text-neutral-800 p-5 bg-neutral-100 rounded-2xl "
         href={`/workspace/floors/${flour._id.toString()}`}
       >
         <span className="text-blue-700">{flour.name}</span>
@@ -31,7 +31,7 @@ function Floor({ flour }: Props) {
         {IconFloor('w-8 text-neutral-700 mt-auto')}
       </Link>
       <div className="absolute bottom-3 right-2">
-        <Toggle onChangeValue={toggleStatus} checked={flour.status} />
+        <Toggle disabled onChangeValue={toggleStatus} checked={flour.status} />
       </div>
     </div>
   )

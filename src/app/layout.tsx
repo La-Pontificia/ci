@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import SonnerClient from 'commons/utils'
 import SessionProviderClient from 'contexts/session-provider'
+import { QueryClientProvider } from 'providers/query-client-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -53,10 +54,12 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <SessionProviderClient>
-        <body className={inter.className}>
-          <SonnerClient />
-          {children}
-        </body>
+        <QueryClientProvider>
+          <body className={inter.className}>
+            <SonnerClient />
+            {children}
+          </body>
+        </QueryClientProvider>
       </SessionProviderClient>
     </html>
   )

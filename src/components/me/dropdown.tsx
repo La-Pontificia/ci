@@ -38,7 +38,7 @@ function DropDownNav() {
       )}
     >
       {(user.is_admin || user.is_editor) && (
-        <DropDownItem href="/workspace" isLink>
+        <DropDownItem href="/workspace/floors_and_headquarters" isLink>
           Administración
         </DropDownItem>
       )}

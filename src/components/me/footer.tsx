@@ -9,9 +9,9 @@ function Footer() {
     target: '_blank'
   }
   return (
-    <footer className="p-10">
-      <div className="mx-auto text-center space-y-3 w-full text-neutral-900 text-sm">
-        <p className="flex justify-center space-x-5 flex-wrap">
+    <footer className="p-10 text-xs">
+      <div className="mx-auto text-center space-y-3 w-full text-neutral-900">
+        <p className="flex justify-center items-center space-x-5 flex-wrap">
           <Link href="https://ilp.edu.pe" {...props}>
             Instituto
           </Link>
@@ -31,11 +31,13 @@ function Footer() {
             Términos de uso
           </Link>
           <Link href="https://daustinn.com" {...props}>
-            <DevIconIcon className="w-4 text-black" />
-            Daustinn
+            <span className="p-1 rounded-full flex items-center gap-2 px-2 bg-black text-white font-semibold">
+              <DevIconIcon className="w-4" />
+              Daustinn
+            </span>
           </Link>
         </p>
-        <p>© 2024 Escuela La Ponitifica - Centro de Información</p>
+        <p>© 2024 La Ponitifica - Centro de Información</p>
       </div>
     </footer>
   )

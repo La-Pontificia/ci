@@ -3,6 +3,25 @@ import { ObjectId, type WithId } from 'mongodb'
 import { type Table } from 'types/table'
 import { getFloor } from '.'
 
+export async function getAllTables(): Promise<Table[]> {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('tables')
+    const cursor = collection.find({}).sort({ created_at: -1 })
+
+    return (await cursor.toArray()).map((collId) => {
+      const { _id, ...rest } = collId as WithId<Table>
+      return {
+        ...rest,
+        _id
+      }
+    })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 export async function getTables(floor: ObjectId): Promise<Table[]> {
   try {
     await connectToMongoDB()

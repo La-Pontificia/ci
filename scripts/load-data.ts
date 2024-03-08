@@ -21,6 +21,7 @@ export async function getDataListParser() {
       name: user.name
     })
     const newUser: User = {
+      bio: '',
       _id: new ObjectId(),
       access_token_facebook: null,
       created_at: new Date(),

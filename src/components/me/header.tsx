@@ -2,48 +2,39 @@
 
 import React from 'react'
 import PhotoProfile from './photo-profile'
-import DropDownNav from './dropdown'
-import { LinkIcon, MailIcon } from 'icons'
+import { MailIcon } from 'icons'
 import Nav from './nav'
 import { useAuth } from 'stores'
+import { EditProfile } from './edit-profile'
 
 function Header() {
   const user = useAuth((store) => store.session)
   if (!user) return null
-
-  const isElp = user?.tenant === 'elp'
-  const urlTenant = isElp ? 'https://elp.edu.pe' : 'https://ilp.edu.pe'
-
   return (
     <div className="w-full">
       <header className="max-w-xl px-4 mx-auto justify-center w-full h-full">
-        <div className="flex relative items-center w-full py-8 gap-5">
-          <PhotoProfile />
-          <div className="relative z-20 w-full">
-            <h2
-              title={user.names}
-              className="text-xl capitalize max-w-[300px] text-nowrap flex-nowrap truncate overflow-ellipsis max-700:text-lg leading-8 text-neutral-700 tracking-tight font-semibold"
-            >
-              {user?.names.toLocaleLowerCase()}
-            </h2>
-            <a
-              href={urlTenant}
-              target="_blank"
-              rel="noreferrer"
-              className="flex text-blue-600 items-center rounded-full gap-2 p-1"
-            >
-              <LinkIcon className="w-4" />
-              <p className="text-sm">{isElp ? 'Escuela' : 'Instituto'}</p>
-            </a>
-            <a
-              href={`mailto:${user.email}`}
-              className="flex items-center text-sm text-neutral-600 rounded-full gap-2 p-1"
-            >
-              <MailIcon className="w-5" />
-              {user.email}
-            </a>
+        <div className="py-8 space-y-2">
+          <div className="flex relative items-center w-full gap-5">
+            <div className="relative z-20 space-y-2 w-full">
+              <h2
+                title={user.names}
+                className="text-xl capitalize max-w-[300px] text-nowrap flex-nowrap truncate overflow-ellipsis max-700:text-lg leading-8 text-neutral-700 tracking-tight font-bold"
+              >
+                {user?.nick_name}
+              </h2>
+              <p className="text-sm">{user?.names}</p>
+              {user.bio && <p className="text-sm">{user.bio}</p>}
+              <a
+                href={`mailto:${user.email}`}
+                className="flex px-3 items-center p-1 text-xs rounded-full bg-black/5 w-fit font-semibold gap-2"
+              >
+                <MailIcon className="w-5" />
+                {user.email}
+              </a>
+            </div>
+            <PhotoProfile />
           </div>
-          <DropDownNav />
+          <EditProfile />
         </div>
         <Nav />
       </header>

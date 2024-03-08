@@ -1,4 +1,4 @@
-import { createFloor } from 'libs/server/floor'
+import { createFloor, getFloors } from 'libs/server/floor'
 import { ObjectId } from 'mongodb'
 import { type NextRequest, NextResponse } from 'next/server'
 import { type Floor } from 'types'
@@ -22,7 +22,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    return NextResponse.json({ msg: 'Hello' }, { status: 200 })
+    const floors = await getFloors()
+    return NextResponse.json(floors, { status: 200 })
   } catch (error) {
     return NextResponse.json(error, { status: 500 })
   }

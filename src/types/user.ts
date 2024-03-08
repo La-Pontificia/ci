@@ -9,6 +9,7 @@ export type User = {
   image: string
   tenant: 'ilp' | 'elp'
   type_user: 'student' | 'executive'
+  bio: string | null
   is_admin: boolean
   facebook_id: string | null
   access_token_facebook: string | null

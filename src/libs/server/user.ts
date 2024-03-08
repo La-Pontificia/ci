@@ -81,6 +81,7 @@ export async function creteNewUser(user: UserResponse) {
   try {
     const newUser: User = {
       _id: new ObjectId(),
+      bio: '',
       nick_name: user.names,
       identifiers: [user._id],
       is_editor: false,

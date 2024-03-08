@@ -1,7 +1,7 @@
 import React from 'react'
 import User from './user'
 import { getUsers } from 'libs/server'
-import { type Props } from 'app/workspace/(only-works)/users/page'
+import { type Props } from 'app/(nav)/workspace/(only-works)/users/page'
 
 async function Users({ searchParams }: Props) {
   const { q, status, tenant, type } = searchParams
