@@ -22,7 +22,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
   const currentMinute = now.getMinutes()
 
   const [toHour] = useState<string[]>(
-    generateFullDayHourList(`${currentHour}:${currentMinute}`).slice(0, 6)
+    generateFullDayHourList(`${currentHour}:${currentMinute}`).slice(1, 6)
   )
 
   return (
