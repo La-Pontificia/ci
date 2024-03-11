@@ -14,7 +14,7 @@ export default function Sidebar() {
         <ItemTab icon={<Users2Icon />} href="/users" title="Usuarios" />
         <ItemTab icon={<Chart2Icon />} href="/reports" title="Reportes" />
       </nav>
-      <footer>davadvadv</footer>
+      <footer></footer>
     </aside>
   )
 }
