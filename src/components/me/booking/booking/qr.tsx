@@ -1,7 +1,7 @@
 import { Dialog } from 'commons/dialog'
 import { useModal } from 'hooks/useModal'
 import React from 'react'
-import { QRNormal } from 'react-qrbtf'
+// import { QRNormal } from 'react-qrbtf'
 import { type Booking } from 'types'
 
 type Props = {
@@ -9,21 +9,21 @@ type Props = {
 }
 
 function Qr({ booking }: Props) {
-  const url = `https://ci.ilp.edu.pe/booking/${booking._id.toString()}`
   const { onOpenModal, open, setOpen } = useModal()
 
   const Qr = () => {
     return (
-      <QRNormal
-        className="scale-110"
-        value={url}
-        size={90}
-        posType="round"
-        type="round"
-        opacity={90}
-        otherColor="currentColor"
-        posColor="currentColor"
-      />
+      // <QRNormal
+      //   className="scale-110"
+      //   value={url}
+      //   size={90}
+      //   posType="round"
+      //   type="round"
+      //   opacity={90}
+      //   otherColor="currentColor"
+      //   posColor="currentColor"
+      // />
+      <></>
     )
   }
 
