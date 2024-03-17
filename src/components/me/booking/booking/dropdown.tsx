@@ -9,19 +9,30 @@ import { type Booking } from 'types'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/utils'
 
-function DropDownBooking({ booking }: { booking: Booking }) {
+function DropDownBooking({
+  booking,
+  isOwner
+}: {
+  booking: Booking
+  isOwner: boolean
+}) {
   const user = useAuth((store) => store.session)
   const router = useRouter()
   if (!user) return null
 
-  const url = `https://ci.ilp.edu.pe/booking/${booking._id.toString()}`
-
   const onCancel = async () => {
+    if (!window.confirm('¿Estás seguro de cancelar la reserva?')) return
+
     try {
-      await axios.patch(`/api/booking/${booking._id.toString()}/cancel`, {})
-      toast(ToastContainer('Reserva cancelada'))
+      toast.promise(
+        axios.patch(`/api/booking/${booking._id.toString()}/cancel`),
+        {
+          loading: 'Cancelando reserva...',
+          success: 'Reserva cancelada',
+          error: 'Error al cancelar la reserva'
+        }
+      )
       router.refresh()
     } catch (error) {
       console.log(error)
@@ -32,19 +43,17 @@ function DropDownBooking({ booking }: { booking: Booking }) {
       triggerButton={({ open }) => (
         <button
           className={cn(
-            'flex text-neutral-800 absolute p-1 top-3 right-3 justify-center rounded-xl group font-medium transition-colors items-center gap-2 max-900:gap-0',
+            'flex text-neutral-800 p-1 justify-center rounded-xl group font-medium transition-colors items-center gap-2 max-900:gap-0',
             open && 'text-black'
           )}
         >
-          <MoreHorizonralIcon className="w-5" />
+          <MoreHorizonralIcon className="w-4" />
         </button>
       )}
     >
-      <DropDownItem isLink href={url} isExternalLink closeDropDownOnclick>
-        Ver
-      </DropDownItem>
       {booking.status === 'active' && (
         <DropDownItem
+          disabled={!isOwner}
           onClick={onCancel}
           closeDropDownOnclick
           className="text-red-500"

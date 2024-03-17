@@ -77,10 +77,24 @@ export async function getUsers(
   }
 }
 
+export async function getUserById(_id: ObjectId): Promise<User | null> {
+  try {
+    await connectToMongoDB()
+    return await getCollection('users').findOne<User>({
+      _id
+    })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
 export async function creteNewUser(user: UserResponse) {
   try {
     const newUser: User = {
       _id: new ObjectId(),
+      dni: user.dni,
+      sex: '',
       bio: '',
       nick_name: user.names,
       identifiers: [user._id],

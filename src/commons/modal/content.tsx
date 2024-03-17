@@ -67,7 +67,7 @@ export default function Content(props: PropsType) {
         }}
         data-screen={heigth === 'screen'}
         className={cn(
-          'flex flex-col border data-[screen=true]:rounded-none w-full shadow-2xl bg-white overflow-hidden rounded-2xl max-900:rounded-none max-900:border-0 max-900:w-full relative',
+          'flex flex-col border data-[screen=true]:rounded-none w-full shadow-2xl bg-white overflow-hidden rounded-3xl max-900:rounded-none max-900:border-0 max-900:w-full relative',
           className
         )}
       >

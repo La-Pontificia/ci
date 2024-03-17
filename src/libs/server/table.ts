@@ -143,3 +143,46 @@ export async function getRandomTable(
     throw error
   }
 }
+
+export async function getRandomPc(
+  headquarder: string,
+  type: string
+): Promise<Table | null> {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('tables')
+
+    const totalDocts = await collection.countDocuments({
+      type,
+      'floor.headquarder': headquarder,
+      status: true
+    })
+
+    if (totalDocts === 0) return null
+    const randomIndex = Math.floor(Math.random() * totalDocts)
+
+    const randomDoc = await collection
+      .find({
+        type,
+        'floor.headquarder': headquarder,
+        status: true
+      })
+      .skip(randomIndex)
+      .limit(1)
+      .toArray()
+
+    // IF NOT TABLE FOUND
+    const table = randomDoc[0] as Table
+    if (!table) return null
+
+    // IF FLOOR IS DISABLED
+    const floor = await getFloor(table.floor._id.toString())
+    if (floor?.status === false) return null
+
+    // IF TABLE IS AVAILABLE
+    return table
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}

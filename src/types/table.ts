@@ -13,35 +13,17 @@ export interface Table {
   occupied: boolean
   status: boolean
   accept_mutiple?: boolean
-  companions: TableCompanion[]
   ui: {
     x: number
     y: number
     rotation: 'horizontal' | 'vertical'
   }
+  reserved_dates?: Array<[Date, Date]>
   created_at: Date
 }
 
-export interface TableCompanion {
-  _id: ObjectId
-  names: string
-  image: string
-  email: string
-}
-
 export interface TableCurrentUser {
-  user: Omit<
-    User,
-    | 'identifiers'
-    | 'access_token_facebook'
-    | 'facebook_id'
-    | 'is_editor'
-    | 'nick_name'
-    | 'is_active'
-    | 'is_admin'
-    | 'created_at'
-    | 'bio'
-  >
+  user: Pick<User, '_id' | 'email' | 'image' | 'names'>
   from: Date
   chair: number
   to: Date

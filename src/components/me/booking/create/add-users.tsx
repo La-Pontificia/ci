@@ -7,7 +7,9 @@ import axios from 'axios'
 import { type User } from 'types'
 import { useDebouncedInput } from 'hooks/userDebouncedInput'
 import { type UseFormSetValue, type UseFormWatch } from 'react-hook-form'
-import { type FormData } from '.'
+import { getUserProfile } from 'utils'
+import Image from 'next/image'
+import { type FormData } from './hook'
 
 export function AddUsers({
   user,
@@ -27,14 +29,16 @@ export function AddUsers({
 
   const handler = async (v: string) => {
     try {
-      const { data } = await axios.get(`/api/users?limit=5&q=${v}`)
+      const { data } = await axios.get(`/api/users?limit=10&q=${v}`)
       setUsers(data as User[])
     } catch (error) {
       console.log(error)
     }
   }
 
-  const usersFinal = users.filter((e) => e._id !== user?._id)
+  const usersFinal = users.filter(
+    (u) => !watch().users?.find((e) => e._id === u._id)
+  )
 
   const onHandler = (user: User) => {
     const prev = watch().users ?? []
@@ -57,8 +61,14 @@ export function AddUsers({
       <div className="py-3 space-y-2">
         {watch().users?.map((u) => (
           <div key={u._id.toString()} className="flex gap-2 items-center">
-            <div className="w-[40px] border aspect-square rounded-2xl overflow-hidden">
-              <img src={u.image} alt="" />
+            <div className="w-[40px] aspect-square rounded-full overflow-hidden">
+              <Image
+                src={getUserProfile(u.image)}
+                alt=""
+                className="w-full h-full object-cover"
+                width={40}
+                height={40}
+              />
             </div>
             <div>
               <h3 className="font-semibold text-sm">{u.nick_name}</h3>
@@ -82,7 +92,6 @@ export function AddUsers({
       <Drawer.root>
         <Drawer.trigger asChild>
           <Button
-            disabled
             variant="none"
             className="w-[250px] border-black/30 border-2 rounded-full hover:bg-transparent justify-center gap-3 flex p-1 text-sm items-center"
           >
@@ -114,10 +123,10 @@ export function AddUsers({
                           className="flex hover:bg-neutral-100 p-2 rounded-2xl items-center gap-2"
                         >
                           <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                            <img
+                            <Image
                               width={40}
                               height={40}
-                              src={user.image}
+                              src={getUserProfile(user.image)}
                               className="w-full h-full object-cover"
                               alt={user.names}
                             />

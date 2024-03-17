@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { Input } from 'commons/input'
 import { validImage } from 'utils'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/utils'
 import { useRouter } from 'next/navigation'
 import { uploadImage } from 'libs/client/cloudinary'
 import { updateProfile } from 'libs/client/user'
@@ -20,6 +19,7 @@ type FormControl = {
   bio: string
   names: string
 }
+
 export function EditProfile() {
   const user = useAuth((store) => store.session)
   if (!user) return null
@@ -46,7 +46,7 @@ export function EditProfile() {
     const image = e?.target?.files?.[0]
     if (image && validImage(image)) {
       void ChangeProfile(image)
-    } else toast(ToastContainer('La imagen es invalida'))
+    } else toast.error('La imagen es invalida')
   }
 
   const ChangeProfile = async (img: File) => {
@@ -55,11 +55,11 @@ export function EditProfile() {
       const res = await uploadImage(img)
       if (!res) throw new Error('Error al actualizar tu foto de perfil')
       await updateProfile(res)
-      toast(ToastContainer('Foto de perfil actualizado'))
+      toast.success('Foto de perfil actualizada')
       router.refresh()
     } catch (err) {
       if (err instanceof Error) {
-        toast(ToastContainer(err.message))
+        toast.error(err.message)
       }
     } finally {
       endPhoto()
@@ -74,7 +74,9 @@ export function EditProfile() {
     start()
     try {
       await axios.patch('/api/account', form)
-      toast(ToastContainer('Perfil actualizado'))
+      toast.success('Perfil actualizado', {
+        description: 'Tu perfil ha sido actualizado correctamente'
+      })
       onClose()
       router.refresh()
     } catch (error) {

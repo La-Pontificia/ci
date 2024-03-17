@@ -37,7 +37,10 @@ function Footer() {
             </span>
           </Link>
         </p>
-        <p>© 2024 La Ponitifica - Centro de Información</p>
+        <p>
+          © 2024 La Ponitifica - Centro de Información -{' '}
+          <span className="text-xs">v. 1.50</span>
+        </p>
       </div>
     </footer>
   )

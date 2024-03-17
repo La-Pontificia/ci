@@ -1,169 +1,41 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-floating-promises */
 'use client'
 
 import * as Drawer from 'commons/vaul'
-import axios from 'axios'
 import { Button } from 'commons/button'
 import { Input } from 'commons/input'
 import { Select } from 'commons/select'
-import { ToastContainer } from 'commons/utils'
-import { parse, format, toDate } from 'date-fns'
-import { useModal } from 'hooks/useModal'
-import { usePending } from 'hooks/usePending'
-import { useRouter } from 'next/navigation'
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { type User, type Floor } from 'types'
-import confetti from 'canvas-confetti'
-
-import {
-  converterForma12Hour,
-  generateDateRange,
-  isDateInRange,
-  parseTimeStringToDate
-} from 'utils'
+import { type User } from 'types'
+import { converterForma12Hour } from 'utils'
 import { useBookingCreateDate } from './hook'
-import { DisplayIcon, Table2Icon } from 'icons'
 import { AddUsers } from './add-users'
 
-export type FormData = {
-  headquarder: Floor['headquarder']
-  type: 'table' | 'pc'
-  from: string | null
-  to: string | null
-  date: string | null
-  time: string | null
-  users: User[]
-}
+export type Props = { trigger: React.ReactNode; user: User }
 
-const count = 200
-const defaults = {
-  origin: { y: 0.7 }
-}
-
-function fire(particleRatio: number, opts: any) {
-  confetti({
-    ...defaults,
-    ...opts,
-    particleCount: Math.floor(count * particleRatio)
-  })
-}
-
-const congratulations = () => {
-  fire(0.25, {
-    spread: 26,
-    startVelocity: 55
-  })
-  fire(0.2, {
-    spread: 60
-  })
-}
-
-function Create({ trigger, user }: { trigger: React.ReactNode; user: User }) {
-  const now = toDate(new Date())
-  const formattedDate = format(now, 'yyyy-MM-dd')
-
-  const router = useRouter()
-  const { end, isPending, start } = usePending()
-  const { onOpenModal, onCloseModal, open, setOpen } = useModal()
+function Create(props: Props) {
+  const { trigger, user } = props
   const {
+    fromHour,
+    toHour,
+    open,
+    setOpen,
+    onOpenModal,
+    headquarters,
+    headquarder,
+    setValue,
+    types,
+    type,
+    watch,
     control,
+    disable_button,
     handleSubmit,
-    watch,
-    setValue,
-    clearErrors,
-    reset,
-    setError,
-    formState: { errors }
-  } = useForm<FormData>({
-    defaultValues: {
-      date: formattedDate,
-      headquarder: 'alameda',
-      from: undefined,
-      to: undefined,
-      type: 'pc',
-      time: '00:00',
-      users: [user]
-    }
-  })
-
-  const onSearch = async (d: FormData) => {
-    const date = parse(d.date ?? '', 'yyyy-MM-dd', new Date())
-    const newDateFrom = parseTimeStringToDate(d.from!, date)
-    const newDateTo = parseTimeStringToDate(d.to!, date)
-    if (!isDateInRange(date)) {
-      return setError('date', {
-        type: 'date',
-        message: 'La fecha debe estar dentro del rango de fechas permitido'
-      })
-    }
-    const newData = {
-      ...d,
-      from: newDateFrom,
-      to: newDateTo,
-      date
-    }
-    try {
-      start()
-      await axios.post('/api/booking', newData)
-      onCloseModal()
-      congratulations()
-      reset()
-      router.refresh()
-    } catch (error) {
-      console.log(error)
-      toast(
-        ToastContainer(
-          'No se pudo establecer una reserva con lo datos ingresados'
-        )
-      )
-    } finally {
-      end()
-    }
-  }
-
-  const { fromHour, toHour } = useBookingCreateDate({
-    setValue,
-    watch,
-    clearErrors
-  })
-
-  const { time, headquarder, type } = watch()
-  const disable_button = time === '00:00' || Object.entries(errors).length > 0
-  const { max, min } = generateDateRange()
-
-  const headquarters = [
-    {
-      label: 'Sede Alameda',
-      value: 'alameda',
-      address: 'Av. Carmen Alto 390',
-      img: '/address-alameda.png',
-      isDisabled: false
-    },
-    {
-      label: 'Sede Jazmines',
-      value: 'jazmines',
-      address: 'Jr. Los Jazmines 191 - Urb. Jardín',
-      img: '/address-jasmines.png',
-      isDisabled: false
-    }
-  ]
-
-  const types = [
-    {
-      label: 'Mesa',
-      value: 'table',
-      icon: <Table2Icon />
-    },
-    {
-      label: 'PC',
-      value: 'pc',
-      icon: <DisplayIcon />
-    }
-  ]
-
+    isPending,
+    max,
+    min,
+    onCloseModal,
+    onSearch,
+    time
+  } = useBookingCreateDate(props)
   return (
     <Drawer.root open={open} onOpenChange={setOpen}>
       <Drawer.trigger asChild>
@@ -227,13 +99,11 @@ function Create({ trigger, user }: { trigger: React.ReactNode; user: User }) {
                 })}
               </div>
             </div>
-            {type === 'table' && (
-              <div className="border-t mt-3">
-                <div className="pt-2">
-                  <AddUsers {...{ user, setValue, watch }} />
-                </div>
+            <div className="border-t mt-3">
+              <div className="pt-2">
+                <AddUsers {...{ user, setValue, watch }} />
               </div>
-            )}
+            </div>
             <div className="border-t pt-3">
               <span className="block pb-2 font-semibold text-sm">
                 Fecha y hora

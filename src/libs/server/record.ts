@@ -13,6 +13,16 @@ export async function createRecord(record: RecordType) {
     throw error
   }
 }
+export async function createManyRecord(records: RecordType[]) {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('records')
+    await collection.insertMany(records)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
 
 export async function getRecords(
   from?: string,
@@ -56,6 +66,30 @@ export async function getRecords(
       .find(baseQuery)
       .sort({ created_at: 1 })
       .limit(limit ?? 2000)
+
+    return (await cursor.toArray()).map((idWithId) => {
+      const { _id, ...rest } = idWithId as WithId<RecordType>
+      return {
+        ...rest,
+        _id
+      }
+    })
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+export async function getRecordsByUserId(
+  user_id: ObjectId
+): Promise<RecordType[]> {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('records')
+
+    const baseQuery: Record<string, any> = {
+      'current.user._id': user_id
+    }
+    const cursor = collection.find(baseQuery).sort({ created_at: 1 }).limit(30)
 
     return (await cursor.toArray()).map((idWithId) => {
       const { _id, ...rest } = idWithId as WithId<RecordType>

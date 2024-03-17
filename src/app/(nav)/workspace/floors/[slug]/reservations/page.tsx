@@ -10,7 +10,7 @@ type Props = {
 
 function ReservationsPage({ params, searchParams }: Props) {
   return (
-    <div className="max-w-2xl mx-auto px-3 py-5 w-full pt-16">
+    <div className="max-w-7xl mx-auto px-3 py-5 w-full pt-5">
       <SearchBooking searchParams placeholder="Buscar reserva" />
       <Suspense
         key={`query-bookings-${searchParams?.q}`}

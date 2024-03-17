@@ -28,7 +28,7 @@ export interface ModalProps extends DialogProps {
 export const Modal = (props: ModalProps) => {
   return (
     <Dialog
-      classNamePortal="fixed max-900:w-full max-900:inset-0 max-900:translate-x-[-0%] max-900:translate-y-[0%]"
+      classNamePortal="fixed  overflow-y-auto max-h-[90svh] max-900:w-full max-900:inset-0 max-900:translate-x-[-0%] max-900:translate-y-[0%]"
       {...props}
     >
       <Content {...props} />

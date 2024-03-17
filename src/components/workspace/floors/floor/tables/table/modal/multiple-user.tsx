@@ -2,15 +2,16 @@ import axios from 'axios'
 import { Button } from 'commons/button'
 import { Modal } from 'commons/modal'
 import Search from 'commons/search'
-import { ToastContainer } from 'commons/utils'
 import { useDialog } from 'commons/vaul/use-dialog'
 import { useDebouncedInput } from 'hooks/userDebouncedInput'
-import { TrashIcon } from 'icons'
+import { PlusIcon, TrashIcon } from 'icons'
+import Image from 'next/image'
 import React from 'react'
 import { toast } from 'sonner'
 import { useTables, type NewTypeTable } from 'stores/tables/tables.store'
 import { type User } from 'types'
-import { type Table, type TableCompanion } from 'types/table'
+import { type TableCurrentUser, type Table } from 'types/table'
+import { getUserProfile } from 'utils'
 
 type Props = {
   table: NewTypeTable
@@ -18,6 +19,7 @@ type Props = {
 
 export function MultipleUsers({ table }: Props) {
   if (!table.accept_mutiple || table.current_users.length < 1) return null
+  const current_users = table.current_users.slice(1)
 
   const { onClose, open, setOpen, onOpen } = useDialog()
   const setTables = useTables((store) => store.setTables)
@@ -34,25 +36,37 @@ export function MultipleUsers({ table }: Props) {
       console.log(error)
     }
   }
-  const prevList = table.companions ? table.companions : []
 
   React.useEffect(() => {
     if (debouncedValue !== null) void handler(debouncedValue)
   }, [debouncedValue])
 
   const onAdd = async (user: User) => {
-    const newCompanion: TableCompanion = {
-      _id: user._id,
-      email: user.email,
-      names: user.names,
-      image: user.image
+    const newCurrentUser: TableCurrentUser = {
+      ...table.current_users[0],
+      chair: table.current_users.length + 1,
+      user: {
+        _id: user._id,
+        email: user.email,
+        names: user.names,
+        image: user.image
+      }
     }
-    const companions: Table['companions'] = [...prevList, newCompanion]
-    await fetch({ companions }, 'Se agregó un usuario')
+    const new_current_users: Table['current_users'] = [
+      ...table.current_users,
+      newCurrentUser
+    ]
+    toast.promise(fetch({ current_users: new_current_users }), {
+      loading: 'Agregando usuario...',
+      success: () => {
+        return 'Usuario agregado con éxito'
+      },
+      error: 'Error'
+    })
     onClose()
   }
 
-  const fetch = async (form: any, msg: string) => {
+  const fetch = async (form: any) => {
     try {
       await axios.patch(
         `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
@@ -69,68 +83,98 @@ export function MultipleUsers({ table }: Props) {
           return t
         })
       )
-      toast(ToastContainer(msg))
     } catch (error) {
       console.error(error)
     }
   }
 
-  const onRemove = async (companion: TableCompanion) => {
-    const companions = prevList.filter((e) => e._id !== companion._id)
-    await fetch({ companions }, 'Usuario removido')
+  const onRemove = async (item: TableCurrentUser) => {
+    if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
+      const ncu = table.current_users.filter(
+        (e) => e.user._id !== item.user._id
+      )
+
+      // create record
+      toast.promise(onCreateRecord(item.user._id.toString()), {
+        loading: 'Creando asistencia...',
+        success: () => {
+          return 'Asistencia creada con éxito'
+        },
+        error: 'Error',
+        finally: () => {
+          // update table
+          toast.promise(fetch({ current_users: ncu }), {
+            loading: 'Actualizando PC',
+            success: () => {
+              return 'PC actualizada con éxito'
+            },
+            error: 'Error'
+          })
+        }
+      })
+    }
+  }
+
+  const onCreateRecord = async (userId: string) => {
+    try {
+      await axios.post('/api/records/pc/per-user', {
+        table_id: table._id,
+        user_id: userId
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const usersList = users.filter((e) => {
-    return !prevList.find((u) => u._id === e._id)
+    return !table.current_users.find((u) => u.user._id === e._id)
   })
 
   return (
     <>
-      <div className="py-2">
-        <Button
-          variant="black"
-          isFilled
-          className="w-full text-sm p-2"
-          onClick={onOpen}
-        >
-          Agregar usuario secundario
-        </Button>
-        <div>
-          {table.companions?.map((companion) => {
+      <div className="py-2 z-[0] overflow-y-auto">
+        <div className="grid grid-cols-3 gap-2">
+          {current_users?.map((item) => {
             return (
               <div
-                // onClick={async () => await onAdd(user)}
-                key={companion._id.toString()}
-                className="flex p-2 rounded-2xl items-center gap-2"
+                key={item.user._id.toString()}
+                className="grid relative place-content-center border aspect-square p-2 rounded-2xl gap-2"
               >
-                <div className="w-[40px] bg-stone-100 h-[40px] rounded-full overflow-hidden">
-                  {companion.image && (
-                    <img
-                      width={40}
-                      height={40}
-                      src={companion.image}
+                <div className="w-[60px] aspect-square mx-auto bg-stone-100 rounded-full overflow-hidden">
+                  {item.user.image && (
+                    <Image
+                      width={60}
+                      height={60}
+                      src={getUserProfile(item.user.image)}
                       className="w-full h-full object-cover"
-                      alt={companion.names}
+                      alt={item.user.names}
                     />
                   )}
                 </div>
-                <div className="mr-auto">
-                  <h3 className="text-neutral-900 text-sm capitalize font-semibold line-clamp-1">
-                    {companion.names.toLocaleLowerCase()}
+                <div className="text-center">
+                  <h3 className="text-neutral-900 text-xs capitalize font-semibold">
+                    {item.user.names.toLocaleLowerCase()}
                   </h3>
                   <p className="text-xs font-normal text-neutral-700">
-                    {companion.email}
+                    {item.user.email}
                   </p>
                 </div>
                 <button
-                  onClick={async () => await onRemove(companion)}
-                  className="w-[35px] rounded-full p-2 hover:text-black text-stone-600 aspect-square bg-stone-200"
+                  onClick={async () => await onRemove(item)}
+                  className="w-[35px] absolute top-2 right-2 rounded-full p-2 hover:text-black text-stone-600 aspect-square bg-stone-200"
                 >
                   <TrashIcon />
                 </button>
               </div>
             )
           })}
+          <Button
+            variant="none"
+            className="aspect-square hover:border-black/80 grid place-content-center border-dashed border-2 rounded-2xl text-sm p-2"
+            onClick={onOpen}
+          >
+            <PlusIcon className="w-7" />
+          </Button>
         </div>
       </div>
       <Modal hiddenFooter hiddenHeader open={open} onOpenChange={setOpen}>
@@ -148,10 +192,10 @@ export function MultipleUsers({ table }: Props) {
                       className="flex hover:bg-neutral-100 p-2 rounded-2xl items-center gap-2"
                     >
                       <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                        <img
+                        <Image
                           width={40}
                           height={40}
-                          src={user.image}
+                          src={getUserProfile(user.image)}
                           className="w-full h-full object-cover"
                           alt={user.names}
                         />

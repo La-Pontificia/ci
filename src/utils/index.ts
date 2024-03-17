@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 /* eslint-disable @typescript-eslint/member-delimiter-style */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { ERRORS_NEXT_AUTH } from '../constants'
@@ -5,7 +6,14 @@ import { type User, type AuthErrorNextAuth, type Floor } from 'types'
 import axios from 'axios'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { toDate, addMinutes } from 'date-fns'
+import {
+  toDate,
+  addMinutes,
+  format,
+  differenceInMinutes,
+  formatDistanceToNow
+} from 'date-fns'
+import { es } from 'date-fns/locale'
 
 const today = toDate(new Date())
 
@@ -279,6 +287,22 @@ export function calculateDuration(startTime: string, endTime: string): string {
   return `${formattedHours}:${formattedMinutes}`
 }
 
+export function calculateDurationByDates(
+  startDate: Date,
+  endDate: Date
+): string {
+  const startHour = startDate.getHours()
+  const startMinute = startDate.getMinutes()
+  const endHour = endDate.getHours()
+  const endMinute = endDate.getMinutes()
+  const totalMinutes = (endHour - startHour) * 60 + (endMinute - startMinute)
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+  const formattedHours = hours.toString().padStart(2, '0')
+  const formattedMinutes = minutes.toString().padStart(2, '0')
+  return `${formattedHours}:${formattedMinutes}`
+}
+
 export const calculateTimeMargin = (startTime: Date, endTime: Date) => {
   const difference = endTime.getTime() - startTime.getTime()
   const hours = Math.floor(difference / (1000 * 60 * 60))
@@ -301,6 +325,53 @@ export function isDateInRangeVerify(from: Date, to: Date): boolean {
 }
 
 export function isExpiredVerify(to: Date): boolean {
-  const currentDate = new Date()
-  return currentDate.getTime() > to.getTime()
+  const tenMinutes = 10 * 60 * 1000 // 10 minutos en milisegundos
+  const currentTime = new Date() // Hora actual
+
+  // Verificar si ha pasado el tiempo especificado desde la fecha proporcionada
+  return currentTime.getTime() - to.getTime() >= tenMinutes
+}
+export function calculateDateRange(from: Date, to: Date) {
+  const fromTime = format(from, 'hh:mm a')
+  const toTime = format(to, 'hh:mm a')
+
+  const diffInMinutes = differenceInMinutes(to, from)
+  const hours = Math.floor(diffInMinutes / 60)
+  const minutes = diffInMinutes % 60
+
+  const range = `${hours} horas y ${minutes} minutos`
+
+  return { fromTime, toTime, range }
+}
+
+export const getUserProfile = (url: string) => {
+  return url.split('/').includes('default-profiles')
+    ? '/optimize/default-profile.webp'
+    : url
+}
+export function getTimeAgo(date: Date): string {
+  const timeAgo = formatDistanceToNow(date, { addSuffix: false, locale: es })
+  return timeAgo
+}
+
+export function checkReservations(
+  reservationsDate: [Date, Date][],
+  toAssign: Date
+): [Date, Date] | false {
+  const reservedItem = reservationsDate.find(([from, to]) => {
+    return new Date(toAssign) >= new Date(from)
+  })
+
+  if (reservedItem) {
+    const tenMinutes = 10 * 60 * 1000 // 10 minutos en milisegundos
+    const startTime = new Date(reservedItem[0]) // Fecha de inicio de la reserva
+    const currentTime = new Date() // Hora actual
+
+    // Verificar si han pasado 10 minutos desde el inicio de la reserva
+    if (currentTime.getTime() - startTime.getTime() >= tenMinutes) {
+      return false
+    }
+  }
+
+  return reservedItem || false
 }

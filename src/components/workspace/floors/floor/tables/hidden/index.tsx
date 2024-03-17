@@ -17,11 +17,7 @@ function HiddenChairs({ table }: Props) {
         if (!currentUser) return null
         return (
           <div key={index + 1} className="hidden">
-            <RemainingTimeHidden
-              key={index + 1}
-              currentUser={currentUser}
-              table={table}
-            />
+            <RemainingTimeHidden currentUser={currentUser} table={table} />
           </div>
         )
       })}

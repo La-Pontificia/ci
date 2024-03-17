@@ -1,31 +1,29 @@
-import { getUserByIdentifier } from 'libs/server'
-import { getBookings } from 'libs/server/booking'
-import { cookies } from 'next/headers'
+import { getBookingsByUserId } from 'libs/server/booking'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import Create from './create'
 import { AddCircleIcon } from 'icons'
 import { Button } from 'commons/button'
 import Booking from './booking'
+import { getServerSession } from 'next-auth'
+import { authOptions } from 'libs/next-auth'
 
 type Props = {
   q: string | undefined
 }
 
 async function Bookings({ q }: Props) {
-  const storeCookie = cookies()
-  const id = storeCookie.get('uft-ln')?.value ?? ''
-  const user = await getUserByIdentifier(id)
-  if (!user) return notFound()
+  const session = await getServerSession(authOptions)
+  if (!session?.account?._id) return notFound()
 
   // get bookings
-  const bookings = await getBookings(user._id, '', 10)
+  const bookings = await getBookingsByUserId(session?.account._id)
 
   return (
     <div className="p-4 flex flex-col h-full">
       {bookings.length > 0 && (
         <Create
-          user={user}
+          user={session.account}
           trigger={
             <Button
               isFilled
@@ -39,15 +37,21 @@ async function Bookings({ q }: Props) {
         />
       )}
       {bookings.length > 0 ? (
-        <div className="flex flex-grow flex-col divide-y divide-neutral-300">
+        <div className="flex flex-grow flex-col divide-y space-y-3 mt-2">
           {bookings.map((booking) => {
-            return <Booking key={booking._id.toString()} booking={booking} />
+            return (
+              <Booking
+                currentUser={session.account}
+                key={booking._id.toString()}
+                booking={booking}
+              />
+            )
           })}
         </div>
       ) : (
         <div className="h-full grid place-content-center text-center">
           <Create
-            user={user}
+            user={session.account}
             trigger={
               <div className="space-y-3 flex flex-col">
                 <Button

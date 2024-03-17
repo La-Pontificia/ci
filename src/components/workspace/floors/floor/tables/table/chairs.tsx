@@ -33,8 +33,8 @@ function Chairs({ table }: Props) {
           isFor && 'px-6'
         )}
       >
-        {chairs[0].map((i) => (
-          <Chair key={i} className="w-full h-[25px]" />
+        {chairs[0].map((_, i) => (
+          <Chair key={i + 'chairss'} className="w-full h-[25px]" />
         ))}
       </span>
 
@@ -45,8 +45,8 @@ function Chairs({ table }: Props) {
           className2
         )}
       >
-        {chairs[1].map((i) => (
-          <Chair key={i} className="h-full w-[25px]" />
+        {chairs[1].map((_, i) => (
+          <Chair key={i + 'chair44'} className="h-full w-[25px]" />
         ))}
       </span>
 
@@ -57,8 +57,8 @@ function Chairs({ table }: Props) {
           className2
         )}
       >
-        {chairs[2].map((i) => (
-          <Chair key={i} className="h-full w-[25px]" />
+        {chairs[2].map((_, i) => (
+          <Chair key={i + 'chair445'} className="h-full w-[25px]" />
         ))}
       </span>
 
@@ -70,8 +70,8 @@ function Chairs({ table }: Props) {
           isFor && 'px-6'
         )}
       >
-        {chairs[3].map((i) => (
-          <Chair key={i} className="w-full h-[25px]" />
+        {chairs[3].map((_, i) => (
+          <Chair key={i + 'chair464'} className="w-full h-[25px]" />
         ))}
       </span>
     </>

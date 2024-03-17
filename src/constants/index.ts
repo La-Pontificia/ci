@@ -27,3 +27,15 @@ export const COLOR_THEMES = [
   'purple',
   'indigo'
 ] as const
+
+export const CAREERS = {
+  EIS: 'Escuela de Ingeniería en Sistemas',
+  EAE: 'Escuela de Administración de Empresas',
+  ECF: 'Escuela de Ciencias de Contabilidad y Finanzas',
+
+  IAE: 'Aministración de Empresas',
+  IET: 'Enfermeria Técnica',
+  ICT: 'Contabilidad Técnica',
+  DOC: 'Docente',
+  undefined: 'Undefined'
+}

@@ -14,22 +14,7 @@ export const ToastContainer = (text: string) => (
 )
 
 function SonnerClient() {
-  return (
-    <Toaster
-      theme="light"
-      position="bottom-center"
-      toastOptions={{
-        style: {
-          zIndex: '999',
-          border: 0,
-          margin: 0,
-          boxShadow: 'none',
-          backgroundColor: 'transparent',
-          padding: 0
-        }
-      }}
-    />
-  )
+  return <Toaster theme="light" richColors />
 }
 
 export default SonnerClient

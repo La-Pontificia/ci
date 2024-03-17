@@ -1,5 +1,5 @@
 import { updateBooking } from 'libs/server/booking'
-import { ObjectId } from 'mongodb'
+import { removeReservedDateByBooking } from 'libs/server/bookings/utils'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function PATCH(
@@ -7,16 +7,19 @@ export async function PATCH(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const data = await req.json()
     const id = params.slug
+
+    const { booking } = await removeReservedDateByBooking(id)
+    if (!booking) throw new Error('Booking not found')
     await updateBooking(
       {
         status: 'cancelled'
       },
-      new ObjectId(id)
+      booking._id
     )
-    return NextResponse.json(data, { status: 200 })
+    return NextResponse.json(id, { status: 200 })
   } catch (error) {
+    console.error(error)
     return NextResponse.json(error, { status: 500 })
   }
 }

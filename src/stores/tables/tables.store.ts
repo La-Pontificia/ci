@@ -11,6 +11,7 @@ interface TablesState {
   setTable: (table: NewTypeTable) => void
   setTables: (table: NewTypeTable[]) => void
   subscribeToApi: (floorId: string) => () => void
+  fetchTables: (floorId: string) => Promise<void>
 }
 
 const StoreApi: StateCreator<TablesState> = (set) => {
@@ -20,21 +21,27 @@ const StoreApi: StateCreator<TablesState> = (set) => {
     const res = await axios.get(`/api/floors/${floorId}/tables`)
     set(() => ({ tables: res.data }))
   }
+
   return {
     tables: [],
     setTable: (table) => set((state) => ({ tables: [...state.tables, table] })),
+
     subscribeToApi: (floorId) => {
       void fetchDataFromApi(floorId)
       intervalId = setInterval(() => {
         void fetchDataFromApi(floorId)
-      }, 520000)
+      }, 300000)
       return () => {
         if (intervalId) {
           clearInterval(intervalId)
         }
       }
     },
-    setTables: (tables) => set(() => ({ tables }))
+    setTables: (tables) => set(() => ({ tables })),
+    fetchTables: async (floorId) => {
+      const res = await axios.get(`/api/floors/${floorId}/tables`)
+      set(() => ({ tables: res.data }))
+    }
   }
 }
 

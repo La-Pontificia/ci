@@ -3,25 +3,29 @@
 import React from 'react'
 import { cn } from 'utils'
 import { DropDown, DropDownItem } from 'commons/drop-down'
-import { useAuth } from 'stores'
 import { MoreHorizonralIcon } from 'icons'
 import { type Booking } from 'types'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { ToastContainer } from 'commons/utils'
+import { useTables } from 'stores/tables/tables.store'
+import { useFloor } from 'stores'
 
 function DropDownBooking({ booking }: { booking: Booking }) {
-  const user = useAuth((store) => store.session)
   const router = useRouter()
-  if (!user) return null
-
-  const url = `https://ci.ilp.edu.pe/booking/${booking._id.toString()}`
-
+  const prefetchTables = useTables((store) => store.fetchTables)
+  const floor = useFloor((store) => store.floor)
   const onCancel = async () => {
     try {
-      await axios.patch(`/api/booking/${booking._id.toString()}/cancel`, {})
-      toast(ToastContainer('Reserva cancelada'))
+      toast.promise(
+        axios.patch(`/api/booking/${booking._id.toString()}/cancel`),
+        {
+          loading: 'Cancelando reserva...',
+          success: 'Reserva cancelada con exito',
+          error: 'Ocurrio algo inesperado'
+        }
+      )
+      await prefetchTables(floor?._id.toString() ?? '')
       router.refresh()
     } catch (error) {
       console.log(error)
@@ -37,13 +41,10 @@ function DropDownBooking({ booking }: { booking: Booking }) {
             open && 'text-black'
           )}
         >
-          <MoreHorizonralIcon className="w-5" />
+          <MoreHorizonralIcon className="w-4" />
         </button>
       )}
     >
-      <DropDownItem isLink href={url} isExternalLink closeDropDownOnclick>
-        Ver
-      </DropDownItem>
       {booking.status === 'active' && (
         <DropDownItem
           onClick={onCancel}

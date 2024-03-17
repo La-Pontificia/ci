@@ -7,6 +7,7 @@ import React from 'react'
 import { type NewTypeTable } from 'stores/tables/tables.store'
 import { type TableCurrentUser } from 'types/table'
 import { useNotify } from './use-notify'
+import { calculateDateRange } from 'utils'
 
 type Props = {
   currentUser: TableCurrentUser
@@ -26,6 +27,11 @@ function RemainingTimeHidden({ table, currentUser }: Props) {
     table
   })
 
+  const { fromTime, toTime } = calculateDateRange(
+    new Date(table.current_users[0].from),
+    new Date(table.current_users[0].to)
+  )
+
   return (
     <Dialog open={!active}>
       <div className="bg-white w-[400px] p-3 rounded-3xl text-neutral-800">
@@ -34,6 +40,9 @@ function RemainingTimeHidden({ table, currentUser }: Props) {
           <b>
             {table.name} - Silla {currentUser.chair}
           </b>
+        </div>
+        <div className="text-center font-semibold">
+          {fromTime} - {toTime}
         </div>
         <div className=" gap-2">
           <span className="block  mx-auto w-[100px] h-[100px] rounded-full overflow-hidden">

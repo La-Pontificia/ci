@@ -7,13 +7,13 @@ async function Users({ searchParams }: Props) {
   const { q, status, tenant, type } = searchParams
   const users = await getUsers(
     q,
-    q ? 20 : 4,
+    q ? 20 : 10,
     tenant,
     type,
     status === 'active' ? true : status === 'inactive' ? false : undefined
   )
   return (
-    <div className="max-w-3xl mx-auto py-5 w-full">
+    <div className="max-w-7xl mx-auto py-2 w-full">
       <div className="flex flex-col">
         {users.length > 0 ? (
           <div>

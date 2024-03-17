@@ -1,19 +1,16 @@
 import { Button } from 'commons/button'
 import { AddCircleIcon } from 'icons'
-import React, { useState } from 'react'
-import { type Table, type TableCurrentUser } from 'types/table'
+import React from 'react'
+import { type TableCurrentUser } from 'types/table'
 import RemainingTime from './remaining-time'
-import { useTables, type NewTypeTable } from 'stores/tables/tables.store'
-import { useModal } from 'hooks/useModal'
+import { type NewTypeTable } from 'stores/tables/tables.store'
 import Users from './users'
-import { useForm } from 'react-hook-form'
 import User from './user'
-import { type User as UserType } from 'types'
-import { calculateTimeMargin, parseTimeStringToDate } from 'utils'
-import axios from 'axios'
-import { usePending } from 'hooks/usePending'
+import { getUserProfile } from 'utils'
+import Image from 'next/image'
+import { useChair } from './hook'
 
-type Props = {
+export type Props = {
   table: NewTypeTable
   currentUser?: TableCurrentUser
   index: number
@@ -24,140 +21,47 @@ export type TypeForm = {
   to: string
 }
 
-function Chair({ index, table, currentUser }: Props) {
-  const { onOpenModal, open, onCloseModal } = useModal()
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
-  const { end, isPending, start } = usePending()
-  const tables = useTables((store) => store.tables)
-  const setTables = useTables((store) => store.setTables)
-
-  const { control, watch } = useForm<TypeForm>({
-    defaultValues: {
-      from: '',
-      to: ''
-    }
-  })
-
-  const onAdd = async (u: UserType | null) => {
-    if (u) setSelectedUser(u)
-    onCloseModal()
-  }
-
-  const constructTimes = () => {
-    const date = new Date()
-    const newDateTo = parseTimeStringToDate(watch().to, date)
-    const { displayTime, time } = calculateTimeMargin(date, newDateTo)
-    return {
-      displayTime,
-      time,
-      date,
-      newDateTo
-    }
-  }
-
-  const onSubmit = (u: UserType | null) => {
-    if (!u) return setSelectedUser(null)
-    const { displayTime, time, date, newDateTo } = constructTimes()
-    const newCurrentUser: TableCurrentUser = {
-      user: {
-        _id: u._id,
-        email: u.email,
-        image: u.image,
-        names: u.names,
-        tenant: u.tenant,
-        type_user: u.type_user
-      },
-      to: newDateTo,
-      from: date,
-      chair: index,
-      display_time: displayTime,
-      time
-    }
-    const newCurrentUsers: Table['current_users'] = [
-      ...table.current_users,
-      newCurrentUser
-    ]
-    void onUpdateTable({
-      current_users: newCurrentUsers
-    })
-  }
-
-  const onUpdateTable = async (form: any) => {
-    start()
-    try {
-      await axios.patch(
-        `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
-        form
-      )
-      setTables(
-        tables.map((t) => {
-          if (t._id === table._id) {
-            return {
-              ...t,
-              ...(form as typeof table)
-            }
-          }
-          return t
-        })
-      )
-      setSelectedUser(null)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      end()
-    }
-  }
-
-  const onRemove = async () => {
-    if (currentUser) {
-      try {
-        const newCurrentUsers = table.current_users.filter(
-          (u) => u.user._id !== currentUser.user._id
-        )
-
-        // create record
-        await axios.post('/api/records', {
-          table_id: table._id,
-          user_id: currentUser?.user._id
-        })
-
-        void onUpdateTable({
-          companions: [],
-          current_users: newCurrentUsers
-        })
-        onCloseModal()
-      } catch (error) {
-        console.error(error)
-      }
-    } else {
-      setSelectedUser(null)
-      onCloseModal()
-    }
-  }
+function Chair(props: Props) {
+  const {
+    control,
+    currentUser,
+    onRemove,
+    onOpenModal,
+    open,
+    selectedUser,
+    isPending,
+    onAdd,
+    setValue,
+    onSubmit
+  } = useChair(props)
 
   return (
-    <>
-      <div className="relative z-[1]">
+    <React.Fragment>
+      <div
+        className={`relative z-[1] ${
+          props.table.type === 'pc' ? 'h-[200px]' : 'aspect-square'
+        }`}
+      >
         {currentUser && (
           <Button
             variant="black"
             isFilled
             onClick={onRemove}
-            className="absolute text-sm top-2 left-[50%] translate-x-[-50%] z-[2]"
+            className="absolute text-sm top-2 left-[50%] rounded-lg translate-x-[-50%] z-[2]"
           >
-            Eliminar
+            Remover
           </Button>
         )}
         <Button
-          onClick={onOpenModal}
+          onClick={() => !currentUser && onOpenModal()}
           data-occupied={!!currentUser}
           className={
-            'h-[200px] z-[1] w-full data-[occupied=true]:bg-green-400/40 grid place-content-center relative bg-neutral-200/80 hover:border-neutral-800 border border-transparent rounded-2xl'
+            'h-full z-[1] w-full data-[occupied=true]:cursor-default data-[occupied=true]:bg-green-400/40 grid place-content-center relative bg-neutral-200/80 hover:border-neutral-800 border border-transparent rounded-2xl'
           }
           variant="none"
         >
           <div className="absolute text-sm tracking-tight top-3 left-3 text-neutral-800 font-medium">
-            {index}
+            {props.index}
           </div>
           {currentUser ? (
             <>
@@ -166,19 +70,22 @@ function Chair({ index, table, currentUser }: Props) {
               <div>
                 <div
                   className={
-                    'w-[70px] h-[70px] border border-neutral-400 mx-auto relative z-10 overflow-hidden rounded-full'
+                    'w-[70px] h-[70px] mx-auto relative z-10 overflow-hidden rounded-full'
                   }
                 >
-                  <img
+                  <Image
                     width={70}
                     height={70}
                     className="w-full h-full object-cover"
-                    src={currentUser?.user.image}
+                    src={getUserProfile(currentUser?.user.image)}
                     alt={currentUser?.user.names}
                   />
                 </div>
-                <span className="text-sm pt-2 block">
+                <p className="text-sm text-center pt-2 block">
                   {currentUser.user.names}
+                </p>
+                <span className="text-xs text-center opacity-80 block">
+                  {currentUser.user.email}
                 </span>
               </div>
               <RemainingTime currentUser={currentUser} />
@@ -193,13 +100,14 @@ function Chair({ index, table, currentUser }: Props) {
       {open && <Users onAdd={onAdd} />}
       {selectedUser && (
         <User
+          setValues={setValue}
           isPending={isPending}
           onSubmit={onSubmit}
           user={selectedUser}
           control={control}
         />
       )}
-    </>
+    </React.Fragment>
   )
 }
 

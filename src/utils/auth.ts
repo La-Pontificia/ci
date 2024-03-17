@@ -6,6 +6,7 @@ export type InputData = {
   name: string
   email: string
   image: string | null
+  dni: string
 }
 
 export type UserResponse = {
@@ -15,6 +16,7 @@ export type UserResponse = {
   tenant: User['tenant']
   type_user: User['type_user']
   names: string
+  dni: string
 }
 
 const defaultImage = process.env.PROFILE_DEFAULT_USER!
@@ -41,7 +43,8 @@ export function transformUserData(data: InputData): UserResponse {
     tenant,
     email: data.email,
     type_user,
-    names: data.name
+    names: data.name,
+    dni
   }
 
   return response

@@ -26,3 +26,9 @@ export function timeAgo(dateParam: any): string | null {
 
   return distance
 }
+
+// crea una funcion que me devuelva la fecha y la hora en español y recibe un parametro de date en formato Date
+export function formatSpanishDateAndTime(date: Date): string {
+  const formatHour = 'hh:mm a'
+  return `${format(date, formatHour)}`
+}

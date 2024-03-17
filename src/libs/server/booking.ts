@@ -1,106 +1,10 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import { type TableCurrentUser, type Table } from 'types/table'
-import { getRandomTable, getTable, updateTable } from '.'
+import { getTable, updateTable } from '.'
 import { connectToMongoDB, getCollection } from 'libs/mongodb'
-import { type Booking, type User } from 'types'
+import { type Booking } from 'types'
 import { ObjectId, type WithId } from 'mongodb'
 import { calculateTimeMargin } from 'utils'
-
-type FormData = {
-  headquarder: string
-  user: User
-  type: string
-  from: string
-  to: string
-  date: string
-  time: string
-}
-
-export async function createBooking(
-  data: FormData,
-  recursionCount: number = 0
-) {
-  if (recursionCount >= 3) {
-    throw new Error('No se encontro un cubículo para la reserva')
-  }
-
-  const tableRandom = await getRandomTable(data.headquarder, data.type)
-  if (!tableRandom) {
-    return await createBooking(data, recursionCount + 1)
-  }
-  const tableAvailable = await verifyBookingToTable(tableRandom, data)
-  if (!tableAvailable) {
-    return await createBooking(data, recursionCount + 1)
-  }
-
-  const newBooking: Booking = {
-    _id: new ObjectId(),
-    created_at: new Date(),
-    date: new Date(data.date),
-    from: new Date(data.from),
-    status: 'active',
-    table: {
-      _id: tableRandom._id,
-      floor: {
-        _id: tableRandom.floor._id,
-        headquarder: tableRandom.floor.headquarder,
-        name: tableRandom.floor.name
-      },
-      name: tableRandom.name,
-      type: tableRandom.type
-    },
-    time: data.time as Booking['time'],
-    to: new Date(data.to),
-    user: {
-      _id: data.user._id,
-      email: data.user.email,
-      image: data.user.image,
-      names: data.user.names,
-      tenant: data.user.tenant
-    }
-  }
-  await connectToMongoDB()
-  const collection = getCollection('bookings')
-  await collection.insertOne(newBooking)
-
-  return newBooking
-}
-
-export async function verifyBookingToTable(
-  table: Table,
-  form: FormData
-): Promise<boolean> {
-  try {
-    await connectToMongoDB()
-    const collection = getCollection('bookings')
-    const existingBookings: Booking[] = (await collection
-      .find({
-        date: new Date(form.date),
-        'table._id': table._id,
-        status: 'active'
-      })
-      .toArray()) as Booking[]
-
-    const overlappingBooking = existingBookings.find((book) => {
-      const bookingStart = book.from
-      const bookingEnd = book.to
-      const formStart = new Date(form.from)
-      const formEnd = new Date(form.to)
-
-      const overlap =
-        (bookingStart <= formStart && formStart < bookingEnd) ||
-        (bookingStart < formEnd && formEnd <= bookingEnd) ||
-        (formStart <= bookingStart && bookingEnd <= formEnd)
-
-      return overlap
-    })
-
-    return !overlappingBooking
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
-}
 
 export async function updateBooking(partials: any, _id?: ObjectId) {
   try {
@@ -118,68 +22,19 @@ export async function updateBooking(partials: any, _id?: ObjectId) {
   }
 }
 
-export async function completBooking(_id: string, chair: number) {
-  try {
-    await connectToMongoDB()
-    const booking = await getBooking(new ObjectId(_id))
-    const table = await getTable(booking.table._id.toString())
-    if (!table) throw new Error('No se encontro la mesa')
-    if (!booking) throw new Error('No se encontro la reserva')
-
-    const { displayTime, time } = calculateTimeMargin(booking.date, booking.to)
-    const newCurrentUser: TableCurrentUser = {
-      user: {
-        _id: booking.user._id,
-        email: booking.user.email,
-        image: booking.user.image,
-        names: booking.user.names,
-        tenant: booking.user.tenant,
-        type_user: 'student'
-      },
-      to: booking.to,
-      from: booking.from,
-      chair,
-      display_time: displayTime,
-      time
-    }
-    const newList = table.current_users.filter((e) => e.chair !== chair)
-    const current_users: Table['current_users'] = [...newList, newCurrentUser]
-    await updateTable({ current_users }, table._id)
-    await updateBooking({ status: 'completed' }, new ObjectId(_id))
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
-}
-
-export async function getBookings(
-  userId: ObjectId,
-  query?: string,
-  limit?: number
+export async function getBookingsByUserId(
+  userId: ObjectId
 ): Promise<Booking[]> {
   try {
     await connectToMongoDB()
     const collection = getCollection('bookings')
-    const regexQuery = new RegExp(query || '', 'i')
-    const cursor = collection
-      .find({
-        $or: [
-          { 'user.names': regexQuery },
-          { 'user.email': regexQuery },
-          { 'user.tenant': regexQuery }
-        ],
-        'user._id': userId
+    return await collection
+      .find<Booking>({
+        users: { $elemMatch: { _id: userId } }
       })
       .sort({ created_at: -1 })
-      .limit(limit ?? 10)
-
-    return (await cursor.toArray()).map((idWithId) => {
-      const { _id, ...rest } = idWithId as WithId<Booking>
-      return {
-        ...rest,
-        _id
-      }
-    })
+      .limit(20)
+      .toArray()
   } catch (error) {
     console.error(error)
     throw error
@@ -197,12 +52,16 @@ export async function getAllBookingsByFloor(
     const regexQuery = new RegExp(query || '', 'i')
     const cursor = collection
       .find({
-        $or: [
-          { 'user.names': regexQuery },
-          { 'user.email': regexQuery },
-          { 'user.tenant': regexQuery },
-          { 'table.name': regexQuery }
-        ],
+        users: {
+          $elemMatch: {
+            $or: [
+              { names: regexQuery },
+              { email: regexQuery },
+              { tenant: regexQuery },
+              { name: regexQuery }
+            ]
+          }
+        },
         'table.floor._id': floorId,
         status: 'active'
       })
@@ -263,6 +122,45 @@ export async function getBooking(_id: ObjectId): Promise<Booking> {
     return coll
   } catch (error) {
     console.error(error)
+    throw error
+  }
+}
+export async function completBooking(_id: string) {
+  try {
+    await connectToMongoDB()
+    const booking = await getBooking(new ObjectId(_id))
+    const table = await getTable(booking.table._id.toString())
+    if (!table) throw new Error('No se encontro la mesa')
+    if (!booking) throw new Error('No se encontro la reserva')
+
+    const { displayTime, time } = calculateTimeMargin(booking.date, booking.to)
+
+    const newCurrentUsers: TableCurrentUser[] = booking.users.map(
+      (user, i) => ({
+        chair: i + 1,
+        to: booking.to,
+        from: booking.from,
+        display_time: displayTime,
+        time,
+        user: {
+          _id: user._id,
+          email: user.email,
+          image: user.image,
+          names: user.names
+        }
+      })
+    )
+    const current_users: Table['current_users'] = newCurrentUsers
+
+    await updateTable(
+      {
+        current_users
+      },
+      table._id
+    )
+    await updateBooking({ status: 'completed' }, new ObjectId(_id))
+  } catch (error) {
+    console.log(error)
     throw error
   }
 }

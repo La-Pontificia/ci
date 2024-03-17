@@ -7,5 +7,7 @@ type Props = {
 }
 
 export default function SessionProviderClient({ children }: Props) {
-  return <SessionProvider>{children}</SessionProvider>
+  return (
+    <SessionProvider refetchOnWindowFocus={false}>{children}</SessionProvider>
+  )
 }

@@ -1,4 +1,4 @@
-import { getTable } from 'libs/server'
+import { getTable, getUserById } from 'libs/server'
 import { createRecord } from 'libs/server/record'
 import { ObjectId } from 'mongodb'
 import { type NextRequest, NextResponse } from 'next/server'
@@ -12,24 +12,14 @@ export async function POST(req: NextRequest) {
     if (!parsedData.success) throw new Error('Invalid data')
 
     const table = await getTable(parsedData.data.table_id)
-    const current = table?.current_users.find(
-      (current) => current.user._id.toString() === parsedData.data.user_id
-    )
 
     if (!table) throw new Error('Table not found')
-    if (!current) throw new Error('Current User not found')
 
-    const isNotComplet = new Date(current.to) < new Date()
+    const isNotComplet = new Date(table.current_users[0].to) < new Date()
 
-    const companions: Record['companions'] = table.companions
-      ? table.companions.map((e) => {
-          return {
-            _id: e._id,
-            names: e.names,
-            email: e.email
-          }
-        })
-      : []
+    const user = await getUserById(new ObjectId(parsedData.data.user_id))
+
+    if (!user) throw new Error('User not found')
 
     const constructRecord: Record = {
       _id: new ObjectId(),
@@ -40,18 +30,20 @@ export async function POST(req: NextRequest) {
         floor: table.floor,
         type: table.type
       },
-      companions,
       current: {
-        signed_to: current.to,
-        chair: current.chair,
-        from: current.from,
-        to: isNotComplet ? new Date() : current.to,
+        type_of_use: 'companion',
+        signed_to: table.current_users[0].to,
+        chair: table.current_users[0].chair,
+        from: table.current_users[0].from,
+        to: isNotComplet ? new Date() : table.current_users[0].to,
         user: {
-          _id: new ObjectId(current.user._id),
-          names: current.user.names,
-          email: current.user.email,
-          tenant: current.user.tenant,
-          type_user: current.user.type_user
+          _id: new ObjectId(user._id),
+          career: user.career,
+          sex: user.sex,
+          names: user.names,
+          email: user.email,
+          tenant: user.tenant,
+          type_user: user.type_user
         }
       }
     }
@@ -61,7 +53,8 @@ export async function POST(req: NextRequest) {
       msg: 'Record created'
     })
   } catch (error) {
-    NextResponse.json(
+    console.log(error)
+    return NextResponse.json(
       {
         error
       },

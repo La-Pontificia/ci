@@ -3,6 +3,7 @@ import SearchUser from './search'
 import Users from 'components/workspace/users'
 import Filters from './Filters'
 import { LineLoading } from 'commons/loading/line'
+import { UploadFile } from 'components/workspace/users/upload'
 
 export type Props = {
   searchParams: {
@@ -18,9 +19,10 @@ function UsersPage(props: Props) {
     searchParams: { q }
   } = props
   return (
-    <div className="max-w-2xl mx-auto px-3 py-5 w-full">
+    <div className="max-w-7xl mx-auto px-3 py-2 w-full">
       <SearchUser placeholder="Correo, dni, nombres" searchParams />
       <Filters searchParams={props.searchParams} />
+      <UploadFile />
       <Suspense
         key={`query-${q}`}
         fallback={

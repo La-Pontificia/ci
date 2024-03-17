@@ -1,29 +1,38 @@
 import { Button } from 'commons/button'
 import { Select } from 'commons/select'
 import Image from 'next/image'
-import React, { useState } from 'react'
-import { type Control } from 'react-hook-form'
+import React, { useEffect } from 'react'
+import { type UseFormSetValue, type Control } from 'react-hook-form'
 import { type User as UserType } from 'types'
-import { converterForma12Hour, generateFullDayHourList } from 'utils'
+import {
+  converterForma12Hour,
+  generateFullDayHourList,
+  getUserProfile
+} from 'utils'
 import { type TypeForm } from '.'
 import { toDate } from 'date-fns'
 
 type Props = {
   control: Control<TypeForm>
+  setValues: UseFormSetValue<TypeForm>
   user: UserType
   onSubmit: (u: UserType | null) => void
   isPending?: boolean
 }
 
-function User({ control, user, onSubmit, isPending }: Props) {
+function User({ control, user, onSubmit, isPending, setValues }: Props) {
   const now = toDate(new Date())
 
   const currentHour = now.getHours()
   const currentMinute = now.getMinutes()
 
-  const [toHour] = useState<string[]>(
-    generateFullDayHourList(`${currentHour}:${currentMinute}`).slice(1, 6)
-  )
+  const toHour = generateFullDayHourList(
+    `${currentHour}:${currentMinute}`
+  ).slice(1, 6)
+
+  useEffect(() => {
+    setValues('to', toHour[0])
+  }, [])
 
   return (
     <div className="absolute z-10 flex flex-col inset-0 rounded-2xl bg-white p-3">
@@ -36,7 +45,7 @@ function User({ control, user, onSubmit, isPending }: Props) {
             width={200}
             className="w-full h-full object-cover"
             height={200}
-            src={user.image}
+            src={getUserProfile(user.image)}
             alt={user.names}
           />
         </span>

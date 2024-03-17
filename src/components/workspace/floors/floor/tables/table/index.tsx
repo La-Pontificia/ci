@@ -10,6 +10,7 @@ import { Modal } from 'commons/modal'
 import ModalContent from './modal'
 import DropDownTable from './dropdown'
 import { UsersIcon } from 'icons'
+import { useCheckReservation } from './use-check-reservation'
 
 type Props = {
   table: NewTypeTable
@@ -74,6 +75,8 @@ function Table({ table }: Props) {
 
   const { size } = getUI(table)
 
+  const { isReserved } = useCheckReservation(table.reserved_dates ?? [])
+
   return (
     <Modal
       title={table.name}
@@ -108,8 +111,9 @@ function Table({ table }: Props) {
             }}
           >
             <div
+              aria-disabled={isReserved}
               data-currents={table.current_users.length > 0}
-              className="relative text-white data-[currents=true]:bg-blue-500/20 rounded-[inherit] w-full h-full grid place-content-center"
+              className="relative text-white aria-disabled:bg-orange-500/30 data-[currents=true]:bg-blue-500/20 rounded-[inherit] w-full h-full grid place-content-center"
             >
               {isEditing && (
                 <span className="absolute z-10 top-1 right-1">
@@ -130,7 +134,7 @@ function Table({ table }: Props) {
         </Draggable>
       }
     >
-      {open && <ModalContent table={table} />}
+      {open && <ModalContent isReserved={isReserved} table={table} />}
     </Modal>
   )
 }

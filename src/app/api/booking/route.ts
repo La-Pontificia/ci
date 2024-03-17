@@ -1,5 +1,7 @@
 import { getUserByIdentifier } from 'libs/server'
-import { createBooking, getBookings } from 'libs/server/booking'
+import { getBookingsByUserId } from 'libs/server/booking'
+import { generateBooking } from 'libs/server/bookings'
+import { ObjectId } from 'mongodb'
 import { getToken } from 'next-auth/jwt'
 import { NextResponse, type NextRequest } from 'next/server'
 import { z } from 'zod'
@@ -11,20 +13,32 @@ export async function POST(req: NextRequest) {
     if (!parsedData.success) {
       return NextResponse.json(parsedData.error, { status: 400 })
     }
-
     const session = await getToken({
       req,
       secret: process.env.NEXTAUTH_SECRET
     })
     if (!session?.sub) return NextResponse.json({ status: 401 })
 
-    const user = await getUserByIdentifier(session.sub)
-    if (!user) return NextResponse.json({ status: 401 })
+    const form = {
+      from: new Date(parsedData.data.from),
+      headquarder: parsedData.data.headquarder,
+      to: new Date(parsedData.data.to),
+      ids: parsedData.data.ids.map((id) => new ObjectId(id))
+    }
 
-    const res = await createBooking({ ...parsedData.data, user })
+    const type = parsedData.data.type
+
+    const res =
+      type === 'table'
+        ? await generateBooking({ ...form, type: 'table' })
+        : type === 'pc'
+        ? await generateBooking({ ...form, type: 'pc' })
+        : null
+
+    if (res === null) throw new Error('Not found ')
     return NextResponse.json(res, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ status: 500 }, { status: 500 })
+    return NextResponse.json({ error }, { status: 500 })
   }
 }
 
@@ -44,10 +58,7 @@ export async function GET(req: NextRequest) {
     const user = await getUserByIdentifier(session.sub)
     if (!user) return NextResponse.json({ status: 401 })
 
-    const query = req.nextUrl.searchParams.get('q') ?? ''
-    const limit = req.nextUrl.searchParams.get('limit') ?? '10'
-
-    const bookings = await getBookings(user._id, query, parseInt(limit))
+    const bookings = await getBookingsByUserId(user._id)
     return NextResponse.json(bookings, { status: 200 })
   } catch (error) {
     return NextResponse.json({ status: 500 })
@@ -59,6 +70,6 @@ const BookingSchema = z.object({
   headquarder: z.string(),
   from: z.string(),
   to: z.string(),
-  type: z.string(),
-  time: z.string()
+  type: z.enum(['table', 'pc']),
+  ids: z.array(z.string())
 })

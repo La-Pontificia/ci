@@ -31,15 +31,15 @@ export const metadata: Metadata = {
     description: 'Centro de información - Escuela Superior La Pontificia',
     siteName: 'Centro de información - La Pontificia',
     url: 'https://ci.ilp.edu.pe',
-    images: '/only-logo.png'
+    images: '/optimize/favicon.webp'
   },
   icons: {
-    icon: '/only-logo.png'
+    icon: '/optimize/favicon.webp'
   },
   twitter: {
     card: 'summary_large_image',
     creator: '@ELP_Ayacucho',
-    images: ['/only-logo.png'],
+    images: ['/optimize/favicon.webp'],
     site: '@ELP_Ayacucho',
     title: 'Bilblioteca virtual - La Pontificia',
     description: 'Bilblioteca virtual - Escuela Superior La Pontificia'

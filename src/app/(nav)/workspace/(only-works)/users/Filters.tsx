@@ -33,11 +33,12 @@ function Filters({ searchParams: { status, tenant, type } }: Props) {
   }
 
   return (
-    <div className="flex gap-2 items-center pt-4">
+    <div className="flex gap-2 max-w-lg items-center pt-2">
       <Select
         onChange={(e) => changeURL('type')}
         placeholder="Tipo de usuario"
         control={control}
+        className="border-0"
         name="type"
       >
         <option value=""></option>
@@ -47,6 +48,7 @@ function Filters({ searchParams: { status, tenant, type } }: Props) {
       <Select
         onChange={(e) => changeURL('status')}
         placeholder="Estado"
+        className="border-0"
         control={control}
         name="status"
       >
@@ -58,6 +60,7 @@ function Filters({ searchParams: { status, tenant, type } }: Props) {
         onChange={(e) => changeURL('tenant')}
         placeholder="Institucion"
         control={control}
+        className="border-0"
         name="tenant"
       >
         <option value=""></option>

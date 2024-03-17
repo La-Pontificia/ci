@@ -5,6 +5,7 @@ export async function GET() {
     // const list = await getDataListParser()
     return NextResponse.json({
       success: 'success'
+      // list
     })
   } catch (error) {
     console.log(error)

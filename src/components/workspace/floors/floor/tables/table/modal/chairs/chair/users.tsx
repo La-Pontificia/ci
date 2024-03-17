@@ -5,6 +5,7 @@ import { SearchIcon } from 'icons'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { type User } from 'types'
+import { getUserProfile } from 'utils'
 
 type Props = {
   onAdd: (v: User | null) => void
@@ -61,7 +62,7 @@ function Users({ onAdd }: Props) {
                   <Image
                     width={40}
                     height={40}
-                    src={user.image}
+                    src={getUserProfile(user.image)}
                     className="w-full h-full object-cover"
                     alt={user.names}
                   />

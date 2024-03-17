@@ -4,6 +4,7 @@ import React from 'react'
 import DropDownUser from './user-dropdown'
 import { usePathname } from 'next/navigation'
 import CloseButton from './close-button'
+import Link from 'next/link'
 
 export default function Nav() {
   const pathnme = usePathname()
@@ -31,13 +32,15 @@ export default function Nav() {
             ></path>
           </svg>
           <span className="h-6 w-[1px] rotate-12 border-l border-black/50" />
-          <div className="w-24 saturate-150">
-            <img
-              src="/optimize/elp.webp"
-              className="object-cover w-full h-full"
-              alt=""
-            />
-          </div>
+          <Link href="/">
+            <div className="w-9 saturate-150">
+              <img
+                src="/optimize/favicon.webp"
+                className="object-cover w-full h-full"
+                alt="Logo La Pontificia - Centro de información"
+              />
+            </div>
+          </Link>
         </div>
       </nav>
       <DropDownUser />

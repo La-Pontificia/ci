@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { ToastContainer } from 'commons/utils'
 import { useRemainingTime } from 'hooks/useReminingTime'
 import React from 'react'
 import { toast } from 'sonner'
@@ -15,23 +14,49 @@ export const useNotify = ({ currentUser, table }: Props) => {
   const { active } = useRemainingTime(currentUser.from, currentUser.to)
   const tables = useTables((store) => store.tables)
   const setTables = useTables((store) => store.setTables)
+
   const removeUser = async () => {
     try {
-      // create record
-      await axios.post('/api/records', {
-        table_id: table._id,
-        user_id: currentUser?.user._id
-      })
+      const uriRecord =
+        table.type === 'pc' ? '/api/records/pc' : '/api/records/table/per-user'
+      const newCurrentUsers =
+        table.type === 'pc'
+          ? []
+          : table.current_users.filter((e) => e.chair !== currentUser.chair)
 
-      const newCurrentUsers = table.current_users.filter(
-        (e) => e.chair !== currentUser.chair
-      )
-      await axios.patch(
-        `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
+      // create record
+      toast.promise(
+        axios.post(uriRecord, {
+          table_id: table._id,
+          user_id: currentUser?.user._id
+        }),
         {
-          current_users: newCurrentUsers
+          loading: 'Creando asistencia...',
+          success: () => {
+            return 'Asistencia creada con éxito'
+          },
+          error: 'Error',
+          finally: () => {
+            // update table
+            toast.promise(
+              axios.patch(
+                `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
+                {
+                  current_users: newCurrentUsers
+                }
+              ),
+              {
+                loading: 'Actualizando PC/MESA...',
+                success: () => {
+                  return 'PC/MESA actualizada con éxito'
+                },
+                error: 'Error'
+              }
+            )
+          }
         }
       )
+
       setTables(
         tables.map((t) => {
           if (t._id === table._id) {
@@ -76,12 +101,23 @@ export const useNotify = ({ currentUser, table }: Props) => {
           }
           return e
         })
-        await axios.patch(
-          `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
+
+        toast.promise(
+          await axios.patch(
+            `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
+            {
+              current_users: newCurrentUsers
+            }
+          ),
           {
-            current_users: newCurrentUsers
+            loading: 'Extendiendo tiempo...',
+            success: () => {
+              return 'Tiempo extendido con éxito'
+            },
+            error: 'Error'
           }
         )
+
         setTables(
           tables.map((t) => {
             if (t._id === table._id) {
@@ -93,7 +129,6 @@ export const useNotify = ({ currentUser, table }: Props) => {
             return t
           })
         )
-        toast(ToastContainer('Tiempo extendido'))
       } catch (error) {
         console.error(error)
       }
