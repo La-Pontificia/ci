@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { Button } from 'commons/button'
-import { Modal } from 'commons/modal'
 import Search from 'commons/search'
 import { useDialog } from 'commons/vaul/use-dialog'
 import { useDebouncedInput } from 'hooks/userDebouncedInput'
-import { PlusIcon, TrashIcon } from 'icons'
+import { AddCircleIcon, PlusIcon, TrashIcon } from 'icons'
+import * as Drawer from 'commons/vaul'
 import Image from 'next/image'
 import React from 'react'
 import { toast } from 'sonner'
@@ -12,6 +12,7 @@ import { useTables, type NewTypeTable } from 'stores/tables/tables.store'
 import { type User } from 'types'
 import { type TableCurrentUser, type Table } from 'types/table'
 import { getUserProfile } from 'utils'
+import { AddNewUser } from './chairs/chair/add-new-user'
 
 type Props = {
   table: NewTypeTable
@@ -168,64 +169,93 @@ export function MultipleUsers({ table }: Props) {
               </div>
             )
           })}
-          <Button
-            variant="none"
-            className="aspect-square hover:border-black/80 grid place-content-center border-dashed border-2 rounded-2xl text-sm p-2"
-            onClick={onOpen}
-          >
-            <PlusIcon className="w-7" />
-          </Button>
+          <Drawer.root open={open} onOpenChange={setOpen}>
+            <Drawer.trigger asChild>
+              <Button
+                variant="none"
+                className="aspect-square hover:border-black/80 grid place-content-center border-dashed border-2 rounded-2xl text-sm p-2"
+                onClick={onOpen}
+              >
+                <PlusIcon className="w-7" />
+              </Button>
+            </Drawer.trigger>
+            <Drawer.content>
+              <div className=" max-w-[31rem] mx-auto p-2">
+                <Search
+                  onChange={onChange}
+                  autoFocus
+                  placeholder="Buscar usuario"
+                />
+                <div className="pt-3">
+                  <div className="flex py-3 flex-col max-h-[500px] overflow-y-auto gap-0 px-0">
+                    {usersList.length > 0 ? (
+                      usersList.map((user) => {
+                        return (
+                          <Button
+                            onClick={async () => await onAdd(user)}
+                            variant="none"
+                            key={user._id.toString()}
+                            className="flex hover:bg-neutral-100 p-2 rounded-2xl items-center gap-2"
+                          >
+                            <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                              <Image
+                                width={40}
+                                height={40}
+                                src={getUserProfile(user.image)}
+                                className="w-full h-full object-cover"
+                                alt={user.names}
+                              />
+                            </div>
+                            <div>
+                              <h3 className="text-neutral-900 capitalize font-medium line-clamp-1">
+                                {user.names.toLocaleLowerCase()}
+                              </h3>
+                              <p className="text-sm font-normal text-neutral-700">
+                                {user.email}
+                              </p>
+                            </div>
+                          </Button>
+                        )
+                      })
+                    ) : (
+                      <>
+                        {users.length === 0 && debouncedValue !== null && (
+                          <AddNewUser
+                            onEnd={async (u) => {
+                              // eslint-disable-next-line no-void
+                              u && void onAdd(u)
+                            }}
+                          >
+                            <Button
+                              icon={<AddCircleIcon className="w-5" />}
+                              className="mx-auto w-60 flex items-center gap-3 p-2 text-base rounded-xl text-center"
+                              variant="black"
+                              isFilled
+                            >
+                              Registrar nuevo usuario
+                            </Button>
+                          </AddNewUser>
+                        )}
+                        <div className="text-center p-20">
+                          No hay nada que mostrar
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <Button
+                    onClick={onClose}
+                    variant="black"
+                    className="w-full p-2 text-sm"
+                    isFilled
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            </Drawer.content>
+          </Drawer.root>
         </div>
       </div>
-      <Modal hiddenFooter hiddenHeader open={open} onOpenChange={setOpen}>
-        <div className="w-[450px] p-2">
-          <Search onChange={onChange} autoFocus placeholder="Buscar usuario" />
-          <div className="pt-3">
-            <div className="flex py-3 flex-col max-h-[500px] overflow-y-auto gap-0 px-0">
-              {usersList.length > 0 ? (
-                usersList.map((user) => {
-                  return (
-                    <Button
-                      onClick={async () => await onAdd(user)}
-                      variant="none"
-                      key={user._id.toString()}
-                      className="flex hover:bg-neutral-100 p-2 rounded-2xl items-center gap-2"
-                    >
-                      <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                        <Image
-                          width={40}
-                          height={40}
-                          src={getUserProfile(user.image)}
-                          className="w-full h-full object-cover"
-                          alt={user.names}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-neutral-900 capitalize font-medium line-clamp-1">
-                          {user.names.toLocaleLowerCase()}
-                        </h3>
-                        <p className="text-sm font-normal text-neutral-700">
-                          {user.email}
-                        </p>
-                      </div>
-                    </Button>
-                  )
-                })
-              ) : (
-                <div className="text-center p-20">No hay nada que mostrar</div>
-              )}
-            </div>
-            <Button
-              onClick={onClose}
-              variant="black"
-              className="w-full p-2 text-sm"
-              isFilled
-            >
-              Cancelar
-            </Button>
-          </div>
-        </div>
-      </Modal>
     </>
   )
 }
