@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { Button } from 'commons/button'
 import { useDebouncedInput } from 'hooks/userDebouncedInput'
-import { SearchIcon } from 'icons'
+import { AddCircleIcon, SearchIcon } from 'icons'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { type User } from 'types'
 import { getUserProfile } from 'utils'
+import { AddNewUser } from './add-new-user'
 
 type Props = {
   onAdd: (v: User | null) => void
@@ -46,7 +47,21 @@ function Users({ onAdd }: Props) {
       </div>
       {users.length === 0 ? (
         <div className="h-full w-full grid place-content-center">
-          <span className="text-blue-500">No hay nada que mostrar</span>
+          <span className="text-blue-500 text-center">
+            No hay nada que mostrar
+          </span>
+          {users.length === 0 && debouncedValue !== null && (
+            <AddNewUser onEnd={onAdd}>
+              <Button
+                icon={<AddCircleIcon className="w-5" />}
+                className="w-full flex items-center gap-3 p-2 text-base rounded-xl text-center"
+                variant="black"
+                isFilled
+              >
+                Agregar nuevo usuario
+              </Button>
+            </AddNewUser>
+          )}
         </div>
       ) : (
         <div className="flex py-3 flex-col overflow-y-auto gap-0 px-0">
