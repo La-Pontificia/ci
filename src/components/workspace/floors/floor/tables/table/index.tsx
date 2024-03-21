@@ -6,11 +6,11 @@ import { getUI } from './utils'
 import Chairs from './chairs'
 import { useUI } from 'stores'
 import { useModal } from 'hooks/useModal'
-import { Modal } from 'commons/modal'
 import ModalContent from './modal'
 import DropDownTable from './dropdown'
 import { UsersIcon } from 'icons'
 import { useCheckReservation } from './use-check-reservation'
+import * as Drawer from 'commons/vaul'
 
 type Props = {
   table: NewTypeTable
@@ -78,64 +78,62 @@ function Table({ table }: Props) {
   const { isReserved } = useCheckReservation(table.reserved_dates ?? [])
 
   return (
-    <Modal
-      title={table.name}
-      hiddenFooter
-      width={500}
-      backdropBlur
-      onOpenChange={setOpen}
-      {...{ open }}
-      trigger={
-        <Draggable
-          defaultPosition={{
-            x,
-            y
+    <Drawer.root open={open} onOpenChange={setOpen}>
+      <Drawer.trigger asChild>
+        <div
+          role="button"
+          onClick={() => {
+            !isEditing && table.status && onOpenModal()
           }}
-          grid={[20, 20]}
-          disabled={!isEditing}
-          onStop={onStop}
-          onDrag={onDrag}
-          onStart={onStart}
         >
-          <div
-            role="button"
-            onClick={() => {
-              !isEditing && table.status && onOpenModal()
+          <Draggable
+            defaultPosition={{
+              x,
+              y
             }}
-            aria-disabled={!table.status}
-            data-editing={isEditing}
-            className="fixed aria-disabled:opacity-30 group data-[editing=true]:cursor-grabbing cursor-pointer rounded-2xl bg-neutral-300 hover:bg-neutral-200"
-            style={{
-              width: size[0],
-              height: size[1]
-            }}
+            grid={[20, 20]}
+            disabled={!isEditing}
+            onStop={onStop}
+            onDrag={onDrag}
+            onStart={onStart}
           >
             <div
-              aria-disabled={isReserved}
-              data-currents={table.current_users.length > 0}
-              className="relative text-white aria-disabled:bg-orange-500/30 data-[currents=true]:bg-blue-500/20 rounded-[inherit] w-full h-full grid place-content-center"
+              aria-disabled={!table.status}
+              data-editing={isEditing}
+              className="fixed aria-disabled:opacity-30 group data-[editing=true]:cursor-grabbing cursor-pointer rounded-2xl bg-neutral-300 hover:bg-neutral-200"
+              style={{
+                width: size[0],
+                height: size[1]
+              }}
             >
-              {isEditing && (
-                <span className="absolute z-10 top-1 right-1">
-                  <DropDownTable table={table} />
+              <div
+                aria-disabled={isReserved}
+                data-currents={table.current_users.length > 0}
+                className="relative text-white aria-disabled:bg-orange-500/30 data-[currents=true]:bg-blue-500/20 rounded-[inherit] w-full h-full grid place-content-center"
+              >
+                {isEditing && (
+                  <span className="absolute z-10 top-1 right-1">
+                    <DropDownTable table={table} />
+                  </span>
+                )}
+                {table.accept_mutiple && (
+                  <span className="absolute text-white w-5 p-0.5 aspect-square rounded-full bg-blue-500 z-10 bottom-1 left-1">
+                    <UsersIcon />
+                  </span>
+                )}
+                <Chairs table={table} />
+                <span className="text-xs font-semibold opacity-50 text-black">
+                  {table.name}
                 </span>
-              )}
-              {table.accept_mutiple && (
-                <span className="absolute text-white w-5 p-0.5 aspect-square rounded-full bg-blue-500 z-10 bottom-1 left-1">
-                  <UsersIcon />
-                </span>
-              )}
-              <Chairs table={table} />
-              <span className="text-xs font-semibold opacity-50 text-black">
-                {table.name}
-              </span>
+              </div>
             </div>
-          </div>
-        </Draggable>
-      }
-    >
-      {open && <ModalContent isReserved={isReserved} table={table} />}
-    </Modal>
+          </Draggable>
+        </div>
+      </Drawer.trigger>
+      <Drawer.content>
+        <ModalContent isReserved={isReserved} table={table} />
+      </Drawer.content>
+    </Drawer.root>
   )
 }
 
