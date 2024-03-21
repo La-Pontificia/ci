@@ -7,9 +7,19 @@ import {
   type User as UserNextAuth
 } from 'next-auth'
 import { type User } from 'types'
-import { getRandomUserProfile } from 'utils'
 import { type UserResponse } from 'utils/auth'
 
+export async function createUser(user: User) {
+  try {
+    await connectToMongoDB()
+    const collection = getCollection('users')
+    await collection.createIndex({ email: 1 }, { unique: true })
+    await collection.insertOne(user)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
 export async function updateUser(
   partials: Partial<User> | any,
   _id?: ObjectId
@@ -102,7 +112,7 @@ export async function creteNewUser(user: UserResponse) {
       facebook_id: null,
       access_token_facebook: null,
       created_at: new Date(),
-      image: getRandomUserProfile(),
+      image: user.image,
       email: user.email,
       is_active: true,
       is_admin: false,
