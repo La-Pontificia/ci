@@ -375,3 +375,8 @@ export function checkReservations(
 
   return reservedItem || false
 }
+
+export function validateEmail(email: string): boolean {
+  const emailPattern = /^[^\s@]+@(elp|ilp)\.edu\.pe$/
+  return emailPattern.test(email)
+}
