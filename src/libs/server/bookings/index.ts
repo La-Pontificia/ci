@@ -56,6 +56,7 @@ async function generateBooking(form: FormData, recursionCount: number = 0) {
       form.from,
       form.to
     )
+
     if (bookings > 0) {
       ids.push(tableRandom._id)
       return await generateBooking(form, recursionCount + 1)
@@ -130,6 +131,7 @@ async function constructAndCreate(
     )
 
     await createBooking(newBooking)
+
     return newBooking
   } catch (error) {
     throw error
