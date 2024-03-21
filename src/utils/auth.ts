@@ -29,7 +29,7 @@ export function transformUserData(data: InputData): UserResponse {
   } else if (e === 'ilp.edu.pe') {
     tenant = 'ilp'
   } else {
-    throw new Error(`tenantNotAllowed ${e}`)
+    throw new Error('tenantNotAllowed')
   }
 
   const dniMatch = data.email.match(/\d{8}/)
