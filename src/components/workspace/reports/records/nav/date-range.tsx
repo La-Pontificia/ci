@@ -23,12 +23,34 @@ export function DateRangeNav() {
     else params.set(queryName, format(value, 'MM-dd-yyyy'))
   }
 
+  let defaultFrom = params.get('from')
+    ? new Date(params.get('from')!)
+    : undefined
+  let defaultTo = params.get('to') ? new Date(params.get('to')!) : undefined
+
+  // Add default range if no parameters are present
+  if (!defaultFrom && !defaultTo) {
+    const today = new Date()
+    const startOfWeek = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - today.getDay()
+    )
+    const endOfWeek = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + (6 - today.getDay())
+    )
+    defaultFrom = startOfWeek
+    defaultTo = endOfWeek
+  }
+
   return (
     <div className="w-[300px]">
       <DatePickerWithRange
         defaultValue={{
-          from: params.get('from') ? new Date(params.get('from')!) : undefined,
-          to: params.get('to') ? new Date(params.get('to')!) : undefined
+          from: defaultFrom,
+          to: defaultTo
         }}
         onChange={handleChange}
       />
