@@ -14,8 +14,13 @@ import {
   getUsePerHeadquarder
 } from './calculations'
 import ReactApexChart from 'react-apexcharts'
-import { useRecords } from 'stores'
-export function RecordReportClient({ records }: { records: Record[] }) {
+import { ExportExcel } from './nav/export'
+export function RecordReportClient({
+  recordsStringify
+}: {
+  recordsStringify: string
+}) {
+  const records = JSON.parse(recordsStringify) as Record[]
   const { countAlameda, countjazmines } = getUsePerHeadquarder(records)
   const { countTurn8to12, countTurn12to20 } = getPerTurn(records)
   const {
@@ -26,10 +31,6 @@ export function RecordReportClient({ records }: { records: Record[] }) {
     countMoreThan4Hours
   } = getRecordsByDuration(records)
 
-  useRecords.setState({
-    records: records.map((e) => ({ ...e, _id: e._id.toString() }))
-  })
-
   const { countExecutive, countStudent } = getRecodsByTypeUser(records)
   const { countPc, countTable } = getRecodsByTypeUse(records)
 
@@ -39,7 +40,8 @@ export function RecordReportClient({ records }: { records: Record[] }) {
   const MostUsedTables = getMostUsedTablesByDay(records)
   return (
     <div className="p-1">
-      <div className="grid max-700:grid-cols-1 grid-cols-2 gap-3">
+      <ExportExcel records={records} />
+      <div className="grid mt-3 max-700:grid-cols-1 grid-cols-2 gap-3">
         <Card title="Atenciones">
           <ReactApexChart
             width={'100%'}
@@ -62,7 +64,12 @@ export function RecordReportClient({ records }: { records: Record[] }) {
                 enabled: false
               },
               stroke: {
-                curve: 'smooth'
+                curve: 'straight'
+              },
+              colors: ['#FF335E', '#FFCE33'],
+              fill: {
+                type: 'solid',
+                opacity: 0.5
               },
               xaxis: {
                 type: 'category',
@@ -104,7 +111,7 @@ export function RecordReportClient({ records }: { records: Record[] }) {
                 type: 'area'
               },
               dataLabels: {
-                enabled: false
+                enabled: true
               },
               stroke: {
                 curve: 'smooth'

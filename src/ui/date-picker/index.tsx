@@ -16,6 +16,7 @@ interface Props
     'onChange' | 'defaultValue'
   > {
   onChange?: (e: DateRange | undefined) => void
+  value?: DateRange
   defaultValue?: DateRange
 }
 export function DatePickerWithRange({
@@ -26,6 +27,7 @@ export function DatePickerWithRange({
   const [date, setDate] = React.useState<DateRange | undefined>(defaultValue)
 
   React.useEffect(() => {
+    if (date === defaultValue) return
     onChange?.(date)
   }, [date])
 

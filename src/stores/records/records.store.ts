@@ -7,11 +7,13 @@ export interface NewRecord extends Omit<Record, '_id'> {
 
 export interface TablesState {
   records: NewRecord[]
+  setRecords: (records: NewRecord[]) => void
 }
 
 const StoreApi: StateCreator<TablesState> = (set) => {
   return {
-    records: []
+    records: [],
+    setRecords: (records) => set({ records })
   }
 }
 

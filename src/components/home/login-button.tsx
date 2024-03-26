@@ -30,12 +30,12 @@ function LoginButton() {
   const errorMessage = handleErrorNextAuth(error)
   return (
     <>
-      <div className="flex gap-3 mt-5 ">
+      <div className="flex gap-3 [animation-delay:500ms] animate-fade-in-right mt-5 ">
         <button
           disabled={isPending}
           onClick={signInFetch}
           aria-hidden={isPending}
-          className="border-neutral-700 max-700:w-full px-6 aria-hidden:animate-pulse aria-hidden:opacity-50 text-neutral-800 transition-all border divide-x divide-neutral-400 relative overflow-hidden rounded-full justify-center flex items-center p-3 py-2 gap-4 font-medium"
+          className="border-neutral-700 max-700:w-full px-6 aria-hidden:animate-pulse aria-hidden:opacity-50 text-white transition-all border divide-x divide-neutral-400 relative overflow-hidden rounded-full justify-center flex items-center p-3 py-2 gap-4 font-medium"
         >
           {auth ? (
             <div>

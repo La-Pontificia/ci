@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { type DateRange } from 'react-day-picker'
 import { DatePickerWithRange } from 'ui/date-picker'
+import { getWekRange } from 'utils'
 
 export function DateRangeNav() {
   const searchParams = useSearchParams()
@@ -30,17 +31,7 @@ export function DateRangeNav() {
 
   // Add default range if no parameters are present
   if (!defaultFrom && !defaultTo) {
-    const today = new Date()
-    const startOfWeek = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - today.getDay()
-    )
-    const endOfWeek = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() + (6 - today.getDay())
-    )
+    const [startOfWeek, endOfWeek] = getWekRange()
     defaultFrom = startOfWeek
     defaultTo = endOfWeek
   }

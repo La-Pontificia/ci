@@ -380,3 +380,18 @@ export function validateEmail(email: string): boolean {
   const emailPattern = /^[^\s@]+@(elp|ilp)\.edu\.pe$/
   return emailPattern.test(email)
 }
+
+export function getWekRange() {
+  const today = new Date()
+  const startOfWeek = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() - today.getDay()
+  )
+  const endOfWeek = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + (6 - today.getDay())
+  )
+  return [startOfWeek, endOfWeek]
+}

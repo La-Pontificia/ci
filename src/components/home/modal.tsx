@@ -4,7 +4,7 @@ import { disableScrollbar, enableScrollbar } from 'utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { XmarkIcon, ArrowDownIcon, MenuIcon } from 'icons'
+import { XmarkIcon, MenuIcon } from 'icons'
 
 function ModalMenu() {
   const [open, setOpen] = useState(false)
@@ -58,7 +58,7 @@ function ModalMenu() {
           <ul
             data-aos="fade-up"
             data-aos-delay="500"
-            className="font-serif flex-wrap flex flex-col gap-5 font-medium text-neutral-300 text-6xl"
+            className="font-canela flex-wrap flex flex-col gap-5 text-neutral-300 text-6xl"
           >
             <li>
               <Link href="/" className="hover:underline hover:text-white">
@@ -80,11 +80,7 @@ function ModalMenu() {
           </ul>
         </nav>
         <footer className="mt-auto p-8 text-lg border-t flex items-center gap-5 border-t-neutral-700 text-neutral-400">
-          <h3 className="font-medium">Enlaces rápidos</h3>
-          <span className="w-7 block -rotate-90">
-            <ArrowDownIcon />
-          </span>
-          <ul className="font-bold text-neutral-300 flex-wrap flex gap-6 items-center">
+          <ul className="font-canela text-neutral-300 flex-wrap flex gap-6 items-center">
             <li>
               <a
                 className="hover:opacity-70 transition-colors"

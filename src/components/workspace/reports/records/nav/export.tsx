@@ -4,12 +4,12 @@ import { Button } from 'commons/button'
 import { CAREERS } from '../../../../../constants'
 import { format } from 'date-fns'
 import React from 'react'
-import { type NewRecord, useRecords } from 'stores'
 
 import * as XLSX from 'xlsx'
 import { calculateDurationByDates } from 'utils'
+import { type Record } from 'types/record'
 
-const getMapping = (records: NewRecord[]) =>
+const getMapping = (records: Record[]) =>
   records.map((record, i) => {
     const turno =
       new Date(record.current.from).getHours() >= 8 &&
@@ -25,7 +25,11 @@ const getMapping = (records: NewRecord[]) =>
       'N°': i + 1,
       Fecha: format(record.created_at, 'dd/MM/yyyy'),
       Encargado: record.responsible?.nick_name ?? '-',
-      Codigo: record.current.user.dni,
+      Codigo:
+        record.current.user.type_user === 'student'
+          ? record.current.user.email.trim().split('@')[0]
+          : record.current.user.dni,
+
       Nombre: record.current.user.names,
       Carrera: record.current.user.career
         ? `${record.current.user.career}:${CAREERS[record.current.user.career]}`
@@ -57,9 +61,7 @@ const getMapping = (records: NewRecord[]) =>
     }
   })
 
-export function ExportExcel() {
-  const records = useRecords((store) => store.records)
-
+export function ExportExcel({ records }: { records: Record[] }) {
   const onExport = () => {
     const exportRecords = getMapping(records)
     const ws = XLSX.utils.json_to_sheet(exportRecords)

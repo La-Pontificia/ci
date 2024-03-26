@@ -3,7 +3,6 @@ import React from 'react'
 import { TablesSelect } from './tables'
 import { DateRangeNav } from './date-range'
 import { TenantSelect } from './tenant'
-import { ExportExcel } from './export'
 export function Nav() {
   return (
     <div className="pb-2 flex items-center flex-wrap gap-2">
@@ -12,7 +11,6 @@ export function Nav() {
         <TablesSelect />
         <TenantSelect />
       </div>
-      <ExportExcel />
     </div>
   )
 }
