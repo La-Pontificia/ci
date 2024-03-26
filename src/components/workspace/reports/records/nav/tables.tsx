@@ -43,10 +43,10 @@ export function TablesSelect() {
     <div>
       <select
         onChange={onChange}
-        className="w-full border-2 rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal"
+        className="w-full border rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal"
       >
         <option selected value="">
-          Mesa/Computadora
+          Mesa
         </option>
         {floors?.map((floor) => (
           <optgroup
