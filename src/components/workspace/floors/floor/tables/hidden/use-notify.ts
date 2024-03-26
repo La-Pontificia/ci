@@ -103,7 +103,7 @@ export const useNotify = ({ currentUser, table }: Props) => {
         })
 
         toast.promise(
-          await axios.patch(
+          axios.patch(
             `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
             {
               current_users: newCurrentUsers
