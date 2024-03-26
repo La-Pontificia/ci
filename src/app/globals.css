@@ -15,8 +15,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-Thin'),
-    url('/fonts/Canela/Canela-Thin.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-Thin.woff') format('woff');
+    url('/fonts/canela/Canela-Thin.woff2') format('woff2'),
+    url('/fonts/canela/Canela-Thin.woff') format('woff');
   font-weight: 100;
 }
 
@@ -24,8 +24,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-ThinItalic'),
-    url('/fonts/Canela/Canela-ThinItalic.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-ThinItalic.woff') format('woff');
+    url('/fonts/canela/Canela-ThinItalic.woff2') format('woff2'),
+    url('/fonts/canela/Canela-ThinItalic.woff') format('woff');
   font-weight: 100;
   font-style: italic;
 }
@@ -34,8 +34,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-Light'),
-    url('/fonts/Canela/Canela-Light.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-Light.woff') format('woff');
+    url('/fonts/canela/Canela-Light.woff2') format('woff2'),
+    url('/fonts/canela/Canela-Light.woff') format('woff');
   font-weight: 300;
 }
 
@@ -43,8 +43,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-LightItalic'),
-    url('/fonts/Canela/Canela-LightItalic.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-LightItalic.woff') format('woff');
+    url('/fonts/canela/Canela-LightItalic.woff2') format('woff2'),
+    url('/fonts/canela/Canela-LightItalic.woff') format('woff');
   font-weight: 300;
   font-style: italic;
 }
@@ -53,8 +53,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-Regular'),
-    url('/fonts/Canela/Canela-Regular.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-Regular.woff2') format('woff2');
+    url('/fonts/canela/Canela-Regular.woff2') format('woff2'),
+    url('/fonts/canela/Canela-Regular.woff2') format('woff2');
   font-weight: 400;
 }
 
@@ -62,8 +62,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-RegularItalic'),
-    url('/fonts/Canela/Canela-RegularItalic.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-RegularItalic.woff') format('woff');
+    url('/fonts/canela/Canela-RegularItalic.woff2') format('woff2'),
+    url('/fonts/canela/Canela-RegularItalic.woff') format('woff');
   font-weight: 400;
   font-style: italic;
 }
@@ -72,8 +72,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-Medium'),
-    url('/fonts/Canela/Canela-Medium.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-Medium.woff') format('woff');
+    url('/fonts/canela/Canela-Medium.woff2') format('woff2'),
+    url('/fonts/canela/Canela-Medium.woff') format('woff');
   font-weight: 500;
 }
 
@@ -81,8 +81,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-MediumItalic'),
-    url('/fonts/Canela/Canela-MediumItalic.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-MediumItalic.woff') format('woff');
+    url('/fonts/canela/Canela-MediumItalic.woff2') format('woff2'),
+    url('/fonts/canela/Canela-MediumItalic.woff') format('woff');
   font-weight: 500;
   font-style: italic;
 }
@@ -91,8 +91,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-Bold'),
-    url('/fonts/Canela/Canela-Bold.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-Bold.woff') format('woff');
+    url('/fonts/canela/Canela-Bold.woff2') format('woff2'),
+    url('/fonts/canela/Canela-Bold.woff') format('woff');
   font-weight: 700;
 }
 
@@ -100,8 +100,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-BoldItalic'),
-    url('/fonts/Canela/Canela-BoldItalic.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-BoldItalic.woff') format('woff');
+    url('/fonts/canela/Canela-BoldItalic.woff2') format('woff2'),
+    url('/fonts/canela/Canela-BoldItalic.woff') format('woff');
   font-weight: 700;
   font-style: italic;
 }
@@ -110,8 +110,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-Black'),
-    url('/fonts/Canela/Canela-Black.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-Black.woff') format('woff');
+    url('/fonts/canela/Canela-Black.woff2') format('woff2'),
+    url('/fonts/canela/Canela-Black.woff') format('woff');
   font-weight: 900;
 }
 
@@ -119,8 +119,8 @@
   font-family: 'Canela';
   font-display: fallback;
   src: local('Canela-BlackItalic'),
-    url('/fonts/Canela/Canela-BlackItalic.woff2') format('woff2'),
-    url('/fonts/Canela/Canela-BlackItalic.woff') format('woff');
+    url('/fonts/canela/Canela-BlackItalic.woff2') format('woff2'),
+    url('/fonts/canela/Canela-BlackItalic.woff') format('woff');
   font-weight: 900;
   font-style: italic;
 }
