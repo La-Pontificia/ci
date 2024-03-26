@@ -16,7 +16,7 @@ export async function RecordsReports({
 
   const records = await getRecords(from, to, cubicle, tenant)
   return (
-    <div className="p-2 pt-0">
+    <div className=" pt-0">
       <RecordReportClient records={records} />
     </div>
   )
