@@ -36,7 +36,7 @@ export function DatePickerWithRange({
           <button
             id="date"
             className={cn(
-              'w-full border-2 rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal',
+              'w-full border rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal',
               !date && 'text-muted-foreground'
             )}
           >
