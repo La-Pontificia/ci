@@ -25,7 +25,7 @@ export function TenantSelect() {
     <div>
       <select
         onChange={onChange}
-        className="w-[230px] border-2 rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal"
+        className="w-[230px] border rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal"
       >
         <option selected value="">
           Institucion
