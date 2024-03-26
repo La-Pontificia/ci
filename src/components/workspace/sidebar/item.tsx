@@ -19,10 +19,10 @@ export const ItemTab = ({
     <Link
       href={'/workspace' + href}
       aria-checked={isActive}
-      className="aria-checked:text-white font-semibold text-black aria-checked:bg-black flex items-center gap-3 relative p-2 hover:text-neutral-900 text-center rounded-xl"
+      className="aria-checked:text-cyan-700 hover:bg-black/10 text-black aria-checked:bg-cyan-500/10 flex flex-col items-center relative p-2 hover:text-neutral-900 text-center rounded-xl"
     >
-      <span className="block w-5">{icon}</span>
-      <span className="text-sm">{title}</span>
+      <span className="block w-7">{icon}</span>
+      <span className="text-center text-xs block pt-1">{title}</span>
       {/* <span
         aria-hidden={!isActive}
         className="absolute aria-hidden:opacity-0 left-[50%] translate-x-[-50%] bottom-1 w-[40px] h-[4px] bg-blue-500 rounded-full"
