@@ -31,7 +31,7 @@ export const COLOR_THEMES = [
 export const CAREERS = {
   EIS: 'Escuela de Ingeniería en Sistemas',
   EAE: 'Escuela de Administración de Empresas',
-  ECF: 'Escuela de Ciencias de Contabilidad y Finanzas',
+  ECF: 'Escuela de Contabilidad y Finanzas',
 
   IAE: 'Aministración de Empresas',
   IET: 'Enfermeria Técnica',
