@@ -11,7 +11,7 @@ function Header() {
             placeholder="empty"
             src="/white-logo.png"
             loading="lazy"
-            className="opacity-80 invert w-full h-full"
+            className="opacity-80 w-full h-full"
             alt="Escuela nega Superior La Pontificia - Logo"
             height={60}
             width={140}
