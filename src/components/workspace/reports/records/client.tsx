@@ -14,6 +14,7 @@ import {
   getUsePerHeadquarder
 } from './calculations'
 import ReactApexChart from 'react-apexcharts'
+import { useRecords } from 'stores'
 export function RecordReportClient({ records }: { records: Record[] }) {
   const { countAlameda, countjazmines } = getUsePerHeadquarder(records)
   const { countTurn8to12, countTurn12to20 } = getPerTurn(records)
@@ -25,6 +26,10 @@ export function RecordReportClient({ records }: { records: Record[] }) {
     countMoreThan4Hours
   } = getRecordsByDuration(records)
 
+  useRecords.setState({
+    records: records.map((e) => ({ ...e, _id: e._id.toString() }))
+  })
+
   const { countExecutive, countStudent } = getRecodsByTypeUser(records)
   const { countPc, countTable } = getRecodsByTypeUse(records)
 
@@ -33,9 +38,9 @@ export function RecordReportClient({ records }: { records: Record[] }) {
 
   const MostUsedTables = getMostUsedTablesByDay(records)
   return (
-    <div className="p-3">
+    <div className="p-1">
       <div className="grid max-700:grid-cols-1 grid-cols-2 gap-3">
-        <Card title="Atenciones por día">
+        <Card title="Atenciones">
           <ReactApexChart
             width={'100%'}
             height={250}
