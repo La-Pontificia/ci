@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/prefer-ts-expect-error */
 import type { Config } from 'tailwindcss'
 
+// @ts-ignore
+import animations from '@midudev/tailwind-animations'
 const config: Config = {
   content: ['./src/*/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
@@ -41,8 +45,13 @@ const config: Config = {
       'min-400': { min: '400px' },
       'min-300': { min: '300px' },
       'min-200': { min: '200px' }
+    },
+    extend: {
+      fontFamily: {
+        canela: ['Canela', 'sans-serif']
+      }
     }
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [animations]
 }
 export default config
