@@ -61,7 +61,6 @@ export async function getRecords(
       }
     }
 
-    console.log(tenant)
     const cursor = collection
       .find(baseQuery)
       .sort({ created_at: 1 })
