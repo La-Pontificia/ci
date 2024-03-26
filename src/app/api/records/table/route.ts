@@ -1,6 +1,8 @@
+import { authOptions } from 'libs/next-auth'
 import { getTable, getUserById } from 'libs/server'
 import { createManyRecord } from 'libs/server/record'
 import { ObjectId } from 'mongodb'
+import { getServerSession } from 'next-auth'
 import { type NextRequest, NextResponse } from 'next/server'
 import { type User } from 'types'
 import { type Record } from 'types/record'
@@ -8,6 +10,9 @@ import { z } from 'zod'
 
 export async function POST(req: NextRequest) {
   try {
+    const responsible = await getServerSession(authOptions)
+    if (!responsible?.account) throw new Error('Unauthorized')
+
     const data = await req.json()
     const parsedData = zod.safeParse(data)
     if (!parsedData.success) throw new Error('Invalid data')
@@ -22,12 +27,15 @@ export async function POST(req: NextRequest) {
       if (u) recoverUsers.push(u)
     }
 
-    const isNotComplet = new Date(table.current_users[0].to) < new Date()
+    const isNotComplet =
+      new Date(table.current_users[0].to) < new Date() ||
+      new Date(table.current_users[0].to) > new Date()
 
     const newRecords: Record[] = recoverUsers.map((user, i) => {
       const constructRecord: Record = {
         _id: new ObjectId(),
         created_at: new Date(),
+        responsible: responsible.account!,
         table: {
           _id: new ObjectId(table?._id),
           name: table.name,
@@ -43,6 +51,7 @@ export async function POST(req: NextRequest) {
           user: {
             _id: new ObjectId(user._id),
             career: user.career,
+            dni: user.dni,
             sex: user.sex,
             names: user.names,
             email: user.email,
