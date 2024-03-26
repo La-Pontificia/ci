@@ -6,13 +6,21 @@ export interface Record {
   _id: ObjectId
   table: Pick<Table, '_id' | 'name' | 'floor' | 'type'>
   current: RecordUser
+  responsible: User
   created_at: Date
 }
 
 interface RecordUser {
   user: Pick<
     User,
-    '_id' | 'names' | 'email' | 'tenant' | 'type_user' | 'career' | 'sex'
+    | '_id'
+    | 'names'
+    | 'email'
+    | 'tenant'
+    | 'type_user'
+    | 'career'
+    | 'sex'
+    | 'dni'
   >
   from: Date
   chair: number
