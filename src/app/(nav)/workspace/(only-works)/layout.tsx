@@ -17,7 +17,7 @@ async function LayoutWorkspace({ children }: Props) {
   return (
     <div className="flex flex-grow h-full">
       <Sidebar />
-      <div className="flex-grow ml-60 flex flex-col"> {children}</div>
+      <div className="flex-grow ml-28 flex flex-col"> {children}</div>
     </div>
   )
 }
