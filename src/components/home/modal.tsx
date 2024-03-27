@@ -23,7 +23,7 @@ function ModalMenu() {
       <div
         role="dialog"
         aria-hidden={!open}
-        className="fixed z-50 ease-in-out duration-500 transition-all opacity-100 aria-hidden:opacity-0 aria-hidden:translate-y-[-100%] translate-y-0 flex flex-col bg-[#0e0e0e] inset-0"
+        className="fixed aria-hidden:pointer-events-none z-50 ease-in-out duration-500 transition-all opacity-100 aria-hidden:opacity-0 aria-hidden:translate-y-[-100%] translate-y-0 flex flex-col bg-[#0e0e0e] inset-0"
       >
         <header className="w-full flex p-5 px-10 items-center">
           <picture className="">
