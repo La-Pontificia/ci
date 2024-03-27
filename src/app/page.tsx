@@ -12,62 +12,64 @@ export default function Home() {
         style={{
           backgroundImage: 'url(/noise.png)'
         }}
-        className="fixed pointer-events-none dark:opacity-30 opacity-80 z-10 inset-0"
+        className="fixed pointer-events-none dark:opacity-30 opacity-60 z-20 inset-0"
       />
-      <div
-        style={{
-          backgroundImage: 'url("/optimize/background.webp")'
-        }}
-        className="absolute w-full pointer-events-none select-none bg-no-repeat bg-cover h-[900px]"
-      >
-        <span className="bg-gradient-to-b from-black/20 via-black/70 to-black absolute inset-0" />
-      </div>
-      <span className="grid -none place-content-center absolute pointer-events-none inset-x-0">
+      <span className="grid z-10 -none place-content-center absolute pointer-events-none inset-x-0">
         <span className="w-[1px] animate-fade-in-down bg-white h-[150px] [animation-delay:700ms]"></span>
       </span>
       <div className="flex-grow z-[1] ">
-        <section className="relative  max-w-7xl mx-auto py-36 max-700:pb-4 pb-16 w-full flex flex-col">
-          <article className="h-full p-5 flex w-full max-w-7xl mx-auto items-center justify-center">
-            <div className="text-center max-700:text-left p-5 max-500:p-2 justify-center">
-              <h1
+        <div className="relative">
+          <div
+            style={{
+              backgroundImage: 'url("/optimize/background.webp")'
+            }}
+            className="absolute h-full z-[0] bg-center w-full pointer-events-none select-none bg-no-repeat bg-cover"
+          >
+            <span className="bg-gradient-to-b from-black/20 via-black/70 to-black absolute inset-0" />
+          </div>
+          <section className="relative z-[1] max-w-7xl mx-auto py-36 max-1000:pb-4 pb-16 w-full flex flex-col">
+            <article className="h-full p-5 flex w-full max-w-7xl mx-auto items-center justify-center">
+              <div className="text-center max-1000:text-left p-5 max-500:p-2 justify-center">
+                <h1
+                  title="Centro de Información La Pontificia"
+                  className="relative animate-fade-in-down font-canela text-8xl max-1100:text-8xl max-700:text-7xl text-white drop-shadow-md leading-[1] tracking-tight"
+                >
+                  Centro de Información La Pontificia
+                </h1>
+                <p className="pt-6 animate-fade-in-down [animation-delay:500ms] text-white font-sans font-semibold max-1000:text-sm max-1000:mx-0 text-lg max-w-2xl mx-auto">
+                  Este servicio esta dirigido a estudiantes y docentes, pueden
+                  emplear las computadoras y/o mesas por 2 horas diarias o más.
+                </p>
+              </div>
+            </article>
+          </section>
+          <section className="grid z-[1] max-w-7xl relative pb-10 mx-auto w-full divide-x divide-stone-800 max-1000:divide-none grid-cols-2 max-1000:grid-cols-1">
+            <span></span>
+            <article className="text-left text-white py-14 p-5">
+              <h2
                 title="Centro de Información La Pontificia"
-                className="relative animate-fade-in-down font-canela text-8xl text-white drop-shadow-md leading-[1] tracking-tight"
+                className="font-canela animate-fade-in-up [animation-delay:200ms] relative text-4xl leading-[1]"
               >
-                Centro de Información La Pontificia
-              </h1>
-              <p className="pt-6 animate-fade-in-down [animation-delay:500ms] text-white font-sans font-semibold max-700:text-sm text-lg max-w-2xl mx-auto">
-                Este servicio esta dirigido a estudiantes y docentes, pueden
-                emplear las computadoras y/o mesas por 2 horas diarias o más.
+                Iniciar sesión
+              </h2>
+              <p className="pt-3 [animation-delay:200ms] font-sans animate-fade-in-down font-semibold max-w-2xl mx-auto max-1000:mx-0">
+                Tus datos ya estan vinculados a tu cuenta intitucional de{' '}
+                <a
+                  href="https://microsoft.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold underline"
+                >
+                  Microsoft
+                </a>
+                , accede con tu correo e inicia tus reservas de mesas y/o
+                computadoras.
               </p>
-            </div>
-          </article>
-        </section>
-        <section className="grid max-w-7xl pb-10 mx-auto w-full divide-x divide-stone-800 max-700:divide-none grid-cols-2 max-700:grid-cols-1">
-          <span></span>
-          <article className="text-left text-white py-14 p-5">
-            <h2
-              title="Centro de Información La Pontificia"
-              className="font-canela animate-fade-in-up [animation-delay:200ms] relative text-4xl leading-[1]"
-            >
-              Iniciar sesión
-            </h2>
-            <p className="pt-3 [animation-delay:200ms] font-sans animate-fade-in-down font-semibold max-w-2xl mx-auto">
-              Tus datos ya estan vinculados a tu cuenta intitucional de{' '}
-              <a
-                href="https://microsoft.com"
-                target="_blank"
-                rel="noreferrer"
-                className="font-semibold underline"
-              >
-                Microsoft
-              </a>
-              , accede con tu correo e inicia tus reservas de mesas y/o
-              computadoras.
-            </p>
-            <LoginButton />
-          </article>
-        </section>
-        {/* <section className="max-w-4xl items-center gap-10 py-10 p-5 mx-auto grid grid-cols-2 max-700:grid-cols-1 w-full">
+              <LoginButton />
+            </article>
+          </section>
+        </div>
+        {/* <section className="max-w-4xl items-center gap-10 py-10 p-5 mx-auto grid grid-cols-2 max-1000:grid-cols-1 w-full">
           <div className="grid grid-cols-2 h-[400px] max-500:h-[200px]">
             <picture>
               <img
@@ -100,7 +102,7 @@ export default function Home() {
         </section> */}
         <section
           id="termn"
-          className="max-w-4xl grid space-x-4 grid-cols-2 max-700:grid-cols-1 divide-x divide-neutral-400 max-700:divide-none py-10 pt-20 p-5 mx-auto w-full"
+          className="max-w-4xl grid space-x-4 grid-cols-2 max-1000:grid-cols-1 divide-x divide-neutral-400 max-1000:divide-none py-10 pt-20 p-5 mx-auto w-full"
         >
           <article className="">
             <header>
@@ -129,7 +131,7 @@ export default function Home() {
               </ul>
             </div>
           </article>
-          <article className="pl-4 max-700:pl-0">
+          <article className="pl-4 max-1000:pl-0">
             <header>
               <h1 className="text-4xl font-canela">Horario de servicio</h1>
             </header>
