@@ -17,6 +17,7 @@ type FormData = {
   from: Date
   to: Date
   type: Table['type']
+  room: boolean
 }
 
 const ids: ObjectId[] = []
@@ -25,7 +26,8 @@ async function generateBooking(form: FormData, recursionCount: number = 0) {
   const count = await getCountDocument(
     form.headquarder,
     form.type === 'table' ? form.ids.length : 1,
-    form.type
+    form.type,
+    form.room
   )
 
   if (recursionCount >= count) {
@@ -35,8 +37,13 @@ async function generateBooking(form: FormData, recursionCount: number = 0) {
   try {
     const tableRandom =
       form.type === 'table'
-        ? await getRandomTable(form.headquarder, form.ids.length, ids)
-        : await getRandomPc(form.headquarder, form.ids.length, ids)
+        ? await getRandomTable(
+            form.headquarder,
+            form.ids.length,
+            ids,
+            form.room
+          )
+        : await getRandomPc(form.headquarder, form.ids.length, ids, form.room)
 
     // IF NOT TABLE FOUND
     if (!tableRandom) {
@@ -97,6 +104,7 @@ async function constructAndCreate(
       from,
       status: 'active',
       table: {
+        room: table.room,
         _id: table._id,
         floor: {
           _id: table.floor._id,

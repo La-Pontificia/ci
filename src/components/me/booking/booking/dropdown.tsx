@@ -43,11 +43,11 @@ function DropDownBooking({
       triggerButton={({ open }) => (
         <button
           className={cn(
-            'flex text-neutral-800 p-1 justify-center rounded-xl group font-medium transition-colors items-center gap-2 max-900:gap-0',
-            open && 'text-black'
+            'flex text-neutral-800 dark:text-neutral-100/30 p-1 justify-center rounded-xl group font-medium transition-colors items-center gap-2 max-900:gap-0',
+            open && 'text-black dark:text-neutral-100'
           )}
         >
-          <MoreHorizonralIcon className="w-4" />
+          <MoreHorizonralIcon className="w-5" />
         </button>
       )}
     >
@@ -55,7 +55,7 @@ function DropDownBooking({
         <DropDownItem
           disabled={!isOwner}
           onClick={onCancel}
-          closeDropDownOnclick
+          sencible
           className="text-red-500"
         >
           Cancelar

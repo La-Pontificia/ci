@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       new Date(table.current_users[0].to) < new Date() ||
       new Date(table.current_users[0].to) > new Date()
 
-    const newRecords: Record[] = recoverUsers.map((user, i) => {
+    const newRecords: Record[] = recoverUsers.map((user) => {
       const constructRecord: Record = {
         _id: new ObjectId(),
         created_at: new Date(),

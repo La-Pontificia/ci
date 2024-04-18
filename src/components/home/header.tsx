@@ -1,5 +1,5 @@
 import React from 'react'
-import ModalMenu from './modal'
+// import ModalMenu from './modal'
 import Image from 'next/image'
 
 function Header() {
@@ -17,9 +17,9 @@ function Header() {
           />
         </div>
       </picture>
-      <nav className="flex ml-auto pointer-events-auto bg-black p-2">
+      {/* <nav className="flex ml-auto pointer-events-auto bg-black p-2">
         <ModalMenu />
-      </nav>
+      </nav> */}
     </header>
   )
 }

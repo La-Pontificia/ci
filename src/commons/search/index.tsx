@@ -41,7 +41,7 @@ function Search({
       <input
         onChange={handleChange}
         className={clsx(
-          'h-14 outline-none focus:shadow-md disabled:opacity-80 shadow-black/50 transition-all px-14 appearance-none placeholder:text-neutral-400 focus:placeholder:text-neutral-700 w-full rounded-2xl border bg-neutral-white border-neutral-300',
+          'h-14 outline-none focus:shadow-md disabled:opacity-80 shadow-black/50 transition-all px-14 appearance-none placeholder:text-neutral-400 focus:placeholder:text-neutral-700 dark: dark:focus:placeholder:text-neutral-400 w-full rounded-2xl border bg-neutral-white border-neutral-300 dark:border-neutral-700',
           className
         )}
         value={inputValue}

@@ -16,7 +16,7 @@ export function Record({ record }: Props) {
   return (
     <div
       key={record._id.toString()}
-      className="flex p-2 px-4 rounded-2xl border shadow-sm bg-white items-center gap-4 "
+      className="flex p-2 px-4 rounded-3xl border shadow-sm bg-white dark:bg-neutral-800 dark:border-neutral-700 items-center gap-4 "
     >
       <Clock2Icon className="w-8 text-stone-500" />
       <div>

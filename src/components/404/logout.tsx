@@ -12,9 +12,7 @@ function Logout() {
 
   return (
     <Button
-      isFilled
-      variant="black"
-      className="p-3 rounded-xl"
+      className="p-3 text-black font-semibold bg-white rounded-xl"
       onClick={logout}
     >
       Cerrar sesión

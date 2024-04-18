@@ -8,7 +8,9 @@ export interface VaulProps
   children?: React.ReactNode
   resetStyles?: boolean
   open?: boolean
+  disabled?: boolean
   onOpenChange?: (open: boolean) => void
+  onOpenAfter?: () => void
 }
 export interface VaulChildReturn {
   open?: boolean

@@ -67,7 +67,7 @@ export const Select = <T extends FieldValues>({
   const isValue = typeof value !== 'undefined'
 
   const classname = cn(
-    'px-3 h-12 border-neutral-400 rounded-xl text-neutral-800 transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-neutral-100',
+    'px-3 h-12 border-neutral-400 dark:border-neutral-700 rounded-xl dark:text-white text-neutral-800 transition-all w-full border outline outline-transparent outline-0 focus:border-neutral-300 placeholder:text-neutral-400 bg-neutral-100',
     isValue && placeholder && 'pt-4',
     (icon ?? start) && 'pl-6',
     className,

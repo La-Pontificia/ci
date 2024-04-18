@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Drawer from 'commons/vaul'
 import { Button } from 'commons/button'
 import { useAuth } from 'stores'
 import Image from 'next/image'
@@ -12,7 +11,7 @@ import { uploadImage } from 'libs/client/cloudinary'
 import { updateProfile } from 'libs/client/user'
 import { usePending } from 'hooks/usePending'
 import axios from 'axios'
-import { useDialog } from 'commons/vaul/use-dialog'
+import { Dialog } from 'commons/dialog'
 
 type FormControl = {
   nick_name: string
@@ -32,7 +31,6 @@ export function EditProfile() {
       names: user.names
     }
   })
-  const { onClose, open, setOpen } = useDialog()
 
   // profile
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -70,117 +68,211 @@ export function EditProfile() {
     if (inputRef?.current) inputRef.current.click()
   }
 
-  const onSubmit = async (form: FormControl) => {
-    start()
-    try {
-      await axios.patch('/api/account', form)
-      toast.success('Perfil actualizado', {
-        description: 'Tu perfil ha sido actualizado correctamente'
-      })
-      onClose()
-      router.refresh()
-    } catch (error) {
-      console.error(error)
-    } finally {
-      end()
-    }
-  }
-
   return (
-    <Drawer.root open={open} onOpenChange={setOpen}>
-      <Drawer.trigger asChild>
+    <Dialog
+      backdrop_blur="sm"
+      className="w-[550px] max-md:w-full"
+      trigger={
         <Button
           variant="none"
-          className="border w-full p-1.5 text-center rounded-xl "
+          className="text-base dark:bg-neutral-800 bg-neutral-200 w-full p-2 text-center rounded-xl "
         >
           Editar perfil
         </Button>
-      </Drawer.trigger>
-      <Drawer.content>
-        <div className="max-w-xl mx-auto w-full px-2 pb-5">
-          <span className="select-none hidden pointer-events-none">
-            <input
-              ref={inputRef}
-              onChange={onChange}
-              multiple
-              accept="image/*"
-              className="hidden"
-              type="file"
-            />
-          </span>
-          <h1 className="text-center font-bold">Editar perfil</h1>
-          <div className="flex max-700:flex-col items-start max-700:items-center py-10 pt-5 gap-5">
-            <div
-              data-pending={isPendingPhoto}
-              className="data-[pending=false]:hover:scale-105 rounded-full transition outline-dashed outline-black outline-offset-2"
-            >
+      }
+    >
+      {({ setOpen }) => {
+        const onSubmit = async (form: FormControl) => {
+          start()
+          try {
+            await axios.patch('/api/account', form)
+            toast.success('Perfil actualizado', {
+              description: 'Tu perfil ha sido actualizado correctamente'
+            })
+            router.refresh()
+            setOpen(false)
+          } catch (error) {
+            console.error(error)
+          } finally {
+            end()
+          }
+        }
+
+        return (
+          <div className="">
+            <span className="select-none hidden pointer-events-none">
+              <input
+                ref={inputRef}
+                onChange={onChange}
+                multiple
+                accept="image/*"
+                className="hidden"
+                type="file"
+              />
+            </span>
+            <h1 className="text-center text-xl font-bold">Editar perfil</h1>
+            <div className="flex max-700:flex-col items-start max-700:items-center py-5 pt-5 gap-5">
               <div
                 data-pending={isPendingPhoto}
-                onClick={() => !isPendingPhoto && onClickFileContent()}
-                className="w-[130px] transition data-[pending=true]:scale-90 data-[pending=true]:opacity-40 aspect-square border cursor-pointer overflow-hidden rounded-full"
+                className="data-[pending=false]:hover:scale-105 rounded-full transition outline-dashed outline-black dark:outline-white/50 outline-offset-2"
               >
-                <Image
-                  className="w-full h-full object-cover"
-                  width={130}
-                  height={130}
-                  src={user.image}
-                  alt=""
+                <div
+                  data-pending={isPendingPhoto}
+                  onClick={() => !isPendingPhoto && onClickFileContent()}
+                  className="w-[130px] dark:border-neutral-700 transition data-[pending=true]:scale-90 data-[pending=true]:opacity-40 aspect-square border cursor-pointer overflow-hidden rounded-full"
+                >
+                  <Image
+                    className="w-full h-full object-cover"
+                    width={130}
+                    height={130}
+                    src={user.image}
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div className="w-full space-y-2 flex flex-col">
+                <Input
+                  label="Nick Name"
+                  control={control}
+                  rules={{
+                    minLength: {
+                      value: 3,
+                      message: 'El nick name debe tener al menos 2 caracteres'
+                    },
+                    maxLength: {
+                      value: 40,
+                      message:
+                        'El nick name debe tener como maximo 20 caracteres'
+                    },
+                    required: 'El nick name es requerido'
+                  }}
+                  className="font-semibold"
+                  name="nick_name"
+                />
+                <Input
+                  disabled
+                  label="Nombres legales"
+                  control={control}
+                  className="font-semibold"
+                  name="names"
+                />
+                <Input
+                  rules={{
+                    maxLength: {
+                      value: 100,
+                      message:
+                        'La biografia debe tener como maximo 100 caracteres'
+                    }
+                  }}
+                  label="Bio"
+                  control={control}
+                  className="font-semibold"
+                  name="bio"
                 />
               </div>
             </div>
-            <div className="w-full space-y-2 flex flex-col">
-              <Input
-                label="Nick Name"
-                control={control}
-                rules={{
-                  minLength: {
-                    value: 3,
-                    message: 'El nick name debe tener al menos 2 caracteres'
-                  },
-                  maxLength: {
-                    value: 40,
-                    message: 'El nick name debe tener como maximo 20 caracteres'
-                  },
-                  required: 'El nick name es requerido'
-                }}
-                className="font-semibold"
-                name="nick_name"
-              />
-              <Input
-                disabled
-                label="Nombres legales"
-                control={control}
-                className="font-semibold"
-                name="names"
-              />
-              <Input
-                rules={{
-                  maxLength: {
-                    value: 100,
-                    message:
-                      'La biografia debe tener como maximo 100 caracteres'
-                  }
-                }}
-                label="Bio"
-                control={control}
-                className="font-semibold"
-                name="bio"
-              />
+            <div>
+              <Button
+                disabled={isPending}
+                onClick={handleSubmit(onSubmit)}
+                className="w-full dark:bg-white bg-black dark:text-black text-white rounded-xl p-4"
+                isFilled
+              >
+                Guardar
+              </Button>
             </div>
           </div>
-          <div>
-            <Button
-              loading={isPending}
-              onClick={handleSubmit(onSubmit)}
-              className="w-full rounded-xl p-4"
-              variant="black"
-              isFilled
-            >
-              Guardar
-            </Button>
-          </div>
-        </div>
-      </Drawer.content>
-    </Drawer.root>
+        )
+      }}
+    </Dialog>
+    // <Drawer.root open={open} onOpenChange={setOpen}>
+    //   <Drawer.trigger asChild>
+
+    //   </Drawer.trigger>
+    //   <Drawer.content>
+    //     <div className="max-w-xl mx-auto w-full px-2 pb-5">
+    //       <span className="select-none hidden pointer-events-none">
+    //         <input
+    //           ref={inputRef}
+    //           onChange={onChange}
+    //           multiple
+    //           accept="image/*"
+    //           className="hidden"
+    //           type="file"
+    //         />
+    //       </span>
+    //       <h1 className="text-center text-xl font-bold">Editar perfil</h1>
+    //       <div className="flex max-700:flex-col items-start max-700:items-center py-10 pt-5 gap-5">
+    //         <div
+    //           data-pending={isPendingPhoto}
+    //           className="data-[pending=false]:hover:scale-105 rounded-full transition outline-dashed outline-black dark:outline-lime-100/50 outline-offset-2"
+    //         >
+    //           <div
+    //             data-pending={isPendingPhoto}
+    //             onClick={() => !isPendingPhoto && onClickFileContent()}
+    //             className="w-[130px] dark:border-neutral-700 transition data-[pending=true]:scale-90 data-[pending=true]:opacity-40 aspect-square border cursor-pointer overflow-hidden rounded-full"
+    //           >
+    //             <Image
+    //               className="w-full h-full object-cover"
+    //               width={130}
+    //               height={130}
+    //               src={user.image}
+    //               alt=""
+    //             />
+    //           </div>
+    //         </div>
+    //         <div className="w-full space-y-2 flex flex-col">
+    //           <Input
+    //             label="Nick Name"
+    //             control={control}
+    //             rules={{
+    //               minLength: {
+    //                 value: 3,
+    //                 message: 'El nick name debe tener al menos 2 caracteres'
+    //               },
+    //               maxLength: {
+    //                 value: 40,
+    //                 message: 'El nick name debe tener como maximo 20 caracteres'
+    //               },
+    //               required: 'El nick name es requerido'
+    //             }}
+    //             className="font-semibold"
+    //             name="nick_name"
+    //           />
+    //           <Input
+    //             disabled
+    //             label="Nombres legales"
+    //             control={control}
+    //             className="font-semibold"
+    //             name="names"
+    //           />
+    //           <Input
+    //             rules={{
+    //               maxLength: {
+    //                 value: 100,
+    //                 message:
+    //                   'La biografia debe tener como maximo 100 caracteres'
+    //               }
+    //             }}
+    //             label="Bio"
+    //             control={control}
+    //             className="font-semibold"
+    //             name="bio"
+    //           />
+    //         </div>
+    //       </div>
+    //       <div>
+    //         <Button
+    //           loading={isPending}
+    //           onClick={handleSubmit(onSubmit)}
+    //           className="w-full dark:bg-lime-700 hover:dark:bg-lime-600 bg-lime-900 hover:bg-lime-800 rounded-2xl p-4"
+    //           isFilled
+    //         >
+    //           Guardar
+    //         </Button>
+    //       </div>
+    //     </div>
+    //   </Drawer.content>
+    // </Drawer.root>
   )
 }

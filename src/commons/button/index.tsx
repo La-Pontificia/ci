@@ -31,7 +31,6 @@ export const Button: React.FC<ButtonProps> = ({
   loading,
   disabled,
   isFilled,
-  type,
   ...rest
 }) => {
   const ref = useRef<HTMLButtonElement | null>(null)

@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
   try {
     const data = await req.json()
     const parsedData = BookingSchema.safeParse(data)
+
     if (!parsedData.success) {
       return NextResponse.json(parsedData.error, { status: 400 })
     }
@@ -30,9 +31,11 @@ export async function POST(req: NextRequest) {
 
     const res =
       type === 'table'
-        ? await generateBooking({ ...form, type: 'table' })
+        ? await generateBooking({ ...form, type: 'table', room: false })
         : type === 'pc'
-        ? await generateBooking({ ...form, type: 'pc' })
+        ? await generateBooking({ ...form, type: 'pc', room: false })
+        : type === 'room'
+        ? await generateBooking({ ...form, type: 'table', room: true })
         : null
 
     if (res === null) throw new Error('Not found ')
@@ -70,6 +73,6 @@ const BookingSchema = z.object({
   headquarder: z.string(),
   from: z.string(),
   to: z.string(),
-  type: z.enum(['table', 'pc']),
+  type: z.enum(['table', 'pc', 'room']),
   ids: z.array(z.string())
 })

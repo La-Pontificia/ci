@@ -33,8 +33,8 @@ function Create(props: Props) {
     max,
     min,
     onCloseModal,
-    onSearch,
-    time
+    onSearch
+    // time
   } = useBookingCreateDate(props)
   return (
     <Drawer.root open={open} onOpenChange={setOpen}>
@@ -44,16 +44,17 @@ function Create(props: Props) {
         </div>
       </Drawer.trigger>
       <Drawer.content className="">
-        <div className="max-w-xl flex flex-col h-full w-full mx-auto p-4 pt-0 gap-2 flex-grow">
+        <div className="max-w-xl overflow-y-auto flex flex-col px-3 h-full w-full mx-auto gap-2 flex-grow">
           <div className="flex flex-col gap-3 flex-grow">
             <div className="w-full grid grid-cols-2 h-fit gap-3">
               {headquarters.map((h, i) => {
                 return (
-                  <div key={i} className="relative w-full">
+                  <div key={i} role="tablist" className="relative w-full">
                     <button
+                      role="tab"
                       disabled={h.isDisabled}
                       aria-checked={headquarder === h.value}
-                      className="w-full p-1 disabled:opacity-50 disabled:pointer-events-none disabled:select-none transition-all border-4 border-dashed aria-checked:bg-black/10 aria-checked:border-black border-transparent rounded-3xl"
+                      className="w-full p-1 disabled:opacity-50 disabled:pointer-events-none disabled:select-none transition-all border-4 aria-checked:bg-black/10 dark:aria-checked:bg-white/5 aria-checked:border-black dark:aria-checked:border-neutral-100/40 border-transparent rounded-3xl"
                       onClick={() =>
                         setValue('headquarder', h.value as typeof headquarder)
                       }
@@ -72,39 +73,39 @@ function Create(props: Props) {
                         <div className="font-semibold tracking-tight">
                           {h.label}
                         </div>
-                        <p className="text-xs">{h.address}</p>
+                        <p className="text-xs text-neutral-500">{h.address}</p>
                       </div>
                     </button>
                   </div>
                 )
               })}
             </div>
-            <div className="border-t mt-3 pt-3">
+            <div className="border-t dark:border-neutral-800 mt-3 pt-3">
               <span className="block pb-2 font-semibold text-sm">
                 Tipo de cubículo
               </span>
-              <div className="grid grid-cols-4 max-700:grid-cols-3 max-500:grid-cols-2 p-1 gap-3">
+              <div className="grid grid-cols-6 max-sm:grid-cols-4 p-1 gap-3">
                 {types.map((t, i) => {
                   return (
                     <button
                       key={i}
                       aria-checked={type === t.value}
                       onClick={() => setValue('type', t.value as typeof type)}
-                      className="p-3 rounded-2xl h-[80px] aria-checked:outline-dashed aria-checked:bg-black/10 aria-checked:outline-black aria-checked:outline-2 border-black/20 w-full border"
+                      className="p-3 aspect-square rounded-2xl text-neutral-600 aria-checked:text-black dark:text-neutral-400 dark:aria-checked:text-white aria-checked:outline aria-checked:bg-black/10 dark:aria-checked:bg-neutral-100/5 aria-checked:outline-black dark:aria-checked:outline-neutral-200/50 aria-checked:outline-4 border-black/20 w-full border dark:border-neutral-800"
                     >
-                      <span className="w-8 mx-auto block">{t.icon}</span>
+                      <span className="w-7 mx-auto block">{t.icon}</span>
                       <span className="text-xs font-semibold">{t.label}</span>
                     </button>
                   )
                 })}
               </div>
             </div>
-            <div className="border-t mt-3">
+            <div className="border-t dark:border-neutral-800  mt-3">
               <div className="pt-2">
                 <AddUsers {...{ user, setValue, watch }} />
               </div>
             </div>
-            <div className="border-t pt-3">
+            <div className="border-t dark:border-neutral-800 pt-3">
               <span className="block pb-2 font-semibold text-sm">
                 Fecha y hora
               </span>
@@ -132,7 +133,7 @@ function Create(props: Props) {
                         message: 'La hora de inicio es requerida'
                       }
                     }}
-                    className="h-16 rounded-2xl shadow-md border-stone-200 bg-transparent"
+                    className="h-16 rounded-2xl dark:bg-neutral-900 shadow-md border-stone-200 bg-transparent"
                   >
                     {fromHour?.map((item) => {
                       return (
@@ -154,7 +155,7 @@ function Create(props: Props) {
                         message: 'La hora de fin es requerida'
                       }
                     }}
-                    className="h-16 rounded-2xl shadow-md border-stone-200 bg-transparent"
+                    className="h-16 rounded-2xl dark:bg-neutral-900 shadow-md border-stone-200 bg-transparent"
                   >
                     {toHour?.map((item) => {
                       return (
@@ -167,28 +168,15 @@ function Create(props: Props) {
                 </label>
               </div>
             </div>
-            <div className="border-t mt-3 pt-3">
-              <span className="block pb-2 font-semibold text-sm">
-                Tiempo de reserva
-              </span>
-              <div className="text-left text-neutral-500 max-700:5xl font-semibold text-2xl">
-                <p className="tracking-tight">{time}:00</p>
-              </div>
-              <p className="text-black text-left text-xs py-2">
-                Se permitirá un margen de tolerancia de 10 minutos para su
-                reserva; en caso de no hacer uso de la misma dentro de este
-                período, la reserva será cancelada automáticamente.
-              </p>
-            </div>
           </div>
-          <div className="space-y-2 border-t justify-end flex gap-2">
+          <div className="space-y-2 mb-2 border-t dark:border-neutral-800 justify-end flex gap-2">
             <Button
               loading={isPending}
               disabled={disable_button}
               onClick={handleSubmit(onSearch)}
               variant="none"
               isFilled
-              className="h-12 w-fit px-4 justify-center flex items-center bg-blue-600 hover:bg-blue-600/80 text-white mt-auto rounded-full"
+              className="h-12 text-base w-full px-4 justify-center flex items-center bg-lime-700 hover:bg-lime-600/80 text-white mt-auto rounded-xl"
             >
               Reservar
             </Button>
@@ -197,7 +185,7 @@ function Create(props: Props) {
               onClick={onCloseModal}
               variant="grey"
               isFilled
-              className="h-12 w-fit px-4 rounded-full"
+              className="h-12 w-fit px-4 rounded-xl"
             >
               Cancelar
             </Button>

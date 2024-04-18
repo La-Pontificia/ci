@@ -2,61 +2,56 @@ import { FaceboolIcon, ThreadsIcon, XIcon } from 'icons'
 import React from 'react'
 
 function Footer() {
+  const links = [
+    {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/EscuelaSuperiorLaPontificia/',
+      icon: FaceboolIcon
+    },
+    {
+      name: 'Twitter',
+      url: 'https://twitter.com/ELP_Ayacucho',
+      icon: XIcon
+    },
+    {
+      name: 'Instagram',
+      url: 'https://www.instagram.com/escuelasuperiorlapontificia/',
+      icon: ThreadsIcon
+    }
+  ]
   return (
-    <footer className="bg-stone-950 flex-none relative z-[1]">
-      <section className="max-w-5xl mx-auto p-4 h-full w-full">
-        <div className="flex max-700:flex-col max-700:justify-center max-700:items-center items-end h-full">
-          <div className="text-neutral-200 flex flex-col">
-            <p className="font-canela">
-              © 2024 Escuela Superior La Pontificia | Grupo La Pontificia
-            </p>
-            <span className="text-xs font-normal">
-              Developed and maintained by{' '}
+    <footer className="flex-none relative z-[1]">
+      <section className="max-w-5xl min-h-[300px] mx-auto text-neutral-400 text-center p-4 h-full grid place-content-center w-full">
+        <p className="">
+          © 2024 Escuela Superior La Pontificia | Grupo La Pontificia
+        </p>
+        <span className="text-xs font-normal">
+          Developed and maintained by{' '}
+          <a
+            href="https://daustinn.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline text-white"
+          >
+            Daustinn
+          </a>
+        </span>
+        <ul className="flex gap-5 mt-10 justify-center text-neutral-300">
+          {links.map((link) => (
+            <li key={link.name}>
               <a
-                href="https://daustinn.com/"
+                className="hover:underline hover:text-white"
+                href={link.url}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:underline text-amber-500"
               >
-                Daustinn
+                <span>
+                  <link.icon className="w-7" />
+                </span>
               </a>
-            </span>
-          </div>
-          <div className="md:w-full ml-auto max-700:ml-0 max-700:pt-10">
-            <ul className="flex gap-5 text-neutral-200">
-              <li>
-                <a
-                  className="hover:underline hover:text-white"
-                  href="https://www.facebook.com/EscuelaSuperiorLaPontificia/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FaceboolIcon className="w-6" />
-                </a>
-              </li>
-              <li>
-                <a
-                  className="hover:underline hover:text-white"
-                  href="https://twitter.com/ELP_Ayacucho"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <XIcon className="w-6" />
-                </a>
-              </li>
-              <li>
-                <a
-                  className="hover:underline hover:text-white"
-                  href="https://www.instagram.com/escuelasuperiorlapontificia/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <ThreadsIcon className="w-6" />
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
+            </li>
+          ))}
+        </ul>
       </section>
     </footer>
   )

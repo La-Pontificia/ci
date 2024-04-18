@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl.clone()
-  const originUrl = req.nextUrl.clone()
+  const oul = req.nextUrl.clone()
 
   const session = await getToken({
     req,
@@ -12,9 +12,8 @@ export async function middleware(req: NextRequest) {
   })
   const response = NextResponse.next()
 
-  if (originUrl.pathname === '/me') {
+  if (oul.pathname === '/me') {
     if (session) {
-      response.cookies.set('uft-ln', session?.sub ?? '')
       return response
     } else {
       url.pathname = '/'
@@ -25,7 +24,6 @@ export async function middleware(req: NextRequest) {
   if (url.pathname === '/') {
     if (session) {
       url.pathname = '/me'
-      response.cookies.set('uft-ln', session?.sub ?? '')
       return NextResponse.redirect(url)
     } else {
       return response
@@ -37,9 +35,15 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  response.cookies.set('uft-ln', session?.sub ?? '')
   return response
 }
 export const config = {
-  matcher: ['/', '/me', '/api/:path', '/workspace/:path*']
+  matcher: [
+    '/',
+    '/me/:path*',
+    '/records/:path*',
+    '/bookings/:path*',
+    '/users/:path*',
+    '/floors/:path*'
+  ]
 }

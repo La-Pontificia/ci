@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation'
 // eslint-disable-next-line @typescript-eslint/member-delimiter-style
 export const ItemTab = ({
   href,
-  title,
   icon
 }: {
   title: string

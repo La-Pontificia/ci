@@ -38,7 +38,7 @@ export function DatePickerWithRange({
           <button
             id="date"
             className={cn(
-              'w-full border rounded-xl flex p-2 border-black/30 items-center justify-center text-left font-normal',
+              'border-0 rounded-full flex items-center gap-2 justify-center p-3 bg-neutral-200 font-semibold dark:bg-neutral-700',
               !date && 'text-muted-foreground'
             )}
           >
@@ -59,7 +59,8 @@ export function DatePickerWithRange({
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
-            className="w-auto z-20 p-2 border rounded-2xl shadow-md bg-white"
+            sideOffset={5}
+            className="w-auto z-20 p-2 border rounded-3xl shadow-md bg-white dark:bg-neutral-800 dark:border-neutral-700"
             align="start"
           >
             <Calendar

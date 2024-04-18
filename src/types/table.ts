@@ -8,6 +8,7 @@ export interface Table {
   floor: Pick<Floor, '_id' | 'name' | 'headquarder'>
   chairs: 1 | 4 | 6 | 8 | 12
   type: 'table' | 'pc'
+  room: boolean
   connected_to_printer: boolean
   current_users: TableCurrentUser[]
   occupied: boolean

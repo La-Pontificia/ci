@@ -133,6 +133,7 @@ export function splitTimeString(timeString: string): {
   period: string
 } | null {
   if (timeString) {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const [hourPart, minutePart] = timeString?.split(' ')
     const [hour, minute] = hourPart.split(':')
     const period = minutePart
@@ -358,7 +359,7 @@ export function checkReservations(
   reservationsDate: [Date, Date][],
   toAssign: Date
 ): [Date, Date] | false {
-  const reservedItem = reservationsDate.find(([from, to]) => {
+  const reservedItem = reservationsDate.find(([from]) => {
     return new Date(toAssign) >= new Date(from)
   })
 

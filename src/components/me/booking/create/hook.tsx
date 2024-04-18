@@ -16,7 +16,7 @@ import { useModal } from 'hooks/useModal'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { toast } from 'sonner'
-import { DisplayIcon, Table2Icon } from 'icons'
+import { DisplayIcon, Grid2Icon, Table2Icon } from 'icons'
 
 export type FormData = {
   headquarder: Floor['headquarder']
@@ -53,7 +53,7 @@ const congratulations = () => {
 }
 
 interface UseProps extends Props {}
-export const useBookingCreateDate = ({ user, trigger }: UseProps) => {
+export const useBookingCreateDate = ({ user }: UseProps) => {
   const now = toDate(new Date())
   const formattedDate = format(now, 'yyyy-MM-dd')
   const {
@@ -148,6 +148,7 @@ export const useBookingCreateDate = ({ user, trigger }: UseProps) => {
       date
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { users, time, ...form } = newData
     try {
       start()
@@ -157,9 +158,9 @@ export const useBookingCreateDate = ({ user, trigger }: UseProps) => {
       reset()
       router.refresh()
     } catch (error) {
-      console.log(error)
       toast.error('No pudimos encontrar una reserva', {
-        description: 'Por favor, intenta con otra fecha u horario'
+        description:
+          'Por favor, intenta con otra sede, fecha, horario o tipo de cubículo.'
       })
     } finally {
       end()
@@ -188,6 +189,11 @@ export const useBookingCreateDate = ({ user, trigger }: UseProps) => {
   ]
 
   const types = [
+    {
+      label: 'Sala',
+      value: 'room',
+      icon: <Grid2Icon />
+    },
     {
       label: 'Mesa',
       value: 'table',

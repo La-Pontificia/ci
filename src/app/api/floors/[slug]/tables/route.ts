@@ -19,6 +19,7 @@ export async function POST(
 
     const newTable: Table = {
       _id: new ObjectId(),
+      room: data.room,
       chairs: data.chairs as Table['chairs'],
       connected_to_printer: data.connected_to_printer,
       created_at: new Date(),

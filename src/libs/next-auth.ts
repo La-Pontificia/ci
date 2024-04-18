@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60 // 30 days
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user }) {
       // const session = await getServerSession(authOptions)
       // // IF LOGEED
       // if (session) {

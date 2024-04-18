@@ -2,7 +2,6 @@
 /* eslint-disable react/display-name */
 import React, { useRef, useState } from 'react'
 import { cn } from 'utils'
-
 export interface ToggleProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   name?: string
@@ -48,20 +47,24 @@ export const Toggle = ({
         type="button"
         onClick={handleToggleClick}
         className={cn(
-          'bg-neutral-300 h-8 w-[50px] duration-300 relative rounded-full flex items-center transition-all',
+          'bg-neutral-300 dark:bg-neutral-700 h-8 w-[50px] duration-300 relative rounded-full flex items-center transition-all',
           isDisabled && 'opacity-60 cursor-not-allowed',
-          isSelected && 'bg-black'
+          isSelected && 'bg-black dark:bg-white'
         )}
       >
         <div
+          style={{
+            transform: isSelected ? 'translateX(20px)' : 'translateX(3px)'
+          }}
           className={cn(
-            'bg-white absolute top-[50%] duration-200 translate-y-[-50%] transition-transform h-[28px] w-[28px] rounded-full',
-            isSelected ? 'translate-x-[20px]' : 'translate-x-[3px]'
+            'bg-white absolute duration-200 transition-transform h-[28px] w-[28px] rounded-full',
+            isSelected ? 'dark:bg-black' : ''
           )}
         />
       </button>
-
-      <div className="text-neutral-800 font-medium">{children}</div>
+      <div className="text-neutral-800 dark:text-neutral-200 font-medium">
+        {children}
+      </div>
     </div>
   )
 }

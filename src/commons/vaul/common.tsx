@@ -78,7 +78,7 @@ const Root = (props: VaulProps) => {
               <motion.div
                 data-overlay-cosmoui
                 className={cn(
-                  !props.resetStyles && 'fixed inset-0 z-20 bg-stone-800/60',
+                  !props.resetStyles && 'fixed inset-0 z-20 bg-black/60',
                   overlayChildProps.className
                 )}
                 {...overlayProps}
@@ -89,7 +89,7 @@ const Root = (props: VaulProps) => {
                 role="dialog"
                 ref={contentRef}
                 className={cn(
-                  'fixed shadow-lg max-h-[80vh] rounded-t-xl bottom-0 inset-x-0 bg-white w-full z-20 flex flex-col',
+                  'fixed shadow-lg max-h-[80vh] rounded-t-xl bottom-0 inset-x-0 bg-white dark:bg-neutral-900 w-full z-20 flex flex-col',
                   contentChildProps?.className
                 )}
                 initial={{

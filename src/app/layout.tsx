@@ -1,11 +1,8 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import SonnerClient from 'commons/utils'
 import SessionProviderClient from 'contexts/session-provider'
 import { QueryClientProvider } from 'providers/query-client-provider'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Centro de información - Escuela Superior La Pontificia',
@@ -31,15 +28,15 @@ export const metadata: Metadata = {
     description: 'Centro de información - Escuela Superior La Pontificia',
     siteName: 'Centro de información - La Pontificia',
     url: 'https://ci.ilp.edu.pe',
-    images: '/optimize/favicon.webp'
+    images: '/favicon.svg'
   },
   icons: {
-    icon: '/optimize/favicon.webp'
+    icon: '/favicon.svg'
   },
   twitter: {
     card: 'summary_large_image',
     creator: '@ELP_Ayacucho',
-    images: ['/optimize/favicon.webp'],
+    images: ['/favicon.svg'],
     site: '@ELP_Ayacucho',
     title: 'Bilblioteca virtual - La Pontificia',
     description: 'Bilblioteca virtual - Escuela Superior La Pontificia'
@@ -141,7 +138,7 @@ export default function RootLayout({
       </head>
       <SessionProviderClient>
         <QueryClientProvider>
-          <body className={inter.className}>
+          <body>
             <SonnerClient />
             {children}
           </body>

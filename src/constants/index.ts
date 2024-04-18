@@ -13,7 +13,7 @@ export const ERRORS_NEXT_AUTH = {
     'Error de inicio de sesión. Comprueba que los datos que has facilitado sean correctos.',
   Default: 'Ops!, ocurrio algo inesperado, intente nuevamente.',
   tenantNotAllowed:
-    'El dominio de correo electrónico no esta permitido para el registro de usuarios.',
+    'El dominio de su correo electrónico no está permitido en esta aplicación. Por favor, póngase en contacto con el administrador o mantenedor del sistema.',
   facebookNotProvider:
     'Tu cuenta de facebook aun no esta vinculado a una cuenta institucional'
 }
@@ -37,5 +37,6 @@ export const CAREERS = {
   IET: 'Enfermeria Técnica',
   ICT: 'Contabilidad Técnica',
   DOC: 'Docente',
-  undefined: 'Undefined'
+  undefined: 'Is not defined',
+  null: 'Is not defined'
 }

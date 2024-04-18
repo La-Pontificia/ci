@@ -5,6 +5,7 @@ export const TableCrearSchema = z.object({
   type: z.enum(['table', 'pc']),
   chairs: z.number(),
   status: z.boolean(),
+  room: z.boolean(),
   ui: z.object({
     rotation: z.enum(['vertical', 'horizontal']),
     x: z.number(),

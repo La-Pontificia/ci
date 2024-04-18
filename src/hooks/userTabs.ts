@@ -5,10 +5,7 @@ type UseTabsResult<T extends string> = {
   changeTab: (tab: T) => void
 }
 
-export const useTabs = <T extends string>(
-  defaultTab: T,
-  options: T[]
-): UseTabsResult<T> => {
+export const useTabs = <T extends string>(defaultTab: T): UseTabsResult<T> => {
   const [tab, setTab] = useState<T>(defaultTab)
 
   const changeTab = (newTab: T) => {

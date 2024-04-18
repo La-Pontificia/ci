@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { format, formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'

@@ -17,7 +17,7 @@ export interface Booking {
       | 'sex'
     >
   >
-  table: Pick<Table, '_id' | 'name' | 'type' | 'floor'>
+  table: Pick<Table, '_id' | 'name' | 'type' | 'floor' | 'room'>
   from: Date
   to: Date
   time: string

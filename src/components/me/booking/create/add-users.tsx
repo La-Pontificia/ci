@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Drawer from 'commons/vaul'
 import { Button } from 'commons/button'
 import { AddCircleIcon, TrashIcon } from 'icons'
 import Search from 'commons/search'
@@ -10,6 +9,7 @@ import { type UseFormSetValue, type UseFormWatch } from 'react-hook-form'
 import { getUserProfile } from 'utils'
 import Image from 'next/image'
 import { type FormData } from './hook'
+import { Dialog } from 'commons/dialog'
 
 export function AddUsers({
   user,
@@ -29,7 +29,7 @@ export function AddUsers({
 
   const handler = async (v: string) => {
     try {
-      const { data } = await axios.get(`/api/users?limit=10&q=${v}`)
+      const { data } = await axios.get(`/api/users?limit=6&q=${v}`)
       setUsers(data as User[])
     } catch (error) {
       console.log(error)
@@ -71,8 +71,10 @@ export function AddUsers({
               />
             </div>
             <div>
-              <h3 className="font-semibold text-sm">{u.nick_name}</h3>
-              <p className="text-xs font-normal">{u.email}</p>
+              <h3 className="font-semibold capitalize">
+                {u.nick_name.toLowerCase()}
+              </h3>
+              <p className=" font-normal dark:text-neutral-400">{u.email}</p>
             </div>
 
             {user._id !== u._id && (
@@ -80,7 +82,7 @@ export function AddUsers({
                 <Button
                   onClick={() => onRemoveUser(u)}
                   variant="none"
-                  className="p-1 hover:opacity-65 w-[30px] aspect-square"
+                  className="p-1 hover:opacity-65 w-[25px] aspect-square"
                 >
                   <TrashIcon />
                 </Button>
@@ -89,19 +91,25 @@ export function AddUsers({
           </div>
         ))}
       </div>
-      <Drawer.root>
-        <Drawer.trigger asChild>
-          <Button
-            variant="none"
-            className="w-[250px] border-black/30 border-2 rounded-full hover:bg-transparent justify-center gap-3 flex p-1 text-sm items-center"
-          >
-            <AddCircleIcon className="w-7" />
-            Añadir
-          </Button>
-        </Drawer.trigger>
-        <Drawer.content>
+      {watch().users.length < 12 && (
+        <Dialog
+          backdrop_blur="sm"
+          className="p-3 w-[450px] max-md:w-full"
+          trigger={
+            <Button
+              variant="none"
+              className="w-[250px] bg-neutral-300 hover:bg-neutral-200 dark:bg-neutral-800 rounded-xl justify-center gap-3 flex p-1 text-sm items-center"
+            >
+              <AddCircleIcon className="w-7" />
+              Añadir
+            </Button>
+          }
+        >
           {({ onClose }) => (
-            <div className="max-w-xl w-full mx-auto p-2">
+            <div className="max-w-xl w-full mx-auto pt-0">
+              <h1 className="text-xl font-semibold text-center py-3">
+                Añadir compañeros(as)
+              </h1>
               <Search
                 onChange={onChange}
                 autoFocus
@@ -109,7 +117,7 @@ export function AddUsers({
                 placeholder="Buscar estudiantes/compañeros (as)"
               />
               <div className="pt-2">
-                <div className="flex flex-col min-h-[500px] max-h-[500px] overflow-y-auto gap-0 px-0">
+                <div className="flex flex-col max-h-[500px] overflow-y-auto gap-0 px-0">
                   {usersFinal.length > 0 ? (
                     usersFinal.map((user) => {
                       return (
@@ -120,7 +128,7 @@ export function AddUsers({
                           }}
                           variant="none"
                           key={user._id.toString()}
-                          className="flex hover:bg-neutral-100 p-2 rounded-2xl items-center gap-2"
+                          className="flex hover:bg-neutral-100 dark:hover:bg-neutral-100/5 p-2 rounded-2xl items-center gap-2"
                         >
                           <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
                             <Image
@@ -132,10 +140,10 @@ export function AddUsers({
                             />
                           </div>
                           <div>
-                            <h3 className="text-neutral-900 capitalize font-medium line-clamp-1">
+                            <h3 className="text-neutral-900 text-base dark:text-white capitalize font-medium line-clamp-1">
                               {user.names.toLocaleLowerCase()}
                             </h3>
-                            <p className="text-sm font-normal text-neutral-700">
+                            <p className=" text-neutral-700 dark:text-neutral-300">
                               {user.email}
                             </p>
                           </div>
@@ -143,7 +151,7 @@ export function AddUsers({
                       )
                     })
                   ) : (
-                    <div className="text-center p-20">
+                    <div className="text-center p-10 text-lg font-semibold ">
                       No hay nada que mostrar
                     </div>
                   )}
@@ -151,8 +159,8 @@ export function AddUsers({
               </div>
             </div>
           )}
-        </Drawer.content>
-      </Drawer.root>
+        </Dialog>
+      )}
     </div>
   )
 }

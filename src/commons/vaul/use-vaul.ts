@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useDialog } from './use-dialog'
 import { useUniqueId } from './user-unique-id'
 
@@ -16,6 +17,7 @@ const transition: Transition = {
   duration: 0.3
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const useVaul = ({ contentRef, handlerRef, props }: UseVaulProps) => {
   const { children, open: openExternal, onOpenChange } = props
 
@@ -62,7 +64,10 @@ export const useVaul = ({ contentRef, handlerRef, props }: UseVaulProps) => {
 
   const triggerNoChildProps = {
     onClick: (e: any) => {
-      toggle()
+      if (!props.disabled) {
+        toggle()
+        props.onOpenAfter?.()
+      }
       !triggerResolver.noClick && triggerResolver?.props.onClick?.(e)
     },
     id: triggerId,

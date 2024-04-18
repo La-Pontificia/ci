@@ -27,7 +27,6 @@ export interface AlertProps<T extends React.ReactElement> {
 
 export const Alert = <T extends React.ReactElement>({
   onOpenChange,
-  open: openExternal,
   trigger,
   triggerProps,
   onOk,
@@ -40,20 +39,16 @@ export const Alert = <T extends React.ReactElement>({
   onFinished,
   loading,
   title,
-  description,
-  z = 200
+  description
 }: AlertProps<T>) => {
-  const [open, setOpen] = useState(openExternal)
   const [loader, setLoader] = useState(loading)
 
   const onClose = () => {
     onOpenChange?.(false)
-    setOpen(false)
     onCancel?.()
   }
 
   const onTriggerClick = (event: MouseEvent<HTMLElement>) => {
-    setOpen(true)
     triggerProps?.onClick?.(event)
   }
 
@@ -84,8 +79,6 @@ export const Alert = <T extends React.ReactElement>({
 
   return (
     <Dialog
-      classNameOutline="bg-black/90 backdrop-blur-sm"
-      classNamePortal="max-500:w-full"
       trigger={
         trigger &&
         React.cloneElement(trigger as React.ReactElement<any>, {
@@ -93,9 +86,6 @@ export const Alert = <T extends React.ReactElement>({
           onClick: onTriggerClick
         })
       }
-      z={z}
-      open={open}
-      onOpenChange={onClose}
     >
       <div className="bg-neutral-950 border border-neutral-800 w-[380px] max-500:w-full max-400:min-w-full overflow-hidden rounded-3xl divide-y divide-neutral-700/50 border-neutral-700/80">
         <div className="flex flex-col p-5 gap-1">

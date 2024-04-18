@@ -5,6 +5,8 @@ import { persist } from 'zustand/middleware'
 interface UIState {
   isEditing: boolean
   isMoveable: boolean
+  isItemDragging: boolean
+  setItemDragging: (isItemDragging: boolean) => void
   setIsMoveable: (isMoveable: boolean) => void
   setIsEditing: (disabledDragPanel: boolean) => void
   pinchState: ReactZoomPanPinchState
@@ -14,6 +16,8 @@ interface UIState {
 const StoreApi: StateCreator<UIState> = (set) => ({
   isEditing: false,
   isMoveable: true,
+  isItemDragging: true,
+  setItemDragging: (isItemDragging) => set(() => ({ isItemDragging })),
   setIsMoveable: (isMoveable) => set(() => ({ isMoveable })),
   setIsEditing: (isEditing) => set(() => ({ isEditing })),
   pinchState: {

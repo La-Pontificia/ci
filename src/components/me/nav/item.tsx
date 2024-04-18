@@ -17,9 +17,10 @@ function ItemNav({ href, text, icon }: Props) {
     <Link
       href={href}
       aria-checked={isActive}
-      className="p-2 flex text-[15px] items-center justify-center gap-2 aria-checked:text-black aria-checked:font-semibold aria-checked:border-black aria-checked:border-t-2"
+      role="menuitem"
+      className="border-b-2 dark:aria-checked:border-white aria-checked:border-black aria-checked:text-black aria-checked:dark:text-white border-transparent hover:border-neutral-400 p-3 justify-center gap-3 flex text-sm items-center font-semibold"
     >
-      <span className="w-4 block">{icon}</span>
+      <span className="w-6 block">{icon}</span>
       {text}
     </Link>
   )

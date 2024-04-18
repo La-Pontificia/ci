@@ -9,7 +9,8 @@ import { getBooking } from '../booking'
 export async function getRandomTable(
   headquarder: string,
   chairs: number,
-  ids: ObjectId[]
+  ids: ObjectId[],
+  room: boolean
 ): Promise<Table | null> {
   try {
     await connectToMongoDB()
@@ -24,6 +25,9 @@ export async function getRandomTable(
       status: true
     }
 
+    if (room === true) {
+      query.room = true
+    }
     if (ids.length > 0) {
       query._id = { $nin: ids }
     }
@@ -46,19 +50,26 @@ export async function getRandomTable(
 export async function getCountDocument(
   headquarder: string,
   chairs: number,
-  type: Table['type']
+  type: Table['type'],
+  room: boolean
 ): Promise<number> {
   try {
     await connectToMongoDB()
     const collection = getCollection('tables')
-    const count = await collection.countDocuments({
+
+    const query: any = {
       type,
       'floor.headquarder': headquarder,
       chairs: {
         $gte: chairs
       },
       status: true
-    })
+    }
+
+    if (room === true) {
+      query.room = true
+    }
+    const count = await collection.countDocuments(query)
     return count
   } catch (error) {
     throw error
@@ -68,7 +79,8 @@ export async function getCountDocument(
 export async function getRandomPc(
   headquarder: string,
   chairs: number,
-  ids: ObjectId[]
+  ids: ObjectId[],
+  room: boolean
 ): Promise<Table | null> {
   try {
     await connectToMongoDB()
@@ -79,6 +91,10 @@ export async function getRandomPc(
       type,
       'floor.headquarder': headquarder,
       status: true
+    }
+
+    if (room === true) {
+      query.room = true
     }
 
     if (ids.length > 0) {
