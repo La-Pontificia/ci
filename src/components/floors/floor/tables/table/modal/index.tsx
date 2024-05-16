@@ -44,7 +44,7 @@ export default function ModalContent({ table, isReserved }: Props) {
           variant="none"
           isFilled
           onClick={onRemoveAll}
-          className="absolute flex gap-1 items-center dark:bg-red-700 hover:dark:bg-red-600 p-2 pr-3 border-0 text-sm top-2 left-2 rounded-full z-[2]"
+          className="absolute flex gap-1 items-center dark:bg-red-700 bg-red-600 text-white hover:dark:bg-red-600 p-2 pr-3 border-0 text-sm top-2 left-2 rounded-full z-[2]"
         >
           <BroomIcon className="w-5" />
           Limpiar mesa
