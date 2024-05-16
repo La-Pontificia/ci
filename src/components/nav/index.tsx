@@ -84,7 +84,7 @@ export default function Nav() {
   const itemsisDismiss = [1, 2, 3]
 
   return (
-    <div className="w-[--sidebar-width] max-md:h-[90px] max-md:gap-0 max-md:bottom-0 max-md:w-full flex backdrop-blur-2xl flex-col overflow-y-auto h-svh gap-3 fixed z-20 border-r max-md:border-t dark:border-neutral-900">
+    <div className="w-[--sidebar-width] max-md:h-[90px] max-md:gap-0 max-md:bottom-0 max-md:w-full flex dark:bg-black bg-white flex-col overflow-y-auto h-svh gap-3 fixed z-20 border-r max-md:border-t dark:border-neutral-900">
       <nav className="text-center max-md:py-0 max-md:px-2 p-3 max-md:w-full overflow-y-auto gap-1 max-md:gap-0 dark:text-neutral-300 text-neutral-700 flex flex-col max-md:flex-row items-center flex-grow max-md:mx-auto max-md:justify-between">
         <div className="py-4 max-md:hidden">
           <Link title="Grupo La Pontificia" href="/me">
@@ -113,7 +113,6 @@ export default function Nav() {
               />
             </svg>
           </Link>
-          {/* <img src="/elp.png" className="w-32" alt="" /> */}
         </div>
         {items.map((item, index) => {
           const isActive = pathnme.startsWith(item.href ?? '')
