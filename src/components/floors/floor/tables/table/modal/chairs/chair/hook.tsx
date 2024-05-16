@@ -35,31 +35,6 @@ export const useChair = ({ table, currentUser }: Props) => {
         }
       }
     )
-
-    // {
-    // try {
-    //   await axios.patch(
-    //     `/api/floors/${table.floor._id.toString()}/tables/${table._id}`,
-    //     form
-    //   )
-    //   setTables(
-    //     tables.map((t) => {
-    //       if (t._id === table._id) {
-    //         return {
-    //           ...t,
-    //           ...(form as typeof table)
-    //         }
-    //       }
-    //       return t
-    //     })
-    //   )
-    //   setSelectedUser(null)
-    // } catch (error) {
-    //   console.log(error)
-    // } finally {
-    //   end()
-    //   finalFunction?.()
-    // }
   }
 
   const onRemove = async () => {
