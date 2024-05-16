@@ -153,12 +153,17 @@ html {
 }
 
 .grid-background {
-  background-image: linear-gradient(
-      rgba(140, 140, 140, 0.1) 1px,
+  /* background-image: linear-gradient(
+      rgba(140, 140, 140, 0.03) 1px,
       transparent 01px
     ),
-    linear-gradient(90deg, rgba(119, 119, 119, 0.1) 1px, transparent 1px);
-  background-size: 0.9em 0.9em;
+    linear-gradient(90deg, rgba(119, 119, 119, 0.03) 1px, transparent 1px);
+  background-size: 0.9em 0.9em; */
+  background-image: radial-gradient(
+    rgba(119, 119, 119, 0.2) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
 }
 
 .hidden-scroll::-webkit-scrollbar-thumb {
