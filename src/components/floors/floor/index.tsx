@@ -59,10 +59,7 @@ export function Floor() {
         disabled={!isMoveable}
         pinch={{ step: 5 }}
       >
-        <div
-          aria-selected={isEditing}
-          className="fixed pr-4 z-10 opacity-40 hover:opacity-100 aria-selected:opacity-100 transition-opacity divide-x text-neutral-400 divide-neutral-800 bg-neutral-700 dark:bg-neutral-800 p-1 rounded-full flex justify-between h-[40px] bottom-5 left-[calc(var(--sidebar-width)+30px)]"
-        >
+        <div className="fixed p-2 pr-4 z-10 divide-x text-neutral-400 divide-neutral-800 bg-neutral-900 rounded-full flex justify-between bottom-5 left-[calc(var(--sidebar-width)+30px)]">
           <Toggle
             className="text-sm"
             disabled={!user?.is_editor}
