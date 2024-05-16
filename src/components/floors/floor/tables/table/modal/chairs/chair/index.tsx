@@ -1,5 +1,5 @@
 import { Button } from 'commons/button'
-import { AddCircleIcon } from 'icons'
+import { AddCircleIcon, XmarkIcon } from 'icons'
 import React from 'react'
 import { type TableCurrentUser } from 'types/table'
 import RemainingTime from './remaining-time'
@@ -22,6 +22,7 @@ export type TypeForm = {
 
 function Chair(props: Props) {
   const { currentUser, onRemove } = useChair(props)
+  const isMultiple = props.table.accept_mutiple
 
   return (
     <div
@@ -33,12 +34,16 @@ function Chair(props: Props) {
     >
       {currentUser && (
         <Button
-          variant="black"
+          variant="none"
           isFilled
+          title={
+            isMultiple ? 'Remover usuario y acompañantes' : 'Remover usuario'
+          }
           onClick={onRemove}
-          className="absolute text-sm top-2 left-[50%] rounded-xl translate-x-[-50%] z-[2]"
+          className="absolute dark:bg-neutral-900 w-8 p-1 border-0 aspect-square text-sm top-2 right-2 rounded-full z-[2]"
         >
-          Remover {props.table.accept_mutiple && 'usuario y acompañantes'}
+          <XmarkIcon />
+          {/* Remover {props.table.accept_mutiple && 'usuario y acompañantes'} */}
         </Button>
       )}
       <Button
