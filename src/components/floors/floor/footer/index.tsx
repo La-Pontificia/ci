@@ -9,9 +9,9 @@ async function Footer({ slug }: { slug: string }) {
   const floorsGroup = floors.filter((f) => f.headquarder === finded.headquarder)
   return (
     <div className="fixed flex justify-center pl-[--sidebar-width] inset-x-0 bottom-0 p-5">
-      <div className="flex gap-1 items-center px-2 bg-neutral-950 rounded-full">
+      <div className="flex gap-1 items-center p-1 bg-neutral-900 rounded-full">
         <h4 className="capitalize text-sm font-semibold text-white pl-2 border-r pr-4 border-neutral-600">
-          {finded.headquarder}
+          Sede {finded.headquarder}
         </h4>
         {floorsGroup.map((floor) => {
           return (
