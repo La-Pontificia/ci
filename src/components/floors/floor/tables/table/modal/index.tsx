@@ -3,9 +3,11 @@ import { type NewTypeTable } from 'stores/tables/tables.store'
 import { useModalTable } from './state'
 import Chairs from './chairs'
 import SearchUser from './search-user'
-import { ArroLeftIcon } from 'icons'
+import { ArroLeftIcon, BroomIcon } from 'icons'
 import Configure from './configure'
 import { AddNewUser } from './add-new-user'
+import { Button } from 'commons/button'
+import { useChairs } from './use-chairs'
 
 type Props = { table: NewTypeTable; isReserved: boolean }
 
@@ -29,8 +31,25 @@ export default function ModalContent({ table, isReserved }: Props) {
     isCompanion && useModalTable.getState().setIsCompanion(false)
   }
 
+  const { onRemoveAll } = useChairs({
+    table
+  })
+
+  const hasUsers = table.current_users.length > 0
+
   return (
     <React.Fragment>
+      {page === 'home' && hasUsers && table.type === 'table' && (
+        <Button
+          variant="none"
+          isFilled
+          onClick={onRemoveAll}
+          className="absolute flex gap-1 items-center dark:bg-red-700 hover:dark:bg-red-600 p-2 pr-3 border-0 text-sm top-2 left-2 rounded-full z-[2]"
+        >
+          <BroomIcon className="w-5" />
+          Limpiar mesa
+        </Button>
+      )}
       {page !== 'home' && (
         <button
           onClick={back}
