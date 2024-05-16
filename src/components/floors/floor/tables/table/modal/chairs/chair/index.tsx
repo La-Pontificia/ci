@@ -40,7 +40,7 @@ function Chair(props: Props) {
             isMultiple ? 'Remover usuario y acompañantes' : 'Remover usuario'
           }
           onClick={onRemove}
-          className="absolute dark:bg-neutral-900 w-8 p-1 border-0 aspect-square text-sm top-2 right-2 rounded-full z-[2]"
+          className="absolute dark:bg-neutral-900 bg-white w-8 p-1 border-0 aspect-square text-sm top-2 right-2 rounded-full z-[2]"
         >
           <XmarkIcon />
           {/* Remover {props.table.accept_mutiple && 'usuario y acompañantes'} */}
@@ -63,8 +63,8 @@ function Chair(props: Props) {
         </div>
         {currentUser ? (
           <>
-            <span className="absolute top-4 right-4 w-[10px] animate-ping h-[10px] bg-green-600 rounded-full"></span>
-            <span className="absolute top-4 right-4 w-[10px] h-[10px] bg-green-600 rounded-full"></span>
+            {/* <span className="absolute top-4 right-4 w-[10px] animate-ping h-[10px] bg-green-600 rounded-full"></span>
+            <span className="absolute top-4 right-4 w-[10px] h-[10px] bg-green-600 rounded-full"></span> */}
             <div>
               <div
                 className={
