@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:pnpm": "pnpm i && pnpm run build"
   },
   "dependencies": {
     "@midudev/tailwind-animations": "^0.0.7",
