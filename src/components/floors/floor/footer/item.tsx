@@ -19,14 +19,11 @@ export const ItemFooter = ({
     <Link
       aria-hidden={isEditing}
       href={href}
+      role="menuitem"
       aria-checked={isActive}
-      className="aria-checked:text-blue-500 aria-hidden:opacity-30 aria-hidden:pointer-events-none min-w-max p-2 px-3 relative aria-checked:font-semibold text-base hover:text-neutral-200 text-neutral-400 text-center"
+      className="aria-checked:text-black font-semibold aria-checked:bg-white rounded-full aria-hidden:opacity-30 aria-hidden:pointer-events-none min-w-max p-2 px-3 relative aria-checked:font-semibold text-base hover:text-neutral-200 text-neutral-500 text-center"
     >
       {title}
-      <span
-        aria-hidden={!isActive}
-        className="absolute aria-hidden:opacity-0 left-[50%] translate-x-[-50%] bottom-1 w-[20px] h-[4px] bg-blue-500 rounded-full"
-      />
     </Link>
   )
 }
