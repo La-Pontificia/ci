@@ -11,6 +11,9 @@ const config: Config = {
       fontFamily: {
         canela: ['Canela', 'sans-serif']
       }
+    },
+    animation: {
+      'spin-slow': 'spin 3s linear infinite'
     }
   },
   darkMode: 'class',

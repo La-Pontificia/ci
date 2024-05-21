@@ -13,6 +13,8 @@ export function ThemeToggle() {
   if (!mounted) return null
 
   const themes = ['light', 'dark', 'system']
+  const displayTheme = (t: string) =>
+    t === 'system' ? 'Sistema' : t === 'light' ? 'Claro' : 'Oscuro'
   return (
     <Dialog
       backdrop_blur="sm"
@@ -49,7 +51,7 @@ export function ThemeToggle() {
               <div className="rounded-xl overflow-hidden">
                 <img src={`/optimize/${t}.webp`} alt="" />
               </div>
-              <span className="ml-2 p-2 block">{t}</span>
+              <span className="ml-2 p-2 block">{displayTheme(t)}</span>
             </button>
           )
         })}
