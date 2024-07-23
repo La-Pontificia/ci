@@ -7,7 +7,7 @@ export type User = {
   names: string
   nick_name: string
   image: string
-  tenant: 'ilp' | 'elp'
+  tenant: 'ilp' | 'elp' | 'lp'
   type_user: 'student' | 'executive' | 'teacher'
   bio: string | null
   is_admin: boolean
