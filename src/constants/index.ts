@@ -13,7 +13,7 @@ export const ERRORS_NEXT_AUTH = {
     'Error de inicio de sesión. Comprueba que los datos que has facilitado sean correctos.',
   Default: 'Ops!, ocurrio algo inesperado, intente nuevamente.',
   tenantNotAllowed:
-    'El dominio de su correo electrónico no está permitido en esta aplicación. Por favor, póngase en contacto con el administrador o mantenedor del sistema.',
+    'El dominio de su correo electrónico no está permitido en la aplicación. Por favor, póngase en contacto con el administrador o mantenedor del sistema.',
   facebookNotProvider:
     'Tu cuenta de facebook aun no esta vinculado a una cuenta institucional'
 }
