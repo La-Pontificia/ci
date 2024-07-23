@@ -28,6 +28,8 @@ export function transformUserData(data: InputData): UserResponse {
     tenant = 'elp'
   } else if (e === 'ilp.edu.pe') {
     tenant = 'ilp'
+  } else if (e === 'lapontificia.edu.pe') {
+    tenant = 'lp'
   } else {
     throw new Error('tenantNotAllowed')
   }
