@@ -13,6 +13,7 @@ function Header() {
   const tenant = {
     elp: 'Escuela Superior La Pontificia',
     ilp: 'Intituto La Pontificia',
+    lp: 'Grupo La Pontificia',
     undefined: 'Undefined'
   }
 
