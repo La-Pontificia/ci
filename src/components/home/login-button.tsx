@@ -35,7 +35,7 @@ function LoginButton() {
           disabled={isPending}
           onClick={signInFetch}
           aria-hidden={isPending}
-          className="border-neutral-700 max-md:w-full aria-hidden:animate-pulse aria-hidden:opacity-50 text-white transition-all border divide-x divide-neutral-400 relative overflow-hidden rounded-full justify-center flex items-center p-3 px-4 gap-4 font-medium"
+          className="bg-stone-200 max-md:w-full aria-hidden:animate-pulse aria-hidden:opacity-50 text-black transition-all border divide-x relative overflow-hidden rounded-xl justify-center flex items-center p-3 px-4 gap-4 font-bold tracking-tight"
         >
           {auth ? (
             <div>
@@ -43,7 +43,7 @@ function LoginButton() {
             </div>
           ) : (
             <div className="flex gap-2">
-              <MicrosoftIcon className="w-4" />
+              <MicrosoftIcon className="w-6" />
               <h2>Iniciar sesión</h2>
             </div>
           )}
