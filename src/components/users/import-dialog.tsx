@@ -69,7 +69,7 @@ export function ImportDialog() {
     )
   }
 
-  const { getRootProps, open } = useDropzone({
+  const { getRootProps, open, isDragActive } = useDropzone({
     accept: {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
         '.xlsx'
@@ -194,7 +194,8 @@ export function ImportDialog() {
         ) : (
           <div
             {...getRootProps()}
-            className="w-full hover:border-blue-500 cursor-pointer grid place-content-center min-h-52 border border-neutral-500/50 border-dashed rounded-2xl"
+            data-drag={isDragActive}
+            className="w-full hover:border-blue-500 data-[drag=true]:border-blue-500 cursor-pointer grid place-content-center min-h-52 border border-neutral-500/50 border-dashed rounded-2xl"
           >
             Suelte aquí o arrastra un archivo XLSX
           </div>
