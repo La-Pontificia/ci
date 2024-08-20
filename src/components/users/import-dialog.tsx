@@ -137,7 +137,7 @@ export function ImportDialog() {
     >
       <div className="space-y-4 flex flex-col overflow-y-auto">
         {isPending && (
-          <div className="absolute z-10 backdrop-blur-sm dark:bg-[#171717dd] inset-0 grid place-content-center">
+          <div className="absolute z-10 backdrop-blur-sm dark:bg-[#171717dd] bg-white/80 inset-0 grid place-content-center">
             <div className="mx-auto pb-3">
               <LineLoading className="w-10" />
             </div>
@@ -196,7 +196,7 @@ export function ImportDialog() {
             {...getRootProps()}
             className="w-full hover:border-blue-500 cursor-pointer grid place-content-center min-h-52 border border-neutral-500/50 border-dashed rounded-2xl"
           >
-            Suele aquí o arrastra un archivo XLSX
+            Suelte aquí o arrastra un archivo XLSX
           </div>
         )}
         <footer>
