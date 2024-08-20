@@ -9,9 +9,9 @@ import {
   LogoutIcon,
   // SerchInstIcon,
   // LPIcon,
-  StopIcon,
-  Users2Icon
+  StopIcon
 } from 'icons'
+import { HiOutlineUsers } from 'react-icons/hi'
 import { usePathname } from 'next/navigation'
 import { ThemeToggle } from './theme-toggle'
 import { useAuth } from 'stores'
@@ -40,7 +40,7 @@ export default function Nav() {
       href: '/floors'
     },
     {
-      icon: Users2Icon,
+      icon: HiOutlineUsers,
       name: 'Usuarios',
       href: '/users'
     },
@@ -88,7 +88,7 @@ export default function Nav() {
       <nav className="text-center max-md:py-0 max-md:px-2 p-3 max-md:w-full overflow-y-auto gap-1 max-md:gap-0 dark:text-neutral-300 text-neutral-700 flex flex-col max-md:flex-row items-center flex-grow max-md:mx-auto max-md:justify-between">
         <div className="py-4 max-md:hidden">
           <Link title="Grupo La Pontificia" href="/me">
-            <svg
+            {/* <svg
               width="40"
               viewBox="0 0 179 179"
               fill="none"
@@ -111,7 +111,8 @@ export default function Nav() {
                 fill="currentColor"
                 className="text-white dark:text-black"
               />
-            </svg>
+            </svg> */}
+            <img src="/favicon.png" width={35} alt="" />
           </Link>
         </div>
         {items.map((item, index) => {
@@ -146,7 +147,10 @@ export default function Nav() {
                 </div>
               )}
               {item.icon && (
-                <item.icon className="w-7 max-md:w-6 group-hover:scale-110 transition-all" />
+                <item.icon
+                  strokeWidth={1.5}
+                  className="w-6 h-6 max-md:w-6 group-hover:scale-110 transition-all"
+                />
               )}
               <div className="text-base max-md:text-xs">
                 {item.name}{' '}
