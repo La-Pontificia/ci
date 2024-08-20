@@ -16,7 +16,7 @@ export function LineLoading({ className, size }: Props) {
   return (
     <span
       className={cn(
-        'grid grid-cols-3 line-loading gap-1 items-center text-white',
+        'grid grid-cols-3 line-loading gap-1 items-center dark:text-white',
         className
       )}
     >
