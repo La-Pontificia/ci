@@ -21,10 +21,27 @@ function Footer() {
   ]
   return (
     <footer className="flex-none relative z-[1]">
+      <section>
+        <div className="flex items-center mt-6 justify-center w-full  gap-5">
+          <img
+            src="/optimize/elp.webp"
+            alt="Logo - Escuela Superior La Pontificia"
+            className="h-8"
+          />
+          <img
+            src="/optimize/ilp.webp"
+            alt="Logo - Instituto La Pontificia"
+            className="h-8"
+          />
+          <img
+            src="/optimize/ec.webp"
+            alt="Logo - Educación Continua La Pontificia"
+            className="h-8"
+          />
+        </div>
+      </section>
       <section className="max-w-5xl min-h-[300px] mx-auto text-neutral-400 text-center p-4 h-full grid place-content-center w-full">
-        <p className="">
-          © 2024 Escuela Superior La Pontificia | Grupo La Pontificia
-        </p>
+        <p className="">© 2024 Grupo La Pontificia</p>
         <span className="text-xs font-normal">
           Developed and maintained by{' '}
           <a
