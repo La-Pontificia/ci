@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react'
 import SearchUser from './search'
 import Users from 'components/users'
-import { UploadFile } from 'components/users/upload'
 import { PortraitUserIcon } from 'icons'
+import Filters from './Filters'
+import { ImportDialog } from 'components/users/import-dialog'
 
 export type Props = {
   searchParams: {
@@ -20,7 +21,12 @@ function UsersPage(props: Props) {
   return (
     <div className=" p-10 w-full">
       <SearchUser placeholder="Buscar por correo, nombres ..." searchParams />
-      <UploadFile searchParams={props.searchParams} />
+      <div className="py-2 flex items-center gap-2">
+        <div className="flex-grow">
+          <Filters searchParams={props.searchParams} />
+        </div>
+        <ImportDialog />
+      </div>
       <Suspense
         key={`query-${q}`}
         fallback={

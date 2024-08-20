@@ -33,7 +33,7 @@ function Filters({ searchParams: { status, tenant, type } }: Props) {
   }
 
   return (
-    <div className="flex gap-2 items-center max-md:flex-wrap">
+    <div className="flex w-fit gap-2 items-center max-md:flex-wrap">
       <Select
         onChange={() => changeURL('type')}
         placeholder="Tipo de usuario"
