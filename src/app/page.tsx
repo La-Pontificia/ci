@@ -1,12 +1,9 @@
 import Footer from 'components/home/footer'
-import Header from 'components/home/header'
 import LoginButton from 'components/home/login-button'
-// import { ArrowDownIcon } from 'icons'
 
 export default function Home() {
   return (
     <main className="flex flex-col min-h-svh bg-black">
-      <Header />
       <span
         style={{
           backgroundImage: 'url(/noise.png)'
@@ -14,13 +11,13 @@ export default function Home() {
         className="fixed pointer-events-none opacity-20 z-20 inset-0"
       />
       <span className="grid z-10 -none place-content-center absolute pointer-events-none inset-x-0">
-        <span className="w-[1px] animate-fade-in-down bg-white h-[150px] [animation-delay:700ms]"></span>
+        <span className="w-[1px] animate-fade-in-down bg-stone-200 h-[150px] [animation-delay:700ms]"></span>
       </span>
       <div className="flex-grow z-[1] ">
         <div className="relative">
           <div
             style={{
-              backgroundImage: 'url("/optimize/background.webp")'
+              backgroundImage: 'url("/optimize/background2.webp")'
             }}
             className="absolute h-full z-[0] bg-center w-full pointer-events-none select-none bg-no-repeat bg-cover"
           >
