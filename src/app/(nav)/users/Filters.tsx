@@ -26,7 +26,7 @@ function Filters({ searchParams: { status, tenant, type } }: Props) {
 
   const changeURL = (name: any) => {
     const val = getValues(name)
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(Array.from(searchParams.entries()))
     if (!val) params.delete(name as string)
     else params.set(name as string, val as string)
     void router.replace(`${pathname}/?${params.toString()}`)
