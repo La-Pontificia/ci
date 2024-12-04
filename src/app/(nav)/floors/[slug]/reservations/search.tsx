@@ -36,7 +36,7 @@ export default function SearchBooking({
     onSearch?.(value)
 
     if (sp) {
-      const params = new URLSearchParams(searchParams)
+      const params = new URLSearchParams(Array.from(searchParams.entries()))
       if (!debouncedValue) params.delete(queryName)
       else params.set(queryName, debouncedValue)
       void router.replace(`${pathname}/?${params.toString()}`)
