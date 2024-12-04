@@ -14,6 +14,10 @@ export type Props = {
   }
 }
 
+export const metadata = {
+  title: 'Usuarios | Centro de Informacion La Pontificia'
+}
+
 function UsersPage(props: Props) {
   const {
     searchParams: { q }

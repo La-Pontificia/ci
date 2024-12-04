@@ -3,6 +3,10 @@ import { Nav } from 'components/records/nav'
 import { Chart2Icon } from 'icons'
 import { Suspense } from 'react'
 
+export const metadata = {
+  title: 'Atenciones | Centro de Informacion La Pontificia'
+}
+
 export default function page({
   searchParams
 }: {
