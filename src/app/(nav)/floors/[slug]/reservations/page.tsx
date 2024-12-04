@@ -8,6 +8,10 @@ type Props = {
   searchParams: { q: string | undefined } | null
 }
 
+export const metadata = {
+  title: 'Reservaciones | Centro de Informacion La Pontificia'
+}
+
 function ReservationsPage({ params, searchParams }: Props) {
   return (
     <div className="max-w-7xl mt-14 mx-auto px-3 py-5 w-full pt-5">
