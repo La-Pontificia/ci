@@ -9,7 +9,7 @@ import { type Table } from 'types/table'
 
 export function TablesSelect() {
   const searchParams = useSearchParams()
-  const params = new URLSearchParams(searchParams)
+  const params = new URLSearchParams(Array.from(searchParams.entries()))
   const router = useRouter()
   const pathname = usePathname()
 
